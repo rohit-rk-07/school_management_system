@@ -1,0 +1,110 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family:'Poppins',sans-serif;
+  background:#f4f5fa;
+}
+
+/* SIDEBAR */
+
+.schoolSidebar{
+  width:280px;
+  height:100vh;
+  background:#11162d;
+  color:#ffffff;
+  padding:20px 14px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  border-top-right-radius:20px;
+  border-bottom-right-radius:20px;
+  transition:0.3s;
+}
+
+/* LOGO */
+
+.schoolSidebarLogo{
+  width:48px;
+  height:48px;
+  border-radius:14px;
+  background:#23294b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  margin-bottom:35px;
+}
+
+/* MENU TITLES */
+
+.schoolSidebarMenuTitle{
+  color:#9ca3c7;
+  font-size:12px;
+  letter-spacing:1px;
+  margin:22px 10px 12px;
+  font-weight:600;
+}
+
+/* MENU */
+
+.schoolSidebarMenuList{
+  list-style:none;
+}
+
+.schoolSidebarMenuItem{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  padding:14px 16px;
+  border-radius:14px;
+  margin-bottom:10px;
+  color:#b6bdd9;
+  cursor:pointer;
+  transition:0.3s;
+  font-size:15px;
+  font-weight:500;
+}
+
+.schoolSidebarMenuItem span{
+  font-size:18px;
+}
+
+/* HOVER */
+
+.schoolSidebarMenuItem:hover{
+  background:#242b4d;
+  color:#ffffff;
+}
+
+/* ACTIVE */
+
+.schoolSidebarActive{
+  background:#4d44cc;
+  color:#ffffff;
+}
+
+/* DARK MODE */
+
+.schoolSidebarDark{
+  background:#050814;
+}
+
+.schoolSidebarDark .schoolSidebarMenuItem:hover{
+  background:#1c2445;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:768px){
+
+  .schoolSidebar{
+    width:100%;
+    height:auto;
+    border-radius:0;
+  }
+
+}

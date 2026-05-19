@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>School Sidebar</title>
+
+  <link rel="stylesheet" href="../sidebar.css">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <aside class="schoolSidebar">
+
+    <!-- LOGO -->
+    <div class="schoolSidebarTop">
+
+      <div class="schoolSidebarLogo">
+        
+      </div>
+
+      <!-- MAIN MENU -->
+      <div class="schoolSidebarMenuTitle">
+        MAIN
+      </div>
+
+      <ul class="schoolSidebarMenuList">
+
+        <li class="schoolSidebarMenuItem schoolSidebarActive">
+          <span></span>
+          Dashboard
+        </li>
+
+        <li class="schoolSidebarMenuItem">
+          <span></span>
+          Teachers
+        </li>
+
+        <li class="schoolSidebarMenuItem">
+          <span></span>
+          Students
+        </li>
+
+        <li class="schoolSidebarMenuItem">
+          <span></span>
+          Classes
+        </li>
+
+      </ul>
+
+      <!-- ASSIGNMENTS -->
+      <div class="schoolSidebarMenuTitle">
+        ASSIGNMENTS
+      </div>
+
+      <ul class="schoolSidebarMenuList">
+
+        <li class="schoolSidebarMenuItem">
+          <span></span>
+          Assign Students
+        </li>
+
+        <li class="schoolSidebarMenuItem">
+          <span></span>
+          Assign Teachers
+        </li>
+
+      </ul>
+
+      <!-- ACADEMICS -->
+      <div class="schoolSidebarMenuTitle">
+        ACADEMICS
+      </div>
+
+      <ul class="schoolSidebarMenuList">
+
+        <li class="schoolSidebarMenuItem">
+          <span></span>
+          Attendance
+        </li>
+
+        <li class="schoolSidebarMenuItem">
+          <span></span>
+          Results
+        </li>
+
+      </ul>
+
+    </div>
+
+    <!-- BOTTOM -->
+    <div class="schoolSidebarBottom">
+
+      <ul class="schoolSidebarMenuList">
+
+        <li class="schoolSidebarMenuItem">
+          <span></span>
+          Logout
+        </li>
+
+      </ul>
+
+    </div>
+
+  </aside>
+
+  <script src="sidebar.js"></script>
+
+</body>
+</html>

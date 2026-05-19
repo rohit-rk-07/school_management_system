@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Students Management UI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#f4f5fb;
+            color:#111827;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================== */
+
+        .studentPageTopbar{
+            width:100%;
+            background:#ffffff;
+            padding:12px 28px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border-bottom:1px solid #e7e7e7;
+        }
+
+        .studentPageHeading{
+            font-size:20px;
+            font-weight:600;
+        }
+
+        .studentAdminProfileCard{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            background:#f5f6fb;
+            padding:10px 14px;
+            border-radius:16px;
+        }
+
+        .studentAdminAvatar{
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            background:linear-gradient(to right,#675cff,#1dd5c8);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#ffffff;
+            font-weight:600;
+        }
+
+        .studentAdminRole{
+            font-size:13px;
+            color:#8c8c8c;
+        }
+
+        /* =========================
+           PAGE CONTENT
+        ========================== */
+
+        .studentManagementPageContainer{
+            padding:40px 32px;
+            width: 80%;
+        }
+
+        .studentManagementHeaderSection{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .studentManagementTitle{
+            font-size:44px;
+            font-weight:700;
+        }
+
+        .studentManagementSubtitle{
+            color:#667085;
+            margin-top:4px;
+        }
+
+        /* =========================
+           ADD BUTTON
+        ========================== */
+
+        .studentAddButton{
+            border:none;
+            background:#5c4ef7;
+            color:#ffffff;
+            padding:14px 26px;
+            border-radius:14px;
+            cursor:pointer;
+            font-size:18px;
+            font-weight:600;
+            box-shadow:0 10px 20px rgba(92,78,247,0.2);
+            transition:0.3s;
+        }
+
+        .studentAddButton:hover{
+            background:#4e40ee;
+        }
+
+        /* =========================
+           TABLE CARD
+        ========================== */
+
+        .studentTableCard{
+            background:#ffffff;
+            border-radius:30px;
+            overflow:hidden;
+            border:1px solid #ececec;
+        }
+
+        /* =========================
+           SEARCH BOX
+        ========================== */
+
+        .studentSearchContainer{
+            padding:18px 24px;
+            border-bottom:1px solid #ececec;
+        }
+
+        .studentSearchInput{
+            width:100%;
+            height:56px;
+            border:none;
+            outline:none;
+            background:#f5f6fb;
+            border-radius:14px;
+            padding:0 18px;
+            font-size:17px;
+            border:1px solid #e2e5ef;
+        }
+
+        /* =========================
+           TABLE
+        ========================== */
+
+        .studentDataTable{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        .studentDataTable thead{
+            background:#f5f6fb;
+        }
+
+        .studentDataTable th{
+            text-align:left;
+            padding:20px 22px;
+            font-size:15px;
+            color:#98a2b3;
+            font-weight:600;
+        }
+
+        .studentDataTable td{
+            padding:22px;
+            border-top:1px solid #ececec;
+            font-size:17px;
+        }
+
+        .studentNameText{
+            font-weight:600;
+        }
+
+        /* =========================
+           ROLL NUMBER BADGE
+        ========================== */
+
+        .studentRollNumberBadge{
+            display:inline-block;
+            padding:7px 14px;
+            border-radius:30px;
+            background:#fff2df;
+            color:#ff9900;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        /* =========================
+           DELETE BUTTON
+        ========================== */
+
+        .studentDeleteButton{
+            width:42px;
+            height:42px;
+            border:none;
+            border-radius:12px;
+            background:#f5f6fb;
+            cursor:pointer;
+            font-size:18px;
+        }
+
+        /* =========================
+           MODAL OVERLAY
+        ========================== */
+
+        .studentModalOverlay{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.45);
+            backdrop-filter:blur(6px);
+            display:none;
+            align-items:center;
+            justify-content:center;
+            z-index:999;
+        }
+
+        .studentModalOverlay.active{
+            display:flex;
+        }
+
+        /* =========================
+           MODAL CONTAINER
+        ========================== */
+
+        .studentModalContainer{
+            width:700px;
+            background:#ffffff;
+            border-radius:34px;
+            padding:34px;
+            box-shadow:0 20px 50px rgba(0,0,0,0.18);
+            animation:studentPopupAnimation 0.3s ease;
+        }
+
+        @keyframes studentPopupAnimation{
+
+            from{
+                transform:scale(0.9);
+                opacity:0;
+            }
+
+            to{
+                transform:scale(1);
+                opacity:1;
+            }
+
+        }
+
+        /* =========================
+           MODAL HEADER
+        ========================== */
+
+        .studentModalHeader{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .studentModalTitle{
+            font-size:34px;
+            font-weight:700;
+        }
+
+        .studentCloseModalButton{
+            width:44px;
+            height:44px;
+            border:none;
+            border-radius:12px;
+            background:#f5f6fb;
+            font-size:22px;
+            cursor:pointer;
+        }
+
+        /* =========================
+           FORM GRID
+        ========================== */
+
+        .studentFormGrid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:24px;
+        }
+
+        .studentFormGroup{
+            display:flex;
+            flex-direction:column;
+        }
+
+        .studentFormLabel{
+            margin-bottom:10px;
+            font-size:15px;
+            font-weight:600;
+            color:#667085;
+            letter-spacing:0.5px;
+        }
+
+        .studentFormInput{
+            height:56px;
+            border:none;
+            outline:none;
+            background:#f5f6fb;
+            border-radius:14px;
+            padding:0 18px;
+            font-size:17px;
+            border:1px solid #e2e5ef;
+        }
+
+        /* =========================
+           MODAL FOOTER
+        ========================== */
+
+        .studentModalFooter{
+            display:flex;
+            justify-content:flex-end;
+            gap:18px;
+            margin-top:34px;
+        }
+
+        .studentCancelButton{
+            border:none;
+            background:#eef1f6;
+            color:#667085;
+            padding:14px 28px;
+            border-radius:14px;
+            font-size:17px;
+            font-weight:600;
+            cursor:pointer;
+        }
+
+        .studentSaveButton{
+            border:none;
+            background:#5c4ef7;
+            color:#ffffff;
+            padding:14px 28px;
+            border-radius:14px;
+            font-size:17px;
+            font-weight:600;
+            cursor:pointer;
+            box-shadow:0 10px 20px rgba(92,78,247,0.2);
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:768px){
+
+            .studentManagementHeaderSection{
+                flex-direction:column;
+                align-items:flex-start;
+                gap:20px;
+            }
+
+            .studentFormGrid{
+                grid-template-columns:1fr;
+            }
+
+            .studentModalContainer{
+                width:95%;
+                padding:24px;
+            }
+
+            .studentDataTable{
+                display:block;
+                overflow-x:auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================
+         TOPBAR
+    ========================== -->
+
+<jsp:include page="sidebar.jsp" />
+
+    
+
+    <!-- =========================
+         PAGE CONTENT
+    ========================== -->
+
+    <div class="studentManagementPageContainer">
+    
+    <div class="studentPageTopbar">
+
+        <h2 class="studentPageHeading">
+            Students
+        </h2>
+
+        <div class="studentAdminProfileCard">
+
+            <div class="studentAdminAvatar">
+                A
+            </div>
+
+            <div>
+                <h4>Admin</h4>
+                <p class="studentAdminRole">
+                    Super Admin
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+        <!-- HEADER -->
+
+        <div class="studentManagementHeaderSection">
+
+            <div>
+
+                <h1 class="studentManagementTitle">
+                    Students
+                </h1>
+
+                <p class="studentManagementSubtitle">
+                    Manage enrolled students
+                </p>
+
+            </div>
+
+            <button class="studentAddButton" id="openStudentModalButton">
+                + Add Student
+            </button>
+
+        </div>
+
+        <!-- TABLE CARD -->
+
+        <div class="studentTableCard">
+
+            <!-- SEARCH -->
+
+            <div class="studentSearchContainer">
+
+                <input 
+                    type="text"
+                    placeholder="Search students..."
+                    class="studentSearchInput"
+                >
+
+            </div>
+
+            <!-- TABLE -->
+
+            <table class="studentDataTable">
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>NAME</th>
+                        <th>EMAIL</th>
+                        <th>ROLL NO</th>
+                        <th>PARENT</th>
+                        <th>ACTIONS</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>1</td>
+
+                        <td class="studentNameText">
+                            Aarav Kumar
+                        </td>
+
+                        <td>
+                            aarav@school.edu
+                        </td>
+
+                        <td>
+                            <span class="studentRollNumberBadge">
+                                2024001
+                            </span>
+                        </td>
+
+                        <td>
+                            Mr. Kumar
+                        </td>
+
+                        <td>
+                            <button class="studentDeleteButton">
+                                🗑
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>2</td>
+
+                        <td class="studentNameText">
+                            Diya Patel
+                        </td>
+
+                        <td>
+                            diya@school.edu
+                        </td>
+
+                        <td>
+                            <span class="studentRollNumberBadge">
+                                2024002
+                            </span>
+                        </td>
+
+                        <td>
+                            Mrs. Patel
+                        </td>
+
+                        <td>
+                            <button class="studentDeleteButton">
+                                🗑
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>3</td>
+
+                        <td class="studentNameText">
+                            Rohan Singh
+                        </td>
+
+                        <td>
+                            rohan@school.edu
+                        </td>
+
+                        <td>
+                            <span class="studentRollNumberBadge">
+                                2024003
+                            </span>
+                        </td>
+
+                        <td>
+                            Mr. Singh
+                        </td>
+
+                        <td>
+                            <button class="studentDeleteButton">
+                                🗑
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>4</td>
+
+                        <td class="studentNameText">
+                            Sneha Gupta
+                        </td>
+
+                        <td>
+                            sneha@school.edu
+                        </td>
+
+                        <td>
+                            <span class="studentRollNumberBadge">
+                                2024004
+                            </span>
+                        </td>
+
+                        <td>
+                            Mr. Gupta
+                        </td>
+
+                        <td>
+                            <button class="studentDeleteButton">
+                                🗑
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <!-- =========================
+         STUDENT MODAL
+    ========================== -->
+
+    <div class="studentModalOverlay" id="studentModal">
+
+        <div class="studentModalContainer">
+
+            <!-- HEADER -->
+
+            <div class="studentModalHeader">
+
+                <h2 class="studentModalTitle">
+                    Add Student
+                </h2>
+
+                <button 
+                    class="studentCloseModalButton"
+                    id="closeStudentModalButton"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <!-- FORM -->
+
+            <form>
+
+                <div class="studentFormGrid">
+
+                    <div class="studentFormGroup">
+
+                        <label class="studentFormLabel">
+                            FULL NAME *
+                        </label>
+
+                        <input 
+                            type="text"
+                            placeholder="Jane Smith"
+                            class="studentFormInput"
+                        >
+
+                    </div>
+
+                    <div class="studentFormGroup">
+
+                        <label class="studentFormLabel">
+                            EMAIL *
+                        </label>
+
+                        <input 
+                            type="email"
+                            placeholder="jane@school.edu"
+                            class="studentFormInput"
+                        >
+
+                    </div>
+
+                    <div class="studentFormGroup">
+
+                        <label class="studentFormLabel">
+                            ROLL NUMBER *
+                        </label>
+
+                        <input 
+                            type="text"
+                            placeholder="2024001"
+                            class="studentFormInput"
+                        >
+
+                    </div>
+
+                    <div class="studentFormGroup">
+
+                        <label class="studentFormLabel">
+                            DATE OF BIRTH
+                        </label>
+
+                        <input 
+                            type="date"
+                            class="studentFormInput"
+                        >
+
+                    </div>
+
+                    <div class="studentFormGroup">
+
+                        <label class="studentFormLabel">
+                            PARENT NAME
+                        </label>
+
+                        <input 
+                            type="text"
+                            placeholder="Mr. Smith"
+                            class="studentFormInput"
+                        >
+
+                    </div>
+
+                    <div class="studentFormGroup">
+
+                        <label class="studentFormLabel">
+                            PARENT PHONE
+                        </label>
+
+                        <input 
+                            type="text"
+                            placeholder="+91 9876543210"
+                            class="studentFormInput"
+                        >
+
+                    </div>
+
+                </div>
+
+                <!-- FOOTER -->
+
+                <div class="studentModalFooter">
+
+                    <button 
+                        type="button"
+                        class="studentCancelButton"
+                        id="cancelStudentModalButton"
+                    >
+                        Cancel
+                    </button>
+
+                    <button 
+                        type="submit"
+                        class="studentSaveButton"
+                    >
+                        Save Student
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script>
+
+        const studentModal = document.getElementById(
+            "studentModal"
+        );
+
+        const openStudentModalButton = document.getElementById(
+            "openStudentModalButton"
+        );
+
+        const closeStudentModalButton = document.getElementById(
+            "closeStudentModalButton"
+        );
+
+        const cancelStudentModalButton = document.getElementById(
+            "cancelStudentModalButton"
+        );
+
+        // OPEN MODAL
+
+        openStudentModalButton.addEventListener("click", () => {
+
+            studentModal.classList.add("active");
+
+        });
+
+        // CLOSE MODAL
+
+        closeStudentModalButton.addEventListener("click", () => {
+
+            studentModal.classList.remove("active");
+
+        });
+
+        cancelStudentModalButton.addEventListener("click", () => {
+
+            studentModal.classList.remove("active");
+
+        });
+
+        // CLOSE ON OUTSIDE CLICK
+
+        studentModal.addEventListener("click", (event) => {
+
+            if(event.target === studentModal){
+
+                studentModal.classList.remove("active");
+
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

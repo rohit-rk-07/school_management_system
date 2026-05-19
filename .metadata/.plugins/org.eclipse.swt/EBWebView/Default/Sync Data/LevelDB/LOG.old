@@ -1,2 +1,3 @@
-2026/05/18-18:27:23.589 211c Creating DB C:\Users\91636\sms-workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Sync Data\LevelDB since it was missing.
-2026/05/18-18:27:23.606 211c Reusing MANIFEST C:\Users\91636\sms-workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Sync Data\LevelDB/MANIFEST-000001
+2026/05/18-18:27:34.305 1808 Reusing MANIFEST C:\Users\91636\sms-workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Sync Data\LevelDB/MANIFEST-000001
+2026/05/18-18:27:34.308 1808 Recovering log #3
+2026/05/18-18:27:34.308 1808 Reusing old log C:\Users\91636\sms-workspace\.metadata\.plugins\org.eclipse.swt\EBWebView\Default\Sync Data\LevelDB/000003.log 
