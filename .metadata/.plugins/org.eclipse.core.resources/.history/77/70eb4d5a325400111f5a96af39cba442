@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>School Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      background:#f3f4f8;
+      display:flex;
+      min-height:100vh;
+      color:#1b1b1b;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+      width:280px;
+      background:#11162d;
+      color:#fff;
+      padding:20px 14px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      border-top-right-radius:20px;
+      border-bottom-right-radius:20px;
+    }
+
+    .logo{
+      width:42px;
+      height:42px;
+      border-radius:12px;
+      background:#2a2f55;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#7b6dff;
+      font-size:22px;
+      margin-bottom:35px;
+    }
+
+    .menu-title{
+      font-size:12px;
+      color:#9ba1c4;
+      margin:20px 10px 10px;
+      letter-spacing:1px;
+      font-weight:600;
+    }
+
+    .menu{
+      list-style:none;
+    }
+
+    .menu li{
+      padding:14px 16px;
+      border-radius:12px;
+      margin-bottom:8px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      gap:14px;
+      color:#aeb4d1;
+      transition:0.3s;
+    }
+
+    .menu li:hover{
+      background:#242b4d;
+    }
+
+    .menu li.active{
+      background:#4b42c7;
+      color:#fff;
+      font-weight:500;
+    }
+
+    .bottom-menu{
+      margin-top:40px;
+    }
+
+    /* MAIN CONTENT */
+
+    .main{
+      flex:1;
+      padding:10px 12px;
+    }
+
+    .topbar{
+      background:#fff;
+      border-radius:18px;
+      padding:10px 25px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      box-shadow:0 2px 10px rgba(0,0,0,0.03);
+    }
+
+    .topbar h2{
+      font-size:20px;
+    }
+
+    .profile{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:#f5f6fb;
+      padding:10px 16px;
+      border-radius:16px;
+    }
+
+    .avatar{
+      width:42px;
+      height:42px;
+      border-radius:50%;
+      background:linear-gradient(to right,#4b42c7,#39d2b4);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:600;
+    }
+
+    .profile small{
+      color:#7c7c7c;
+    }
+
+    .section-title{
+      margin:35px 0 20px;
+      font-size:34px;
+      font-weight:700;
+    }
+
+    .stats{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+      gap:20px;
+    }
+
+    .card{
+      background:#fff;
+      border-radius:24px;
+      padding:20px;
+      display:flex;
+      align-items:center;
+      gap:18px;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .card::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      width:6px;
+      height:100%;
+    }
+
+    .card.purple::before{ background:#6c63ff; }
+    .card.green::before{ background:#27d6b5; }
+    .card.orange::before{ background:#ffb347; }
+    .card.red::before{ background:#ff6b6b; }
+
+    .icon-box{
+      width:58px;
+      height:58px;
+      border-radius:16px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:24px;
+    }
+
+    .purple .icon-box{ background:#ecebff; color:#6c63ff; }
+    .green .icon-box{ background:#dff8f4; color:#27d6b5; }
+    .orange .icon-box{ background:#fff2dd; color:#ffb347; }
+    .red .icon-box{ background:#ffe7e7; color:#ff6b6b; }
+
+    .card h4{
+      font-size:14px;
+      color:#7a7a7a;
+      margin-bottom:6px;
+      font-weight:600;
+    }
+
+    .card h1{
+      font-size:35px;
+      line-height:1;
+    }
+
+    /* TABLES */
+
+    .table-wrapper{
+      margin-top:28px;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:24px;
+    }
+
+    .table-card{
+      background:#fff;
+      border-radius:24px;
+      padding:20px;
+    }
+
+    .table-card h3{
+      margin-bottom:20px;
+      font-size:24px;
+    }
+
+    table{
+      width:100%;
+      border-collapse:collapse;
+    }
+
+    th{
+      text-align:left;
+      font-size:13px;
+      color:#8b8b8b;
+      padding:14px;
+      background:#f3f4f8;
+    }
+
+    td{
+      padding:18px 14px;
+      border-bottom:1px solid #eee;
+      font-size:15px;
+    }
+
+    tr:last-child td{
+      border-bottom:none;
+    }
+
+    .badge{
+      padding:6px 14px;
+      border-radius:20px;
+      font-size:12px;
+      font-weight:600;
+      display:inline-block;
+    }
+
+    .active-badge{
+      background:#dff8f4;
+      color:#19b899;
+    }
+
+    .enrolled-badge{
+      background:#ecebff;
+      color:#6c63ff;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:1000px){
+      .table-wrapper{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:768px){
+      body{
+        flex-direction:column;
+      }
+
+      .sidebar{
+        width:100%;
+        border-radius:0;
+      }
+
+      .main{
+        padding:15px;
+      }
+
+      .topbar{
+        flex-direction:column;
+        gap:15px;
+        align-items:flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- SIDEBAR -->
+
+  <!--   <div class="sidebar">
+
+    <div>
+      <div class="logo"></div>
+
+      <div class="menu-title">MAIN</div>
+
+      <ul class="menu">
+        <li class="active">Dashboard</li>
+        <li>Teachers</li>
+        <li>Students</li>
+        <li>Classes</li>
+      </ul>
+
+      <div class="menu-title">ASSIGNMENTS</div>
+
+      <ul class="menu">
+        <li>Assign Students</li>
+        <li>Assign Teachers</li>
+      </ul>
+
+      <div class="menu-title">ACADEMICS</div>
+
+      <ul class="menu">
+        <li>Attendance</li>
+        <li>Results</li>
+      </ul>
+    </div>
+
+    <div class="bottom-menu">
+      <ul class="menu">
+        <li>Logout</li>
+      </ul>
+    </div>
+
+  </div> -->
+  
+  <jsp:include page="sidebar.jsp" />
+
+  <!-- MAIN -->
+
+  <div class="main">
+
+    <div class="topbar">
+      <h2>Dashboard</h2>
+
+      <div class="profile">
+        <div class="avatar">A</div>
+
+        <div>
+          <strong>Admin</strong><br>
+          <small>Super Admin</small>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="section-title">Overview</h1>
+
+    <!-- STATS -->
+
+    <div class="stats">
+
+      <div class="card purple">
+        <div class="icon-box"></div>
+
+        <div>
+          <h4>TOTAL TEACHERS</h4>
+          <h1>3</h1>
+        </div>
+      </div>
+
+      <div class="card green">
+        <div class="icon-box"></div>
+
+        <div>
+          <h4>TOTAL STUDENTS</h4>
+          <h1>4</h1>
+        </div>
+      </div>
+
+      <div class="card orange">
+        <div class="icon-box"></div>
+
+        <div>
+          <h4>TOTAL CLASSES</h4>
+          <h1>3</h1>
+        </div>
+      </div>
+
+      <div class="card red">
+        <div class="icon-box"></div>
+
+        <div>
+          <h4>AVG ATTENDANCE</h4>
+          <h1>63%</h1>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TABLES -->
+
+    <div class="table-wrapper">
+
+      <div class="table-card">
+
+        <h3>Recent Teachers</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>SUBJECT</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Ms. Anita Roy</td>
+              <td>English</td>
+              <td><span class="badge active-badge">Active</span></td>
+            </tr>
+
+            <tr>
+              <td>Mr. Rajan Mehta</td>
+              <td>Physics</td>
+              <td><span class="badge active-badge">Active</span></td>
+            </tr>
+
+            <tr>
+              <td>Dr. Priya Sharma</td>
+              <td>Mathematics</td>
+              <td><span class="badge active-badge">Active</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+      <div class="table-card">
+
+        <h3>Recent Students</h3>
+
+        <table>
+          <thead>
+            <tr>
+              <th>NAME</th>
+              <th>CLASS</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr>
+              <td>Sneha Gupta</td>
+              <td>—</td>
+              <td><span class="badge enrolled-badge">Enrolled</span></td>
+            </tr>
+
+            <tr>
+              <td>Rohan Singh</td>
+              <td>Grade 10 - B</td>
+              <td><span class="badge enrolled-badge">Enrolled</span></td>
+            </tr>
+
+            <tr>
+              <td>Diya Patel</td>
+              <td>Grade 10 - A</td>
+              <td><span class="badge enrolled-badge">Enrolled</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    const toggleBtn = document.getElementById("darkToggle");
+
+    toggleBtn.addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+    });
+  </script>
+
+</body>
+</html>
