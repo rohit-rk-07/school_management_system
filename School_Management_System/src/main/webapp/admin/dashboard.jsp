@@ -432,60 +432,6 @@
               <td><span class="badge active-badge">Active</span></td>
             </tr>
             
-            <tr>
-              <td>Dr. Priya Sharma</td>
-              <td>Mathematics</td>
-              <td><span class="badge active-badge">Active</span></td>
-            </tr>
-            
-            <tr>
-              <td>Dr. Priya Sharma</td>
-              <td>Mathematics</td>
-              <td><span class="badge active-badge">Active</span></td>
-            </tr>
-            
-            <tr>
-              <td>Dr. Priya Sharma</td>
-              <td>Mathematics</td>
-              <td><span class="badge active-badge">Active</span></td>
-            </tr>
-            
-            <tr>
-              <td>Dr. Priya Sharma</td>
-              <td>Mathematics</td>
-              <td><span class="badge active-badge">Active</span></td>
-            </tr>
-            
-            <tr>
-              <td>Dr. Priya Sharma</td>
-              <td>Mathematics</td>
-              <td><span class="badge active-badge">Active</span></td>
-            </tr>
-            
-            <tr>
-              <td>Dr. Priya Sharma</td>
-              <td>Mathematics</td>
-              <td><span class="badge active-badge">Active</span></td>
-            </tr>
-            
-            <tr>
-              <td>Dr. Priya Sharma</td>
-              <td>Mathematics</td>
-              <td><span class="badge active-badge">Active</span></td>
-            </tr>
-            
-            <tr>
-              <td>Dr. Priya Sharma</td>
-              <td>Mathematics</td>
-              <td><span class="badge active-badge">Active</span></td>
-            </tr>
-            
-            <tr>
-              <td>Dr. Priya Sharma</td>
-              <td>Mathematics</td>
-              <td><span class="badge active-badge">Active</span></td>
-            </tr>
-          </tbody>
         </table>
 
       </div>

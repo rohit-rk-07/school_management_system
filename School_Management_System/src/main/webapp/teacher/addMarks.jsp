@@ -3,233 +3,274 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Add Marks</title>
+<title>Add Marks</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
 
-    <style>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Poppins',sans-serif;
-        }
+body {
+	background: #f4f5fb;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: start;
+	
+}
 
-        body{
-            background:#f4f5fb;
-        }
+.marksPageContainer {
+	padding: 0px 12px;
+	width: 80%;
+}
 
-        .marksPageContainer{
-            padding:40px 32px;
-        }
+.marksPageHeading {
+	font-size: 44px;
+	font-weight: 700;
+	color: #111827;
+}
 
-        .marksPageHeading{
-            font-size:44px;
-            font-weight:700;
-            color:#111827;
-        }
+.marksPageSubtitle {
+	color: #667085;
+	margin-top: 4px;
+	margin-bottom: 10px;
+}
 
-        .marksPageSubtitle{
-            color:#667085;
-            margin-top:4px;
-            margin-bottom:30px;
-        }
+.marksTableCard {
+	background: #ffffff;
+	border-radius: 30px;
+	overflow-y: scroll;
+	border: 1px solid #ececec;
+	height: 500px;
+}
 
-        .marksTableCard{
-            background:#ffffff;
-            border-radius:30px;
-            overflow:hidden;
-            border:1px solid #ececec;
-        }
+.marksTable {
+	width: 100%;
+	border-collapse: collapse;
+}
 
-        .marksTable{
-            width:100%;
-            border-collapse:collapse;
-        }
+.marksTable thead {
+	background: #f5f6fb;
+}
 
-        .marksTable thead{
-            background:#f5f6fb;
-        }
+.marksTable th {
+	padding: 10px 20px;
+	text-align: left;
+	color: #98a2b3;
+	font-size: 13px;
+}
 
-        .marksTable th{
-            padding:18px 20px;
-            text-align:left;
-            color:#98a2b3;
-            font-size:14px;
-        }
+.marksTable td {
+	padding: 5px 15px;
+	font-size: 15px;
+	border-top: 1px solid #ececec;
+}
 
-        .marksTable td{
-            padding:20px;
-            border-top:1px solid #ececec;
-        }
+.marksInput {
+	width: 90px;
+	height: 44px;
+	border: none;
+	outline: none;
+	background: #f5f6fb;
+	border-radius: 12px;
+	padding: 0 12px;
+	border: 1px solid #e2e5ef;
+}
 
-        .marksInput{
-            width:90px;
-            height:44px;
-            border:none;
-            outline:none;
-            background:#f5f6fb;
-            border-radius:12px;
-            padding:0 12px;
-            border:1px solid #e2e5ef;
-        }
+.marksBadge {
+	display: inline-block;
+	padding: 7px 14px;
+	border-radius: 30px;
+	font-size: 13px;
+	font-weight: 600;
+}
 
-        .marksBadge{
-            display:inline-block;
-            padding:7px 14px;
-            border-radius:30px;
-            font-size:13px;
-            font-weight:600;
-        }
+.gradeA {
+	background: #dcfff6;
+	color: #00c896;
+}
 
-        .gradeA{
-            background:#dcfff6;
-            color:#00c896;
-        }
+.gradeB {
+	background: #ecebff;
+	color: #675cff;
+}
 
-        .gradeB{
-            background:#ecebff;
-            color:#675cff;
-        }
+.gradeC {
+	background: #fff2db;
+	color: #ff9800;
+}
 
-        .gradeC{
-            background:#fff2db;
-            color:#ff9800;
-        }
+.gradeFail {
+	background: #ffe3e3;
+	color: #ff5a5f;
+}
 
-        .gradeFail{
-            background:#ffe3e3;
-            color:#ff5a5f;
-        }
+.marksSaveButton {
+	margin-top: 10px;
+	border: none;
+	background: #5c4ef7;
+	color: #ffffff;
+	padding: 14px 28px;
+	border-radius: 14px;
+	font-size: 16px;
+	font-weight: 600;
+	cursor: pointer;
+}
 
-        .marksSaveButton{
-            margin-top:24px;
-            border:none;
-            background:#5c4ef7;
-            color:#ffffff;
-            padding:14px 28px;
-            border-radius:14px;
-            font-size:16px;
-            font-weight:600;
-            cursor:pointer;
-        }
+.attendanceTopbar {
+    width: 100%;
+    background: #ffffff;
+    padding: 12px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e7e7e7;
+}
+    
+.attendanceTeacherProfile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f5f6fb;
+    padding: 10px 14px;
+    border-radius: 16px;
+}
 
-    </style>
+.attendanceTeacherAvatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #675cff, #1dd5c8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 600;
+}    
+
+</style>
 
 </head>
 
 <body>
 
-    <div class="marksPageContainer">
+	<jsp:include page="sidebar.jsp" />
 
-        <h1 class="marksPageHeading">
-            Add Marks
-        </h1>
+	<div class="marksPageContainer">
+	
+	<div class="attendanceTopbar">
 
-        <p class="marksPageSubtitle">
-            Enter internal and exam marks
-        </p>
+        <h2 class="attendanceTopbarTitle">
+            Student Marks
+        </h2>
 
-        <div class="marksTableCard">
+        <div class="attendanceTeacherProfile">
 
-            <table class="marksTable">
+            <div class="attendanceTeacherAvatar">
+                T
+            </div>
 
-                <thead>
+            <div>
 
-                    <tr>
+                <h4>Teacher</h4>
 
-                        <th>ROLL NO</th>
-                        <th>STUDENT</th>
-                        <th>INTERNAL</th>
-                        <th>EXAM</th>
-                        <th>TOTAL</th>
-                        <th>PERCENTAGE</th>
-                        <th>GRADE</th>
+                <p class="attendanceTeacherRole">
+                    Science Department
+                </p>
 
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr>
-
-                        <td>101</td>
-                        <td>Aarav Kumar</td>
-
-                        <td>
-                            <input type="number" class="marksInput internalMarks" value="40">
-                        </td>
-
-                        <td>
-                            <input type="number" class="marksInput examMarks" value="45">
-                        </td>
-
-                        <td class="totalMarks">
-                            85
-                        </td>
-
-                        <td class="percentageMarks">
-                            85%
-                        </td>
-
-                        <td>
-                            <span class="marksBadge gradeA">
-                                A
-                            </span>
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>102</td>
-                        <td>Diya Patel</td>
-
-                        <td>
-                            <input type="number" class="marksInput internalMarks" value="35">
-                        </td>
-
-                        <td>
-                            <input type="number" class="marksInput examMarks" value="38">
-                        </td>
-
-                        <td class="totalMarks">
-                            73
-                        </td>
-
-                        <td class="percentageMarks">
-                            73%
-                        </td>
-
-                        <td>
-                            <span class="marksBadge gradeB">
-                                B
-                            </span>
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
+            </div>
 
         </div>
 
-        <button class="marksSaveButton">
-            Save Marks
-        </button>
-
     </div>
 
-    <script>
+		<h1 class="marksPageHeading">Add Marks</h1>
+
+		<p class="marksPageSubtitle">Enter internal and exam marks</p>
+
+		<div class="marksTableCard">
+
+			<table class="marksTable">
+
+				<thead>
+
+					<tr>
+
+						<th>ROLL NO</th>
+						<th>STUDENT</th>
+						<th>INTERNAL</th>
+						<th>EXAM</th>
+						<th>TOTAL</th>
+						<th>PERCENTAGE</th>
+						<th>GRADE</th>
+
+					</tr>
+
+				</thead>
+
+				<tbody>
+
+					<tr>
+
+						<td>101</td>
+						<td>Aarav Kumar</td>
+
+						<td><input type="number" class="marksInput internalMarks"
+							value="40"></td>
+
+						<td><input type="number" class="marksInput examMarks"
+							value="45"></td>
+
+						<td class="totalMarks">85</td>
+
+						<td class="percentageMarks">85%</td>
+
+						<td><span class="marksBadge gradeA"> A </span></td>
+
+					</tr>
+
+					<tr>
+
+						<td>102</td>
+						<td>Diya Patel</td>
+
+						<td><input type="number" class="marksInput internalMarks"
+							value="35"></td>
+
+						<td><input type="number" class="marksInput examMarks"
+							value="38"></td>
+
+						<td class="totalMarks">73</td>
+
+						<td class="percentageMarks">73%</td>
+
+						<td><span class="marksBadge gradeB"> B </span></td>
+
+					</tr>
+
+				</tbody>
+
+			</table>
+
+		</div>
+
+		<button class="marksSaveButton">Save Marks</button>
+
+	</div>
+
+	<script>
 
         const rows = document.querySelectorAll("tbody tr");
 

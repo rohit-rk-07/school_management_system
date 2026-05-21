@@ -25,6 +25,10 @@
         body{
             background:#f4f5fb;
             color:#111827;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: start;
         }
 
         /* =========================
@@ -77,7 +81,8 @@
         ========================== */
 
         .attendancePageContainer{
-            padding:40px 32px;
+            padding:0px 12px;
+            width: 80%;
         }
 
         .attendanceMainHeading{
@@ -99,13 +104,13 @@
             display:grid;
             grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
             gap:20px;
-            margin-bottom:30px;
+            margin-bottom:10px;
         }
 
         .attendanceOverviewCard{
             background:#ffffff;
             border-radius:28px;
-            padding:24px;
+            padding:15px;
             border:1px solid #ececec;
         }
 
@@ -113,7 +118,7 @@
             font-size:15px;
             font-weight:600;
             color:#667085;
-            margin-bottom:10px;
+            margin-bottom:0px;
         }
 
         .attendanceCardValue{
@@ -140,9 +145,9 @@
         .attendanceFilterCard{
             background:#ffffff;
             border-radius:30px;
-            padding:28px;
+            padding:20px;
             border:1px solid #ececec;
-            margin-bottom:30px;
+            margin-bottom:20px;
         }
 
         .attendanceFilterGrid{
@@ -183,8 +188,9 @@
         .attendanceTableCard{
             background:#ffffff;
             border-radius:30px;
-            overflow:hidden;
+            overflow-y: scroll;
             border:1px solid #ececec;
+            height: 380px;
         }
 
         .attendanceTable{
@@ -198,14 +204,15 @@
 
         .attendanceTable th{
             text-align:left;
-            padding:18px 20px;
-            font-size:14px;
+            padding:10px 20px;
+            font-size:13px;
             color:#98a2b3;
             font-weight:600;
         }
 
         .attendanceTable td{
-            padding:20px;
+            padding:15px;
+            font-size: 15px;
             border-top:1px solid #ececec;
         }
 
@@ -257,7 +264,7 @@
         ========================== */
 
         .attendanceSaveContainer{
-            margin-top:24px;
+            margin-top:5px;
             display:flex;
             justify-content:flex-end;
         }
@@ -294,7 +301,13 @@
 <body>
 
     <!-- TOPBAR -->
+    <jsp:include page="sidebar.jsp"/>
+    
 
+    <!-- PAGE -->
+
+    <div class="attendancePageContainer">
+    
     <div class="attendanceTopbar">
 
         <h2 class="attendanceTopbarTitle">
@@ -320,10 +333,6 @@
         </div>
 
     </div>
-
-    <!-- PAGE -->
-
-    <div class="attendancePageContainer">
 
         <h1 class="attendanceMainHeading">
             Attendance Management
@@ -373,7 +382,7 @@
 
             </div>
 
-            <div class="attendanceOverviewCard">
+        <!--<div class="attendanceOverviewCard">
 
                 <p class="attendanceCardLabel">
                     ATTENDANCE %
@@ -383,15 +392,15 @@
                     0%
                 </h2>
 
-            </div>
+            </div> -->
 
         </div>
 
         <!-- FILTERS -->
 
-        <div class="attendanceFilterCard">
+       <!--  <div class="attendanceFilterCard">
 
-            <div class="attendanceFilterGrid">
+           <div class="attendanceFilterGrid">
 
                 <div class="attendanceFormGroup">
 
@@ -422,9 +431,9 @@
 
                 </div>
 
-            </div>
+            </div> 
 
-        </div>
+        </div> -->
 
         <!-- TABLE -->
 

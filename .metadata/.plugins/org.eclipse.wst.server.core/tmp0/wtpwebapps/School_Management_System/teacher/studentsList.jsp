@@ -24,14 +24,19 @@
 
         body{
             background:#f4f5fb;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: start;
         }
 
         .studentListContainer{
-            padding:40px 32px;
+            padding:0px 12px;
+            width: 80%;
         }
 
         .studentListHeading{
-            font-size:44px;
+            font-size:40px;
             font-weight:700;
             color:#111827;
         }
@@ -39,7 +44,7 @@
         .studentListSubtitle{
             color:#667085;
             margin-top:4px;
-            margin-bottom:30px;
+            margin-bottom:10px;
         }
 
         .studentSearchBox{
@@ -58,7 +63,8 @@
         .studentTableCard{
             background:#ffffff;
             border-radius:30px;
-            overflow:hidden;
+            overflow-y:scroll;
+            height: 560px;
             border:1px solid #ececec;
         }
 
@@ -72,14 +78,15 @@
         }
 
         .studentTable th{
-            padding:18px 20px;
+            padding:10px 20px;
             text-align:left;
             color:#98a2b3;
-            font-size:14px;
+            font-size:13px;
         }
 
         .studentTable td{
-            padding:20px;
+            padding:10px 20px;
+            font-size: 14px;
             border-top:1px solid #ececec;
         }
 
@@ -100,6 +107,37 @@
             background:#dcfff6;
             color:#00c896;
         }
+        
+        .attendanceTopbar {
+    width: 100%;
+    background: #ffffff;
+    padding: 12px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e7e7e7;
+    }
+    
+    .attendanceTeacherProfile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f5f6fb;
+    padding: 10px 14px;
+    border-radius: 16px;
+}
+
+.attendanceTeacherAvatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #675cff, #1dd5c8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 600;
+}
 
     </style>
 
@@ -107,7 +145,35 @@
 
 <body>
 
+	<jsp:include page="sidebar.jsp" />
+
     <div class="studentListContainer">
+    
+    <div class="attendanceTopbar">
+
+        <h2 class="attendanceTopbarTitle">
+            Students
+        </h2>
+
+        <div class="attendanceTeacherProfile">
+
+            <div class="attendanceTeacherAvatar">
+                T
+            </div>
+
+            <div>
+
+                <h4>Teacher</h4>
+
+                <p class="attendanceTeacherRole">
+                    Science Department
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
         <h1 class="studentListHeading">
             Student List
@@ -117,11 +183,11 @@
             View all enrolled students
         </p>
 
-        <input 
+       <!-- <input 
             type="text"
             placeholder="Search students..."
             class="studentSearchBox"
-        >
+        > -->
 
         <div class="studentTableCard">
 

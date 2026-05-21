@@ -24,14 +24,21 @@
 
         body{
             background:#f4f5fb;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: start;
         }
 
         .assignedClassesContainer{
-            padding:40px 32px;
+            padding:0px 12px;
+            width: 80%;
+            overflow-y: scroll;
+    		height: 720px;
         }
 
         .assignedClassesHeading{
-            font-size:44px;
+            font-size:40px;
             font-weight:700;
             color:#111827;
         }
@@ -51,10 +58,11 @@
         .assignedClassesCard{
             background:#ffffff;
             border-radius:28px;
-            padding:28px;
+            padding:20px;
             border:1px solid #ececec;
             position:relative;
             overflow:hidden;
+            width: 320px;
         }
 
         .assignedClassesCard::before{
@@ -69,17 +77,17 @@
 
         .assignedClassesBadge{
             display:inline-block;
-            padding:8px 16px;
+            padding:6px 16px;
             border-radius:30px;
             background:#ecebff;
             color:#675cff;
             font-size:14px;
             font-weight:600;
-            margin-bottom:20px;
+            margin-bottom:10px;
         }
 
         .assignedClassesTitle{
-            font-size:28px;
+            font-size:22px;
             font-weight:700;
             color:#111827;
             margin-bottom:6px;
@@ -87,15 +95,46 @@
 
         .assignedClassesSubject{
             color:#667085;
-            margin-bottom:24px;
-            font-size:17px;
+            margin-bottom:10px;
+            font-size:14px;
         }
 
         .assignedClassesInfo{
-            margin-bottom:12px;
+            margin-bottom:6px;
             color:#475467;
-            font-size:16px;
+            font-size:14px;
         }
+        
+        .attendanceTopbar {
+    width: 100%;
+    background: #ffffff;
+    padding: 12px 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e7e7e7;
+    }
+    
+    .attendanceTeacherProfile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #f5f6fb;
+    padding: 10px 14px;
+    border-radius: 16px;
+}
+
+.attendanceTeacherAvatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: linear-gradient(to right, #675cff, #1dd5c8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: 600;
+}
 
     </style>
 
@@ -103,7 +142,35 @@
 
 <body>
 
+	<jsp:include page="sidebar.jsp" />
+
     <div class="assignedClassesContainer">
+    
+    <div class="attendanceTopbar">
+
+        <h2 class="attendanceTopbarTitle">
+            Classes
+        </h2>
+
+        <div class="attendanceTeacherProfile">
+
+            <div class="attendanceTeacherAvatar">
+                T
+            </div>
+
+            <div>
+
+                <h4>Teacher</h4>
+
+                <p class="attendanceTeacherRole">
+                    Science Department
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
 
         <h1 class="assignedClassesHeading">
             Assigned Classes
@@ -167,6 +234,34 @@
 
                 <p class="assignedClassesInfo">
                     📍 Room: 301
+                </p>
+
+            </div>
+            
+            <div class="assignedClassesCard">
+
+                <span class="assignedClassesBadge">
+                    Science
+                </span>
+
+                <h2 class="assignedClassesTitle">
+                    Class 8
+                </h2>
+
+                <p class="assignedClassesSubject">
+                    Subject: Science
+                </p>
+
+                <p class="assignedClassesInfo">
+                    👨‍🎓 Students: 32
+                </p>
+
+                <p class="assignedClassesInfo">
+                    🕒 Timing: 9:00 AM
+                </p>
+
+                <p class="assignedClassesInfo">
+                    📍 Room: 204
                 </p>
 
             </div>

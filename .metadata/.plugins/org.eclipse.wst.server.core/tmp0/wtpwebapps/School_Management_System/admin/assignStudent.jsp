@@ -103,7 +103,7 @@
         .assignStudentFormCard{
             background:#ffffff;
             border-radius:30px;
-            padding:20px;
+            padding:10px 20px;
             border:1px solid #ececec;
             margin-bottom:18px;
         }
@@ -146,7 +146,7 @@
         ========================== */
 
         .assignStudentButton{
-            margin-top:24px;
+            margin-top:14px;
             border:none;
             background:#5c4ef7;
             color:#ffffff;
@@ -198,7 +198,7 @@
         }
 
         .assignStudentDataTable td{
-            padding:9px;
+            padding:9px 20px;
             border-top:1px solid #ececec;
             font-size:15px;
         }
@@ -493,106 +493,7 @@
                         </td>
 
                     </tr>
-                    <tr>
-
-                        <td>4</td>
-
-                        <td>
-                            Diya Patel
-                        </td>
-
-                        <td>
-                            11
-                        </td>
-
-                        <td>
-                            2026-05-20
-                        </td>
-
-                        <td>
-
-                            <button class="assignStudentDeleteButton">
-                                🗑
-                            </button>
-
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td>4</td>
-
-                        <td>
-                            Diya Patel
-                        </td>
-
-                        <td>
-                            11
-                        </td>
-
-                        <td>
-                            2026-05-20
-                        </td>
-
-                        <td>
-
-                            <button class="assignStudentDeleteButton">
-                                🗑
-                            </button>
-
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td>4</td>
-
-                        <td>
-                            Diya Patel
-                        </td>
-
-                        <td>
-                            11
-                        </td>
-
-                        <td>
-                            2026-05-20
-                        </td>
-
-                        <td>
-
-                            <button class="assignStudentDeleteButton">
-                                🗑
-                            </button>
-
-                        </td>
-
-                    </tr>
-                    <tr>
-
-                        <td>4</td>
-
-                        <td>
-                            Diya Patel
-                        </td>
-
-                        <td>
-                            11
-                        </td>
-
-                        <td>
-                            2026-05-20
-                        </td>
-
-                        <td>
-
-                            <button class="assignStudentDeleteButton">
-                                🗑
-                            </button>
-
-                        </td>
-
-                    </tr>
+                    
 
                 </tbody>
 
