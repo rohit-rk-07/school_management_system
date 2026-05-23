@@ -17,8 +17,6 @@ body{
   background:#f4f5fa;
 }
 
-/* SIDEBAR */
-
 .schoolSidebar{
   width:280px;
   height:100vh;
@@ -33,8 +31,6 @@ body{
   transition:0.3s;
 }
 
-/* LOGO */
-
 .schoolSidebarLogo{
   border-radius:14px;
   background:#23294b;
@@ -45,8 +41,6 @@ body{
   margin-bottom:35px;
 }
 
-/* MENU TITLES */
-
 .schoolSidebarMenuTitle{
   color:#9ca3c7;
   font-size:12px;
@@ -54,8 +48,6 @@ body{
   margin:22px 10px 12px;
   font-weight:600;
 }
-
-/* MENU */
 
 .schoolSidebarMenuList{
   list-style:none;
@@ -83,14 +75,10 @@ body{
   height: 100%;
 }
 
-/* HOVER */
-
 .schoolSidebarMenuItem:hover{
   background:#242b4d;
   color:#ffffff;
 }
-
-/* ACTIVE */
 
 .schoolSidebarActive{
   background:#4d44cc;
@@ -98,32 +86,19 @@ body{
 }
 
 .schoolSidebarMenuItem {
-    /* Your default styling for menu items */
+
     transition: background-color 0.2s ease;
 }
 
-/* This targets the container when active */
+
 .schoolSidebarMenuItem.schoolSidebarActive {
-    background-color: #34495e; /* Change to your preferred highlight color */
+    background-color: #34495e; 
 }
 
-/* Ensures the text color inside the active container looks right */
 .schoolSidebarMenuItem.schoolSidebarActive a {
     color: #ffffff; 
     font-weight: bold;
 }
-
-/* DARK MODE */
-
-.schoolSidebarDark{
-  background:#050814;
-}
-
-.schoolSidebarDark .schoolSidebarMenuItem:hover{
-  background:#1c2445;
-}
-
-/* RESPONSIVE */
 
 @media(max-width:768px){
 
@@ -144,14 +119,12 @@ body{
 
   <aside class="schoolSidebar">
 
-    <!-- LOGO -->
     <div class="schoolSidebarTop">
 
       <div class="schoolSidebarLogo">
         School Management System.
       </div>
 
-      <!-- MAIN MENU -->
       <div class="schoolSidebarMenuTitle">
         MAIN
       </div>
@@ -159,24 +132,24 @@ body{
       <ul class="schoolSidebarMenuList">
 
         <li class="schoolSidebarMenuItem schoolSidebarActive">
-          <a href="dashboard.jsp">Dashboard</a>
+          <a href="/School_Management_System/admin/dashboard/dashboard.jsp">Dashboard</a>
         </li>
 
         <li class="schoolSidebarMenuItem">
-          <a href="teacher.jsp">Teacher</a>
+          <a href="/School_Management_System/admin/manage_teacher/addteacher.jsp">Teacher</a>
+          
         </li>
 
         <li class="schoolSidebarMenuItem">
-          <a href="student.jsp">Students</a>
+          <a href="/School_Management_System/admin/manage_student/addstudent.jsp">Students</a>
         </li>
 
         <li class="schoolSidebarMenuItem">
-          <a href="classes.jsp">Classes</a>
+          <a href="/School_Management_System/admin/manage_classes/addclasses.jsp">Classes</a>
         </li>
 
       </ul>
 
-      <!-- ASSIGNMENTS -->
       <div class="schoolSidebarMenuTitle">
         ASSIGNMENTS
       </div>
@@ -184,16 +157,15 @@ body{
       <ul class="schoolSidebarMenuList">
 
         <li class="schoolSidebarMenuItem">
-          <a href="assignStudent.jsp">Assign Student</a>
+          <a href="/School_Management_System/admin/assign_student/assignStudent.jsp">Assign Student</a>
         </li>
 
         <li class="schoolSidebarMenuItem">
-          <a href="assignTeacher.jsp">Assign Teacher</a>
+          <a href="/School_Management_System/admin/assign_teacher/assignTeacher.jsp">Assign Teacher</a>
         </li>
 
       </ul>
 
-      <!-- ACADEMICS -->
       <div class="schoolSidebarMenuTitle">
         ACADEMICS
       </div>
@@ -201,18 +173,17 @@ body{
       <ul class="schoolSidebarMenuList">
 
         <li class="schoolSidebarMenuItem">
-          <a href="attendance.jsp">Attendance</a>
+          <a href="/School_Management_System/admin/attendance/attendance.jsp">Attendance</a>
         </li>
 
         <li class="schoolSidebarMenuItem">
-          <a href="results.jsp">Results</a>
+          <a href="/School_Management_System/admin/results/results.jsp">Results</a>
         </li>
 
       </ul>
 
     </div>
 
-    <!-- BOTTOM -->
     <div class="schoolSidebarBottom">
 
       <ul class="schoolSidebarMenuList">
@@ -228,60 +199,24 @@ body{
   </aside>
 
   <script>
-//ACTIVE MENU
-
-  //const schoolSidebarItems = document.querySelectorAll(".schoolSidebarMenuItem");
-
-  //schoolSidebarItems.forEach(item => {
-
-    //item.addEventListener("click", () => {
-
-     // schoolSidebarItems.forEach(nav => {
-      //  nav.classList.remove("schoolSidebarActive");
-     // });
-
-     // item.classList.add("schoolSidebarActive");
-
-   // });
-
- // });
   
   document.addEventListener("DOMContentLoaded", function () {
-    // Get the current page filename (e.g., "teacher.jsp")
-    const currentPath = window.location.pathname.split("/").pop();
-
-    // Select all links inside the sidebar
+    const currentPath = window.location.pathname;
     const menuLinks = document.querySelectorAll(".schoolSidebarMenuList a");
 
     menuLinks.forEach(link => {
-        // Get the href attribute of the link
         const linkPath = link.getAttribute("href");
 
-        // If the current URL ends with or matches the href, highlight its parent <li>
-        if (currentPath === linkPath) {
-            // Remove the active class from any default item first
+        if (currentPath.endsWith(linkPath)) {
             document.querySelectorAll(".schoolSidebarMenuItem").forEach(item => {
                 item.classList.remove("schoolSidebarActive");
             });
             
-            // Add active class to the current link's parent <li> element
-            link.closest("li").classList.add("schoolSidebarActive");
+            link.closest(".schoolSidebarMenuItem").classList.add("schoolSidebarActive");
         }
     });
 });
-
-
-  // DARK MODE
-
-  const schoolSidebar = document.querySelector(".schoolSidebar");
-
-  const schoolSidebarDarkBtn = document.getElementById("schoolSidebarDarkBtn");
-
-  schoolSidebarDarkBtn.addEventListener("click", () => {
-
-    schoolSidebar.classList.toggle("schoolSidebarDark");
-
-  });
+  
   </script>
 
 </body>

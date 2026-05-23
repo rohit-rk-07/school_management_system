@@ -159,32 +159,18 @@ body{
       <ul class="schoolSidebarMenuList">
 
         <li class="schoolSidebarMenuItem schoolSidebarActive">
-          <a href="assignedclass.jsp">Assigned Classes</a>
-        </li>
-
-      </ul>
-
-      <!-- ASSIGNMENTS -->
-      <div class="schoolSidebarMenuTitle">
-        STUDENTS
-      </div>
-
-      <ul class="schoolSidebarMenuList">
-
-        <li class="schoolSidebarMenuItem">
           <a href="attendance.jsp">Attendance</a>
         </li>
-
-        <li class="schoolSidebarMenuItem">
-          <a href="addMarks.jsp">Marks</a>
+        
+        <li class="schoolSidebarMenuItem schoolSidebarActive">
+          <a href="result.jsp">Results</a>
         </li>
         
-        <li class="schoolSidebarMenuItem">
-          <a href="studentsList.jsp">Students List</a>
+        <li class="schoolSidebarMenuItem schoolSidebarActive">
+          <a href="profile.jsp">Profile</a>
         </li>
 
       </ul>
-
     </div>
 
     <!-- BOTTOM -->

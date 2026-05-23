@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Teachers Management UI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#f4f5fb;
+            color:#101828;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: start;
+        }
+
+        /* =========================
+           PAGE TOPBAR
+        ========================== */
+
+        .teacherPageTopbar{
+            width:100%;
+            background:#ffffff;
+            padding:12px 28px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border-bottom:1px solid #e7e7e7;
+        }
+
+        .teacherPageHeading{
+            font-size:20px;
+            font-weight:600;
+        }
+
+        .teacherAdminProfileCard{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            background:#f5f6fb;
+            padding:10px 14px;
+            border-radius:16px;
+        }
+
+        .teacherAdminProfileAvatar{
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            background:linear-gradient(to right,#675cff,#22d3c5);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#ffffff;
+            font-weight:600;
+        }
+
+        .teacherAdminRoleText{
+            font-size:13px;
+            color:#8b8b8b;
+        }
+
+        /* =========================
+           PAGE CONTENT
+        ========================== */
+
+        .teacherManagementPageContainer{
+            padding:10px 12px;
+            width: 80%;
+        }
+
+        .teacherManagementPageHeader{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .teacherManagementTitle{
+            font-size:40px;
+            font-weight:700;
+        }
+
+        .teacherManagementSubtitle{
+            color:#667085;
+            margin-top:4px;
+        }
+
+        /* =========================
+           ADD TEACHER BUTTON
+        ========================== */
+
+        .teacherAddButton{
+            background:#5b4df7;
+            color:#ffffff;
+            border:none;
+            padding:10px 26px;
+            border-radius:14px;
+            font-size:16px;
+            font-weight:600;
+            cursor:pointer;
+            transition:0.3s;
+            box-shadow:0 10px 20px rgba(91,77,247,0.2);
+        }
+
+        .teacherAddButton:hover{
+            background:#4b3ef0;
+        }
+
+        /* =========================
+           TEACHER TABLE CARD
+        ========================== */
+
+        .teacherTableCardContainer{
+            background:#ffffff;
+            border-radius:28px;
+            overflow-y:scroll;
+            height: 560px;
+            border:1px solid #ececec;
+        }
+
+        /* =========================
+           SEARCH BOX
+        ========================== */
+
+        .teacherSearchContainer{
+            padding:10px 14px;
+            border-bottom:1px solid #ececec;
+        }
+
+        .teacherSearchInput{
+            width:100%;
+            height:54px;
+            border:none;
+            outline:none;
+            background:#f5f6fb;
+            border-radius:14px;
+            padding:0 18px;
+            font-size:17px;
+            color:#333333;
+            border:1px solid #e2e5ef;
+        }
+
+        /* =========================
+           TABLE
+        ========================== */
+
+        .teacherDataTable{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        .teacherDataTable thead{
+            background:#f5f6fb;
+        }
+
+        .teacherDataTable th{
+            text-align:left;
+            padding:10px 22px;
+            color:#98a2b3;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        .teacherDataTable td{
+            padding:10px;
+            border-top:1px solid #ececec;
+            font-size:15px;
+        }
+
+        .teacherNameText{
+            font-weight:600;
+        }
+
+        /* =========================
+           SUBJECT BADGE
+        ========================== */
+
+        .teacherSubjectBadge{
+            display:inline-block;
+            padding:7px 14px;
+            border-radius:30px;
+            background:#ecebff;
+            color:#5b4df7;
+            font-size:14px;
+            font-weight:600;
+        }
+
+        /* =========================
+           DELETE BUTTON
+        ========================== */
+
+        .teacherDeleteButton{
+            width:42px;
+            height:42px;
+            border:none;
+            border-radius:12px;
+            background:#f5f6fb;
+            cursor:pointer;
+            font-size:18px;
+        }
+
+        /* =========================
+           MODAL BACKDROP
+        ========================== */
+
+        .teacherModalOverlay{
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.45);
+            backdrop-filter:blur(6px);
+            display:none;
+            align-items:center;
+            justify-content:center;
+            z-index:999;
+        }
+
+        .teacherModalOverlay.active{
+            display:flex;
+        }
+
+        /* =========================
+           MODAL BOX
+        ========================== */
+
+        .teacherModalContainer{
+            width:700px;
+            background:#ffffff;
+            border-radius:34px;
+            padding:34px;
+            box-shadow:0 20px 50px rgba(0,0,0,0.18);
+            animation:popupAnimation 0.3s ease;
+        }
+
+        @keyframes popupAnimation{
+
+            from{
+                transform:scale(0.9);
+                opacity:0;
+            }
+
+            to{
+                transform:scale(1);
+                opacity:1;
+            }
+
+        }
+
+        /* =========================
+           MODAL HEADER
+        ========================== */
+
+        .teacherModalHeader{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .teacherModalTitle{
+            font-size:34px;
+            font-weight:700;
+        }
+
+        .teacherModalCloseButton{
+            width:44px;
+            height:44px;
+            border:none;
+            border-radius:12px;
+            background:#f5f6fb;
+            font-size:22px;
+            cursor:pointer;
+        }
+
+        /* =========================
+           FORM GRID
+        ========================== */
+
+        .teacherFormGrid{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:24px;
+        }
+
+        .teacherFormGroup{
+            display:flex;
+            flex-direction:column;
+        }
+
+        .teacherFormGroupFullWidth{
+            grid-column:1/3;
+        }
+
+        .teacherFormLabel{
+            margin-bottom:10px;
+            font-size:15px;
+            font-weight:600;
+            color:#667085;
+            letter-spacing:0.5px;
+        }
+
+        .teacherFormInput{
+            height:56px;
+            border:none;
+            outline:none;
+            background:#f5f6fb;
+            border-radius:14px;
+            padding:0 18px;
+            font-size:17px;
+            border:1px solid #e1e4ee;
+        }
+
+        /* =========================
+           MODAL FOOTER
+        ========================== */
+
+        .teacherModalFooter{
+            display:flex;
+            justify-content:flex-end;
+            gap:18px;
+            margin-top:34px;
+        }
+
+        .teacherCancelButton{
+            background:#eef1f6;
+            color:#667085;
+            border:none;
+            padding:14px 28px;
+            border-radius:14px;
+            font-size:17px;
+            font-weight:600;
+            cursor:pointer;
+        }
+
+        .teacherSaveButton{
+            background:#5b4df7;
+            color:#ffffff;
+            border:none;
+            padding:14px 28px;
+            border-radius:14px;
+            font-size:17px;
+            font-weight:600;
+            cursor:pointer;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:768px){
+
+            .teacherManagementPageHeader{
+                flex-direction:column;
+                align-items:flex-start;
+                gap:20px;
+            }
+
+            .teacherFormGrid{
+                grid-template-columns:1fr;
+            }
+
+            .teacherFormGroupFullWidth{
+                grid-column:auto;
+            }
+
+            .teacherModalContainer{
+                width:95%;
+                padding:24px;
+            }
+
+            .teacherDataTable{
+                display:block;
+                overflow-x:auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+<jsp:include page="sidebar.jsp" />
+
+    <div class="teacherManagementPageContainer">
+    
+    <div class="teacherPageTopbar">
+
+        <h2 class="teacherPageHeading">
+            Teachers
+        </h2>
+
+        <div class="teacherAdminProfileCard">
+
+            <div class="teacherAdminProfileAvatar">
+                A
+            </div>
+
+            <div>
+                <h4>Admin</h4>
+                <p class="teacherAdminRoleText">Super Admin</p>
+            </div>
+
+        </div>
+
+    </div>
+
+        <div class="teacherManagementPageHeader">
+
+            <div>
+
+                <h1 class="teacherManagementTitle">
+                    Teachers
+                </h1>
+
+                <p class="teacherManagementSubtitle">
+                    Manage all teaching staff
+                </p>
+
+            </div>
+
+            <button class="teacherAddButton" id="openTeacherModalButton">
+                + Add Teacher
+            </button>
+
+        </div>
+
+        <div class="teacherTableCardContainer">
+
+            <div class="teacherSearchContainer">
+
+                <input 
+                    type="text" 
+                    placeholder="Search teachers..." 
+                    class="teacherSearchInput"
+                >
+
+            </div>
+
+            <table class="teacherDataTable">
+
+                <thead>
+
+                    <tr>
+                        <th>#</th>
+                        <th>NAME</th>
+                        <th>EMAIL</th>
+                        <th>SUBJECT</th>
+                        <th>Gender</th>
+                        <th>PHONE</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="teacherTableBody">
+
+                   <!-- <tr>
+                        <td>1</td>
+                        <td class="teacherNameText"> Dr. Priya Sharma </td>
+                        <td> priya@school.edu</td>
+                        <td><span class="teacherSubjectBadge"> Mathematics </span></td>
+                        <td> +91 9876543210</td>
+                    </tr> -->
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="teacherModalOverlay" id="teacherModal">
+
+        <div class="teacherModalContainer">
+
+            <div class="teacherModalHeader">
+
+                <h2 class="teacherModalTitle">
+                    Add Teacher
+                </h2>
+
+                <button class="teacherModalCloseButton" id="closeTeacherModalButton">
+                    ×
+                </button>
+
+            </div>
+
+            <form id="addTeacherForm">
+                <div class="teacherFormGrid">
+               
+                    <div class="teacherFormGroup">
+                        <label class="teacherFormLabel"> FULL NAME * </label>
+
+                        <input type="text" id="fullName" placeholder="John Doe"class="teacherFormInput">
+                    </div>
+
+                    <div class="teacherFormGroup">
+                        <label class="teacherFormLabel">EMAIL *</label>
+                        <input type="email" id="email" placeholder="john@school.edu" class="teacherFormInput">
+                    </div>
+
+                    <div class="teacherFormGroup">
+                        <label class="teacherFormLabel">SUBJECT *</label>
+                        <input type="text" id="subject" placeholder="Mathematics" class="teacherFormInput">
+                    </div>
+
+                    <div class="teacherFormGroup">
+                        <label class="teacherFormLabel">PHONE</label>
+                        <input type="text" id="phone" placeholder="+91 9876543210"class="teacherFormInput">
+                    </div>
+                    
+                    <!-- ADD THIS INSIDE teacherFormGrid -->
+
+					<div class="teacherFormGroup">
+					    <label class="teacherFormLabel">GENDER</label>
+					
+					    <div style="display:flex; gap:20px; align-items:center; height:56px;">
+					        <label style="display:flex; align-items:center; gap:8px; font-size:16px; color:#475467;">
+					            <input type="radio" name="gender" value="Male">Male
+					         </label>
+					
+					        <label style="display:flex; align-items:center; gap:8px; font-size:16px; color:#475467;">				
+					            <input type="radio" name="gender" value="Female">Female
+							</label>
+					
+					    </div>
+					</div>
+
+                    <div class="teacherFormGroup teacherFormGroupFullWidth">
+                        <label class="teacherFormLabel">QUALIFICATION</label>
+                        <input type="text" id="qualification" placeholder="M.Sc, B.Ed" class="teacherFormInput">
+                    </div>
+
+                </div>
+                <div class="teacherModalFooter">
+                    <button type="button" class="teacherCancelButton" id="cancelTeacherModalButton">Cancel</button>
+
+                    <button type="submit" id="addTeacher" class="teacherSaveButton">Save Teacher</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+    <script>
+    
+    	window.onload = function() {
+			fetch("/School_Management_System/AddTeacher")
+			.then(response => response.json())
+			.then(data => renderData(data))
+			.catch(error => console.error("There was an error"))
+		}
+    	
+    	function renderData(data){
+			const tableBody = document.getElementById("teacherTableBody");
+			tableBody.innerHTML = "";
+			
+			data.forEach(teacher => {
+				const row = document.createElement("tr");
+				row.innerHTML = `
+					<td>${teacher.teacherId}</td>
+                    <td class="teacherNameText">${teacher.fullName}</td>
+                    <td>${teacher.email}</td>
+                    <td><span class="teacherSubjectBadge"> ${teacher.subject} </span></td>
+                    <td> ${teacher.gender} </td>
+                    <td> ${teacher.phone} </td>
+				`;
+				tableBody.appendChild(row);
+			});
+		}
+
+        const teacherModal = document.getElementById("teacherModal");
+
+        const openTeacherModalButton = document.getElementById("openTeacherModalButton");
+
+        const closeTeacherModalButton = document.getElementById("closeTeacherModalButton");
+
+        const cancelTeacherModalButton = document.getElementById("cancelTeacherModalButton");
+
+        // OPEN MODAL
+
+        openTeacherModalButton.addEventListener("click", () => {
+			teacherModal.classList.add("active");
+		});
+
+        // CLOSE MODAL
+
+        closeTeacherModalButton.addEventListener("click", () => {
+			teacherModal.classList.remove("active");
+		});
+
+        cancelTeacherModalButton.addEventListener("click", () => {
+            teacherModal.classList.remove("active");
+        });
+
+        // CLOSE WHEN CLICKING OUTSIDE
+        teacherModal.addEventListener("click", (event) => {
+            if(event.target === teacherModal){
+                teacherModal.classList.remove("active");
+            }
+        });
+        
+        const addTeacher = document.getElementById("addTeacher");
+        addTeacher.addEventListener("click", (e) => {
+			e.preventDefault();
+			const teacher = {
+				fullName : document.getElementById("fullName").value,
+				email : document.getElementById("email").value,
+				subject : document.getElementById("subject").value,
+				phone : document.getElementById("phone").value,
+				gender: document.querySelector('input[name="gender"]:checked')?.value,
+				qualification : document.getElementById("qualification").value
+			}
+			fetch('/School_Management_System/AddTeacher', {
+				method: 'POST',
+				headers: {'Content-Type':'application/json'},
+				body: JSON.stringify(teacher)
+			})
+			.then(response => response.json())
+			.then(data => alert("Success: "+ data.message))
+			.catch(error => { 
+								alert("Error: Failed to save teacher details");
+							  	console.error("error", error) 
+							});
+			document.getElementById("addTeacherForm").reset();
+		});	
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,77 @@
+window.onload = function() {
+     fetch("/School_Management_System/AddStudent")
+         .then(response => response.json())
+         .then(data => renderData(data))
+         .catch(error => console.error('Fetch error:', error));
+ }
+
+ function renderData(data) {
+     console.log("rendering data");
+     const tableBody = document.getElementById("studentTableBody");
+     //tableBody.innerHTML = "";
+
+     data.forEach(teacher => {
+         const row = document.createElement("tr");
+         row.innerHTML = `
+		 				<td>1</td>
+		 				<td class="studentNameText">Aarav Kumar</td>
+		 				<td>Gender</td>
+		 				<td>aarav@school.edu</td>
+		 				<td><span class="studentRollNumberBadge"> 2024001 </span></td>
+		 				<td>dob</td>
+		 				<td>Mr. Kumar</td>
+		 				<td>phone</td>
+ 				`;
+         tableBody.appendChild(row);
+     });
+ }
+
+const studentModal = document.getElementById("studentModal");
+const openStudentModalButton = document.getElementById("openStudentModalButton");
+const closeStudentModalButton = document.getElementById("closeStudentModalButton");
+const cancelStudentModalButton = document.getElementById("cancelStudentModalButton");
+// OPEN MODAL
+openStudentModalButton.addEventListener("click", () => { studentModal.classList.add("active"); });
+// CLOSE MODAL
+closeStudentModalButton.addEventListener("click", () => {
+    studentModal.classList.remove("active");
+});
+cancelStudentModalButton.addEventListener("click", () => {
+    studentModal.classList.remove("active");
+});
+// CLOSE ON OUTSIDE CLICK
+studentModal.addEventListener("click", (event) => {
+    if (event.target === studentModal) {
+        studentModal.classList.remove("active");
+    }
+});
+
+ const addTeacher = document.getElementById("addStudent");
+ addTeacher.addEventListener("click", (e) => {
+     e.preventDefault();
+     const student = {
+         fullName: document.getElementById("fullName").value,
+         email: document.getElementById("email").value,
+         rollNumber: document.getElementById("rollNumber").value,
+		 dob:document.getElementById("date").value,
+         phone: document.getElementById("phone").value,
+         gender: document.querySelector('input[name="gender"]:checked')?.value,
+         parentName: document.getElementById("parentName").value
+     }
+	 
+	 console.log(student);
+	 
+     fetch('/School_Management_System/AddStudent', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(student)
+     })
+         .then(response => response.json())
+         .then(data => alert("Success: " + data.message))
+         .catch(error => {
+             alert("Error: Failed to save student details");
+             console.error("error", error)
+         });
+     document.getElementById("addStudentForm").reset();
+ 	//window.location.reload();
+ });

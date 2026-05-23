@@ -1,0 +1,110 @@
+/**
+ * 
+ */
+
+window.onload = function () {
+
+    loadDashboard();
+
+};
+
+function loadDashboard() {
+
+    fetch('/School_Management_System/Dashboard')
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        // COUNTS
+
+        document.getElementById("totalTeachers")
+        .textContent = data.totalTeachers;
+
+        document.getElementById("totalStudents")
+        .textContent = data.totalStudents;
+
+        document.getElementById("totalClasses")
+        .textContent = data.totalClasses;
+
+
+        // TABLES
+
+        renderRecentTeachers(data.recentTeachers);
+
+        renderRecentStudents(data.recentStudents);
+
+    });
+
+}
+
+
+// RECENT TEACHERS
+
+function renderRecentTeachers(teachers) {
+
+    const tableBody =
+        document.getElementById("recentTeachersBody");
+
+    tableBody.innerHTML = "";
+
+    teachers.forEach(teacher => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${teacher.full_name}</td>
+
+            <td>${teacher.subject}</td>
+
+            <td>
+                <span class="badge active-badge">
+                    Active
+                </span>
+            </td>
+
+        `;
+
+        tableBody.appendChild(row);
+
+    });
+
+}
+
+
+// RECENT STUDENTS
+
+function renderRecentStudents(students) {
+
+    const tableBody =
+        document.getElementById("recentStudentsBody");
+
+    tableBody.innerHTML = "";
+
+    students.forEach(student => {
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+
+            <td>${student.full_name}</td>
+
+            <td>
+                ${student.class_name || "—"}
+                ${student.section ? "- " + student.section : ""}
+            </td>
+
+            <td>
+                <span class="badge enrolled-badge">
+                    Enrolled
+                </span>
+            </td>
+
+        `;
+
+        tableBody.appendChild(row);
+
+    });
+
+}

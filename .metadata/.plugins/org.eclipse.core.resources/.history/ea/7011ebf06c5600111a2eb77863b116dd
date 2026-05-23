@@ -1,0 +1,68 @@
+/**
+ * 
+ */
+
+window.onload = function () {
+    loadStudents();
+    loadClasses();
+}
+
+// LOAD STUDENTS
+function loadStudents() {
+    fetch('/School_Management_System/AssignStudent')
+    .then(response => response.json())
+    .then(data => {
+        const studentSelect = document.getElementById("studentSelect");
+        data.students.forEach(student => {
+            const option = document.createElement("option");
+            option.value = student.student_id;
+            option.textContent = student.full_name;
+            studentSelect.appendChild(option);
+        });
+    });
+}
+
+// LOAD CLASSES
+function loadClasses() {
+    fetch("/School_Management_System/AssignStudent")
+    .then(response => response.json())
+    .then(data => {
+        const classSelect = document.getElementById("classSelect");
+        data.classes.forEach(classes => {
+            const option = document.createElement("option");
+            option.value = classes.class_id;
+            option.textContent =
+                classes.class_name + " - " + classes.section;
+            classSelect.appendChild(option);
+        });
+    });
+}
+
+// ASSIGN STUDENT
+document.getElementById("assignStudentBtn")
+.addEventListener("click", function (e) {
+    e.preventDefault();
+    const student_id =
+        document.getElementById("studentSelect").value;
+    const class_id =
+        document.getElementById("classSelect").value;
+    const enrollment = {
+        student_id: student_id,
+        class_id: class_id
+    };
+
+    fetch('/School_Management_System/AssignStudent', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(enrollment)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});

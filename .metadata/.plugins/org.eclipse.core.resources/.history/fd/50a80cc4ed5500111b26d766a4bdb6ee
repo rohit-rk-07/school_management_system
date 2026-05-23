@@ -1,0 +1,80 @@
+/**
+ *  window.onload = function() {
+     fetch("/School_Management_System/AddTeacher")
+         .then(response => response.json())
+         .then(data => {
+             renderData(data);
+             console.log(data);
+         })
+         .catch(error => console.error("There was an error"))
+ }
+
+ function renderData(data) {
+     console.log("rendering data");
+     const tableBody = document.getElementById("teacherTableBody");
+     //tableBody.innerHTML = "";
+
+     data.forEach(teacher => {
+         const row = document.createElement("tr");
+         row.innerHTML = `
+ 					<td>${teacher.teacherId}</td>
+                     <td class="teacherNameText">${teacher.fullName}</td>
+                     <td>${teacher.email}</td>
+                     <td><span class="teacherSubjectBadge"> ${teacher.subject} </span></td>
+                     <td> ${teacher.gender} </td>
+                     <td> ${teacher.phone} </td>
+ 				`;
+         tableBody.appendChild(row);
+     });
+ }
+ */
+
+
+
+const studentModal = document.getElementById("studentModal");
+const openStudentModalButton = document.getElementById("openStudentModalButton");
+const closeStudentModalButton = document.getElementById("closeStudentModalButton");
+const cancelStudentModalButton = document.getElementById("cancelStudentModalButton");
+// OPEN MODAL
+openStudentModalButton.addEventListener("click", () => { studentModal.classList.add("active"); });
+
+// CLOSE MODAL
+closeStudentModalButton.addEventListener("click", () => {
+    studentModal.classList.remove("active");
+});
+cancelStudentModalButton.addEventListener("click", () => {
+    studentModal.classList.remove("active");
+});
+
+// CLOSE ON OUTSIDE CLICK
+studentModal.addEventListener("click", (event) => {
+    if (event.target === studentModal) {
+        studentModal.classList.remove("active");
+    }
+});
+
+ const addTeacher = document.getElementById("addStudent");
+ addTeacher.addEventListener("click", (e) => {
+     e.preventDefault();
+     const student = {
+         fullName: document.getElementById("fullName").value,
+         email: document.getElementById("email").value,
+         subject: document.getElementById("subject").value,
+         phone: document.getElementById("phone").value,
+         gender: document.querySelector('input[name="gender"]:checked')?.value,
+         qualification: document.getElementById("qualification").value
+     }
+     fetch('/School_Management_System/AddTeacher', {
+         method: 'POST',
+         headers: { 'Content-Type': 'application/json' },
+         body: JSON.stringify(teacher)
+     })
+         .then(response => response.json())
+         .then(data => alert("Success: " + data.message))
+         .catch(error => {
+             alert("Error: Failed to save teacher details");
+             console.error("error", error)
+         });
+     document.getElementById("addTeacherForm").reset();
+ 	window.location.reload();
+ });

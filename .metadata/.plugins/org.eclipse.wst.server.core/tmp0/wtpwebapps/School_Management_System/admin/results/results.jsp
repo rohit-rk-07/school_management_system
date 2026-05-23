@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Results UI</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:'Poppins',sans-serif;
+        }
+
+        body{
+            background:#f4f5fb;
+            color:#111827;
+            display: flex;
+            flex-direction: row;
+            align-items: start;
+            justify-content: space-between;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================== */
+
+        .resultsTopbar{
+            width:100%;
+            background:#ffffff;
+            padding:12px 28px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            border-bottom:1px solid #e7e7e7;
+        }
+
+        .resultsTopbarTitle{
+            font-size:20px;
+            font-weight:600;
+        }
+
+        .resultsAdminProfile{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            background:#f5f6fb;
+            padding:10px 14px;
+            border-radius:16px;
+        }
+
+        .resultsAdminAvatar{
+            width:42px;
+            height:42px;
+            border-radius:50%;
+            background:linear-gradient(to right,#675cff,#1dd5c8);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            color:#ffffff;
+            font-weight:600;
+        }
+
+        .resultsAdminRole{
+            font-size:13px;
+            color:#8c8c8c;
+        }
+
+        /* =========================
+           PAGE CONTAINER
+        ========================== */
+
+        .resultsPageContainer{
+            padding:10px 32px;
+            width: 80%;
+        }
+
+        .resultsPageHeader{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-bottom:30px;
+        }
+
+        .resultsPageHeading{
+            font-size:40px;
+            font-weight:700;
+        }
+
+        .resultsPageSubtitle{
+            color:#667085;
+            margin-top:4px;
+        }
+
+        /* =========================
+           REFRESH BUTTON
+        ========================== */
+
+        .resultsRefreshButton{
+            border:none;
+            background:#ffffff;
+            padding:14px 28px;
+            border-radius:14px;
+            font-size:18px;
+            font-weight:600;
+            cursor:pointer;
+            border:1px solid #e2e5ef;
+            color:#667085;
+            transition:0.3s;
+        }
+
+        .resultsRefreshButton:hover{
+            background:#f5f6fb;
+        }
+
+        /* =========================
+           TABLE CARD
+        ========================== */
+
+        .resultsTableCard{
+            background:#ffffff;
+            border-radius:30px;
+            overflow-y:scroll;
+            height: 500px;
+            border:1px solid #ececec;
+        }
+
+        /* =========================
+           TABLE
+        ========================== */
+
+        .resultsDataTable{
+            width:100%;
+            border-collapse:collapse;
+        }
+
+        .resultsDataTable thead{
+            background:#f5f6fb;
+        }
+
+        .resultsDataTable th{
+            text-align:left;
+            padding:10px 22px;
+            font-size:12px;
+            color:#98a2b3;
+            font-weight:600;
+        }
+
+        .resultsDataTable td{
+            padding:18px;
+            border-top:1px solid #ececec;
+            font-size:14px;
+        }
+
+        .resultsStudentName{
+            font-weight:600;
+        }
+
+        /* =========================
+           MARKS BAR
+        ========================== */
+
+        .resultsMarksWrapper{
+            display:flex;
+            align-items:center;
+            gap:12px;
+        }
+
+        .resultsMarksBarBackground{
+            width:120px;
+            height:8px;
+            background:#ececec;
+            border-radius:30px;
+            overflow:hidden;
+        }
+
+        .resultsMarksBarFill{
+            height:100%;
+            border-radius:30px;
+            background:linear-gradient(to right,#675cff,#18c6b2);
+        }
+
+        /* =========================
+           GRADE STYLES
+        ========================== */
+
+        .resultsGradeA{
+            color:#00c896;
+            font-weight:700;
+        }
+
+        .resultsGradeB{
+            color:#675cff;
+            font-weight:700;
+        }
+
+        .resultsGradeC{
+            color:#ff9800;
+            font-weight:700;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media(max-width:768px){
+
+            .resultsPageHeader{
+                flex-direction:column;
+                align-items:flex-start;
+                gap:20px;
+            }
+
+            .resultsDataTable{
+                display:block;
+                overflow-x:auto;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- =========================
+         TOPBAR
+    ========================== -->
+<jsp:include page="../sidebar.jsp" />
+    
+
+    <!-- =========================
+         PAGE CONTENT
+    ========================== -->
+
+    <div class="resultsPageContainer">
+    
+    <div class="resultsTopbar">
+
+        <h2 class="resultsTopbarTitle">
+            Results
+        </h2>
+
+        <div class="resultsAdminProfile">
+
+            <div class="resultsAdminAvatar">
+                A
+            </div>
+
+            <div>
+
+                <h4>Admin</h4>
+
+                <p class="resultsAdminRole">
+                    Super Admin
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+        <!-- HEADER -->
+
+        <div class="resultsPageHeader">
+
+            <div>
+
+                <h1 class="resultsPageHeading">
+                    Results
+                </h1>
+
+                <p class="resultsPageSubtitle">
+                    Academic performance overview
+                </p>
+
+            </div>
+
+            <button class="resultsRefreshButton">
+                ↻ Refresh
+            </button>
+
+        </div>
+
+        <!-- TABLE -->
+
+        <div class="resultsTableCard">
+
+            <table class="resultsDataTable">
+
+                <thead>
+
+                    <tr>
+
+                        <th>STUDENT</th>
+                        <th>SUBJECT</th>
+                        <th>MARKS</th>
+                        <th>GRADE</th>
+                        <th>REMARKS</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <!-- ROW 1 -->
+
+                    <tr>
+
+                        <td class="resultsStudentName">
+                            Aarav Kumar
+                        </td>
+
+                        <td>
+                            Mathematics
+                        </td>
+
+                        <td>
+
+                            <div class="resultsMarksWrapper">
+
+                                <div class="resultsMarksBarBackground">
+
+                                    <div 
+                                        class="resultsMarksBarFill"
+                                        style="width:92%;"
+                                    ></div>
+
+                                </div>
+
+                                <span>92</span>
+
+                            </div>
+
+                        </td>
+
+                        <td class="resultsGradeA">
+                            A
+                        </td>
+
+                        <td>
+                            Excellent
+                        </td>
+
+                    </tr>
+
+                    <!-- ROW 2 -->
+
+                    <tr>
+
+                        <td class="resultsStudentName">
+                            Aarav Kumar
+                        </td>
+
+                        <td>
+                            Physics
+                        </td>
+
+                        <td>
+
+                            <div class="resultsMarksWrapper">
+
+                                <div class="resultsMarksBarBackground">
+
+                                    <div 
+                                        class="resultsMarksBarFill"
+                                        style="width:85%;"
+                                    ></div>
+
+                                </div>
+
+                                <span>85</span>
+
+                            </div>
+
+                        </td>
+
+                        <td class="resultsGradeB">
+                            B
+                        </td>
+
+                        <td>
+                            Very Good
+                        </td>
+
+                    </tr>
+
+                    <!-- ROW 3 -->
+
+                    <tr>
+
+                        <td class="resultsStudentName">
+                            Diya Patel
+                        </td>
+
+                        <td>
+                            Mathematics
+                        </td>
+
+                        <td>
+
+                            <div class="resultsMarksWrapper">
+
+                                <div class="resultsMarksBarBackground">
+
+                                    <div 
+                                        class="resultsMarksBarFill"
+                                        style="width:78%;"
+                                    ></div>
+
+                                </div>
+
+                                <span>78</span>
+
+                            </div>
+
+                        </td>
+
+                        <td class="resultsGradeB">
+                            B
+                        </td>
+
+                        <td>
+                            Good
+                        </td>
+
+                    </tr>
+
+                    <!-- ROW 4 -->
+
+                    <tr>
+
+                        <td class="resultsStudentName">
+                            Diya Patel
+                        </td>
+
+                        <td>
+                            English
+                        </td>
+
+                        <td>
+
+                            <div class="resultsMarksWrapper">
+
+                                <div class="resultsMarksBarBackground">
+
+                                    <div 
+                                        class="resultsMarksBarFill"
+                                        style="width:95%;"
+                                    ></div>
+
+                                </div>
+
+                                <span>95</span>
+
+                            </div>
+
+                        </td>
+
+                        <td class="resultsGradeA">
+                            A
+                        </td>
+
+                        <td>
+                            Excellent
+                        </td>
+
+                    </tr>
+
+                    <!-- ROW 5 -->
+
+                    <tr>
+
+                        <td class="resultsStudentName">
+                            Rohan Singh
+                        </td>
+
+                        <td>
+                            Physics
+                        </td>
+
+                        <td>
+
+                            <div class="resultsMarksWrapper">
+
+                                <div class="resultsMarksBarBackground">
+
+                                    <div 
+                                        class="resultsMarksBarFill"
+                                        style="width:60%;"
+                                    ></div>
+
+                                </div>
+
+                                <span>60</span>
+
+                            </div>
+
+                        </td>
+
+                        <td class="resultsGradeC">
+                            C
+                        </td>
+
+                        <td>
+                            Average
+                        </td>
+
+                    </tr>
+
+                    <!-- ROW 6 -->
+
+                    <tr>
+
+                        <td class="resultsStudentName">
+                            Sneha Gupta
+                        </td>
+
+                        <td>
+                            Mathematics
+                        </td>
+
+                        <td>
+
+                            <div class="resultsMarksWrapper">
+
+                                <div class="resultsMarksBarBackground">
+
+                                    <div 
+                                        class="resultsMarksBarFill"
+                                        style="width:88%;"
+                                    ></div>
+
+                                </div>
+
+                                <span>88</span>
+
+                            </div>
+
+                        </td>
+
+                        <td class="resultsGradeB">
+                            B
+                        </td>
+
+                        <td>
+                            Very Good
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

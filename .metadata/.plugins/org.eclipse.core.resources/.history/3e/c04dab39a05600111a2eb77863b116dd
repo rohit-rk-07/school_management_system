@@ -1,0 +1,155 @@
+package com.sms;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+@WebServlet("/AdminDashboard")
+public class AdminDashboard extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    public AdminDashboard() {
+        super();
+    }
+	
+    @Override
+    protected void doGet(HttpServletRequest request,
+                         HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        JSONObject finalJson = new JSONObject();
+        JSONArray recentTeachersArray = new JSONArray();
+        JSONArray recentStudentsArray = new JSONArray();
+
+        try (Connection conn = DBConnection.getConnection()) {
+
+            // TOTAL TEACHERS
+
+            String teacherCountSql =
+                    "SELECT COUNT(*) AS total_teachers FROM teachers";
+
+            PreparedStatement teacherCountStatement =
+                    conn.prepareStatement(teacherCountSql);
+
+            ResultSet teacherCountRs =
+                    teacherCountStatement.executeQuery();
+
+            int totalTeachers = 0;
+
+            if (teacherCountRs.next()) {
+
+                totalTeachers =
+                    teacherCountRs.getInt("total_teachers");
+            }
+
+
+            // TOTAL STUDENTS
+            String studentCountSql =
+                    "SELECT COUNT(*) AS total_students FROM students";
+            PreparedStatement studentCountStatement =
+                    conn.prepareStatement(studentCountSql);
+
+            ResultSet studentCountRs =
+                    studentCountStatement.executeQuery();
+            int totalStudents = 0;
+
+            if (studentCountRs.next()) {
+                totalStudents =
+                    studentCountRs.getInt("total_students");
+            }
+
+            // TOTAL CLASSES
+            String classCountSql =
+                    "SELECT COUNT(*) AS total_classes FROM classes";
+
+            PreparedStatement classCountStatement =
+                    conn.prepareStatement(classCountSql);
+
+            ResultSet classCountRs =
+                    classCountStatement.executeQuery();
+            int totalClasses = 0;
+            if (classCountRs.next()) {
+                totalClasses =
+                    classCountRs.getInt("total_classes");
+            }
+
+
+            // RECENT TEACHERS
+            String recentTeacherSql =
+                    "SELECT full_name, subject " +
+                    "FROM teachers " +
+                    "ORDER BY teacher_id DESC LIMIT 3";
+
+            PreparedStatement recentTeacherStatement =
+                    conn.prepareStatement(recentTeacherSql);
+            ResultSet recentTeacherRs =
+                    recentTeacherStatement.executeQuery();
+
+            while (recentTeacherRs.next()) {
+                JSONObject teacher = new JSONObject();
+                teacher.put("full_name",
+                        recentTeacherRs.getString("full_name"));
+                teacher.put("subject",
+                        recentTeacherRs.getString("subject"));
+                recentTeachersArray.put(teacher);
+            }
+
+            // RECENT STUDENTS
+            String recentStudentSql =
+                    "SELECT s.full_name, " +
+                    "c.class_name, " +
+                    "c.section " +
+                    "FROM students s " +
+                    "LEFT JOIN student_enrollment se " +
+                    "ON s.student_id = se.student_id " +
+                    "LEFT JOIN classes c " +
+                    "ON se.class_id = c.class_id " +
+                    "ORDER BY s.student_id DESC LIMIT 3";
+
+            PreparedStatement recentStudentStatement =
+                    conn.prepareStatement(recentStudentSql);
+
+            ResultSet recentStudentRs =
+                    recentStudentStatement.executeQuery();
+
+            while (recentStudentRs.next()) {
+                JSONObject student = new JSONObject();
+                student.put("full_name",
+                        recentStudentRs.getString("full_name"));
+                student.put("class_name",
+                        recentStudentRs.getString("class_name"));
+                student.put("section",
+                        recentStudentRs.getString("section"));
+                recentStudentsArray.put(student);
+            }
+
+            // FINAL JSON
+            finalJson.put("totalTeachers", totalTeachers);
+            finalJson.put("totalStudents", totalStudents);
+            finalJson.put("totalClasses", totalClasses);
+            finalJson.put("recentTeachers", recentTeachersArray);
+            finalJson.put("recentStudents", recentStudentsArray);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        response.getWriter().print(finalJson.toString());
+    }
+
+	
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+}

@@ -1,0 +1,95 @@
+/**
+ * 
+ */
+window.onload = function () {
+    loadTeachers();
+    loadClasses();
+    loadTeacherAssignments();
+};
+
+// LOAD TEACHERS
+function loadTeachers() {
+    fetch('/School_Management_System/AssignTeacher')
+    .then(response => response.json())
+    .then(data => {
+        const teacherSelect =
+            document.getElementById("teacherSelect");
+			
+        data.teachers.forEach(teacher => {
+            const option = document.createElement("option");
+            option.value = teacher.teacher_id;
+            option.textContent = teacher.full_name;
+            teacherSelect.appendChild(option);
+        });
+    });
+}
+
+
+// LOAD CLASSES
+function loadClasses() {
+    fetch('/School_Management_System/AssignTeacher')
+    .then(response => response.json())
+    .then(data => {
+        const classSelect = document.getElementById("classSelect");
+        data.classes.forEach(classes => {
+            const option = document.createElement("option");
+            option.value = classes.class_id;
+            option.textContent = classes.class_name + " - " + classes.section;
+            classSelect.appendChild(option);
+        });
+    });
+}
+
+// LOAD TABLE
+function loadTeacherAssignments() {
+    fetch('/School_Management_System/AssignTeacher')
+    .then(response => response.json())
+    .then(data => {
+        renderTeacherAssignments(data.assignments);
+    });
+}
+
+// RENDER TABLE
+function renderTeacherAssignments(assignments) {
+    const tableBody = document.getElementById("teacherAssignmentTableBody");
+    tableBody.innerHTML = "";
+    assignments.forEach((assignment, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${assignment.full_name}</td>
+            <td><span class="assignTeacherSubjectBadge"> ${assignment.subject_name}</span></td>
+            <td> ${assignment.class_name}-${assignment.section}</td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+// ASSIGN TEACHER
+document.getElementById("assignTeacherBtn").addEventListener("click", function (e) { 
+	e.preventDefault();
+    const teacher_id = document.getElementById("teacherSelect").value;
+    const class_id = document.getElementById("classSelect").value;
+    const subject_name = document.getElementById("subjectInput").value;
+    const assignment = {
+        	teacher_id: teacher_id,
+        	class_id: class_id,
+        	subject_name: subject_name
+    };
+	
+    fetch('/School_Management_System/AssignTeacher', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(assignment)
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        loadTeacherAssignments();
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});
