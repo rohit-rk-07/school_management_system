@@ -1,0 +1,174 @@
+package com.sms;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+@WebServlet("/StudentAttendance")
+public class StudentAttendance extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
+
+	// GET STUDENTS
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("application/json");
+
+		response.setCharacterEncoding("UTF-8");
+
+		JSONArray studentsArray = new JSONArray();
+
+		try {
+
+			int classId = Integer.parseInt(request.getParameter("classId"));
+
+			Connection connection = DBConnection.getConnection();
+
+			String query = "SELECT s.student_id, " + "s.full_name, " + "s.roll_number, " + "s.gender "
+					+ "FROM students s " + "JOIN student_enrollments se " + "ON s.student_id = se.student_id "
+					+ "WHERE se.class_id=?";
+
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, classId);
+			ResultSet rs = statement.executeQuery();
+
+			while (rs.next()) {
+
+				JSONObject student = new JSONObject();
+				student.put("student_id", rs.getInt("student_id"));
+				student.put("full_name", rs.getString("full_name"));
+				student.put("roll_number", rs.getString("roll_number"));
+				student.put("gender", rs.getString("gender"));
+				studentsArray.put(student);
+			}
+			JSONObject finalObject = new JSONObject();
+			finalObject.put("students", studentsArray);
+			response.getWriter().write(finalObject.toString());
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	// SAVE ATTENDANCE
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("application/json");
+		try {
+			StringBuilder jsonBuilder = new StringBuilder();
+			BufferedReader reader = request.getReader();
+			String line;
+			while ((line = reader.readLine()) != null) {
+
+				jsonBuilder.append(line);
+			}
+
+			JSONArray attendanceArray = new JSONArray(jsonBuilder.toString());
+
+			Connection connection = DBConnection.getConnection();
+
+			for (int i = 0; i < attendanceArray.length(); i++) {
+
+				JSONObject attendanceObject = attendanceArray.getJSONObject(i);
+
+				int studentId = attendanceObject.getInt("studentId");
+
+				int classId = attendanceObject.getInt("classId");
+
+				String attendanceDate = attendanceObject.getString("attendanceDate");
+
+				String status = attendanceObject.getString("status");
+
+				String checkQuery = "SELECT * FROM student_attendance " + "WHERE student_id=? "
+						+ "AND attendance_date=? " + "AND class_id=?";
+
+				PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+
+				checkStatement.setInt(1, studentId);
+
+				checkStatement.setString(2, attendanceDate);
+
+				checkStatement.setInt(3, classId);
+
+				ResultSet resultSet = checkStatement.executeQuery();
+
+				// UPDATE
+
+				if (resultSet.next()) {
+
+					String updateQuery = "UPDATE student_attendance " + "SET status=? " + "WHERE student_id=? "
+							+ "AND attendance_date=? " + "AND class_id=?";
+
+					PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+
+					updateStatement.setString(1, status);
+
+					updateStatement.setInt(2, studentId);
+
+					updateStatement.setString(3, attendanceDate);
+
+					updateStatement.setInt(4, classId);
+
+					updateStatement.executeUpdate();
+
+				}
+
+				// INSERT
+
+				else {
+
+					String insertQuery = "INSERT INTO student_attendance "
+							+ "(student_id, attendance_date, status, class_id) " + "VALUES (?, ?, ?, ?)";
+
+					PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+
+					insertStatement.setInt(1, studentId);
+
+					insertStatement.setString(2, attendanceDate);
+
+					insertStatement.setString(3, status);
+
+					insertStatement.setInt(4, classId);
+
+					insertStatement.executeUpdate();
+
+				}
+
+			}
+
+			JSONObject responseObject = new JSONObject();
+
+			responseObject.put("message", "Attendance saved successfully");
+
+			response.getWriter().write(responseObject.toString());
+
+		}
+
+		catch (Exception e) {
+
+			e.printStackTrace();
+
+			JSONObject errorObject = new JSONObject();
+
+			errorObject.put("message", "Failed to save attendance");
+
+			response.getWriter().write(errorObject.toString());
+
+		}
+
+	}
+
+}

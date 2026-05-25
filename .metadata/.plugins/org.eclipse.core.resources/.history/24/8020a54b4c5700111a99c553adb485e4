@@ -1,0 +1,262 @@
+/**
+ *  const presentButtons = document.querySelectorAll( ".attendancePresentButton" );
+ const absentButtons = document.querySelectorAll( ".attendanceAbsentButton" );
+ const presentCount = document.getElementById( "presentCount" );
+ const absentCount = document.getElementById( "absentCount" );
+ const attendancePercentage = document.getElementById("attendancePercentage" );
+
+ function updateAttendanceStats(){
+     let present = document.querySelectorAll(".attendancePresentButton.active").length;
+     let absent = document.querySelectorAll(".attendanceAbsentButton.active").length;
+
+     let total = present + absent;
+     let percentage = total === 0 ? 0  : Math.round((present / total) * 100);
+     presentCount.innerText = present;
+     absentCount.innerText = absent;
+     attendancePercentage.innerText = percentage + "%";
+ }
+
+ presentButtons.forEach((button) => {
+     button.addEventListener("click", () => {
+         const row = button.closest("tr");
+         row.querySelector(".attendanceAbsentButton").classList.remove("active");
+         button.classList.add("active");
+         row.style.background = "#f0fffa";
+         updateAttendanceStats();
+     });
+ });
+
+ absentButtons.forEach((button) => {
+     button.addEventListener("click", () => {
+         const row = button.closest("tr");
+         row.querySelector(".attendancePresentButton").classList.remove("active");
+         button.classList.add("active");
+         row.style.background = "#fff5f5";
+         updateAttendanceStats();
+     });
+ });
+ */
+
+ 
+ window.onload = function () {
+     loadAttendanceStudents();
+	 loadClasses();
+ };
+
+ // LOAD STUDENTS
+ function loadAttendanceStudents() {
+     const classId = document.getElementById("classId").value;
+
+     fetch("/School_Management_System/StudentAttendance?classId=" + classId )
+     	.then(response => response.json())
+     	.then(data => {
+         renderAttendanceTable(data.students);
+         document.getElementById("totalStudents").textContent = data.students.length;
+     });
+ }
+
+ // RENDER TABLE
+ function renderAttendanceTable(students) {
+     const tableBody = document.getElementById("attendanceTableBody");
+     tableBody.innerHTML = "";
+	 
+     students.forEach(student => {
+         const row = document.createElement("tr");
+         row.setAttribute("data-student-id",student.student_id);
+         row.innerHTML = `
+             <td>${student.roll_number}</td>
+             <td>${student.full_name}</td>
+             <td>-</td>
+             <td>-</td>
+             <td>${student.gender}</td>
+             <td>
+                 <div class="attendanceActionButtons">
+                     <button class="attendancePresentButton">Present</button>
+                     <button class="attendanceAbsentButton">Absent</button>
+                 </div>
+             </td>
+         `;
+         tableBody.appendChild(row);
+     });
+     attachAttendanceEvents();
+ }
+
+ // BUTTON EVENTS
+ function attachAttendanceEvents() {
+
+     const presentButtons = document.querySelectorAll(".attendancePresentButton" );
+     const absentButtons = document.querySelectorAll(".attendanceAbsentButton" );
+     let presentCount = 0;
+     let absentCount = 0;
+
+     // PRESENT
+     presentButtons.forEach(button => {button.addEventListener("click", () => {
+             const row =button.closest("tr");
+             row.querySelector(".attendanceAbsentButton").classList.remove("active");
+             if (!button.classList.contains("active")) {
+                 presentCount++;
+                 if (row.getAttribute("data-status")=== "Absent") {
+                     absentCount--;
+                 }
+             }
+
+             button.classList.add("active");
+             row.setAttribute( "data-status","Present" );
+             row.style.background = "#f0fffa";
+             updateCounts(presentCount, absentCount);
+         });
+     });
+
+     // ABSENT
+     absentButtons.forEach(button => {
+
+         button.addEventListener("click", () => {
+
+             const row =
+                 button.closest("tr");
+
+             row.querySelector(
+                 ".attendancePresentButton"
+             ).classList.remove("active");
+
+             if (!button.classList.contains("active")) {
+
+                 absentCount++;
+
+                 if (row.getAttribute("data-status")
+                     === "Present") {
+
+                     presentCount--;
+                 }
+             }
+
+             button.classList.add("active");
+
+             row.setAttribute(
+                 "data-status",
+                 "Absent"
+             );
+
+             row.style.background = "#fff5f5";
+
+             updateCounts(
+                 presentCount,
+                 absentCount
+             );
+
+         });
+
+     });
+
+ }
+
+
+ // UPDATE COUNTS
+
+ function updateCounts(
+     presentCount,
+     absentCount
+ ) {
+
+     document.getElementById("presentCount")
+     .textContent = presentCount;
+
+     document.getElementById("absentCount")
+     .textContent = absentCount;
+ }
+
+
+ // SAVE ATTENDANCE
+
+ document.getElementById(
+     "saveAttendanceButton"
+ )
+ .addEventListener("click", () => {
+
+     const rows =
+         document.querySelectorAll(
+             "#attendanceTableBody tr"
+         );
+
+     const attendanceArray = [];
+
+     const classId =
+         document.getElementById(
+             "classId"
+         ).value;
+
+     const attendanceDate =
+         document.getElementById(
+             "attendanceDate"
+         ).value;
+
+
+     if (!attendanceDate) {
+
+         alert("Select attendance date");
+
+         return;
+     }
+
+
+     rows.forEach(row => {
+
+         const studentId =
+             row.getAttribute(
+                 "data-student-id"
+             );
+
+         const status =
+             row.getAttribute(
+                 "data-status"
+             );
+
+         if (!status) {
+
+             return;
+         }
+
+         attendanceArray.push({
+
+             studentId:
+                 studentId,
+
+             classId:
+                 classId,
+
+             attendanceDate:
+                 attendanceDate,
+
+             status:
+                 status
+
+         });
+
+     });
+
+
+     fetch(
+         "/School_Management_System/StudentAttendance",
+         {
+
+             method: "POST",
+
+             headers: {
+                 "Content-Type":
+                 "application/json"
+             },
+
+             body:
+             JSON.stringify(
+                 attendanceArray
+             )
+
+         }
+     )
+     .then(response => response.json())
+     .then(data => {alert(data.message);})
+     .catch(error => {
+         console.error(error);
+         alert("Failed to save attendance");
+     });
+ });

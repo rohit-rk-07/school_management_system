@@ -163,10 +163,6 @@ body{
         </li>
         
         <li class="schoolSidebarMenuItem schoolSidebarActive">
-          <a href="result.jsp">Results</a>
-        </li>
-        
-        <li class="schoolSidebarMenuItem schoolSidebarActive">
           <a href="profile.jsp">Profile</a>
         </li>
 

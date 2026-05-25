@@ -1,0 +1,108 @@
+package com.sms;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.json.JSONObject;
+
+@WebServlet("/Login")
+public class Login extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    public Login() {
+        super();
+        
+    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		JSONObject jsonResponse = new JSONObject();
+
+		try {
+			StringBuilder sb = new StringBuilder();
+			BufferedReader reader = request.getReader();
+			String line;
+			
+			while ((line = reader.readLine()) != null) {
+				sb.append(line);
+			}
+
+			JSONObject jsonInput = new JSONObject(sb.toString());
+			String email = jsonInput.getString("email");
+			String password = jsonInput.getString("password");
+			
+			Connection conn = DBConnection.getConnection();
+			String sql = "SELECT * FROM users " + "WHERE email=? " + "AND password=?";
+
+			PreparedStatement statement = conn.prepareStatement(sql);
+			statement.setString(1, email);
+			statement.setString(2, password);
+			ResultSet rs = statement.executeQuery();
+
+			if (rs.next()) {
+				String role = rs.getString("role");
+				int referenceId = rs.getInt("reference_id");
+				String fullName = "";
+				
+				// ADMIN
+				if (role.equals("ADMIN")) {
+					fullName = "Admin";
+				}
+
+				// TEACHER
+				else if (role.equals("TEACHER")) {
+					String teacherSql = "SELECT full_name " + "FROM teachers " + "WHERE teacher_id=?";
+					PreparedStatement teacherStatement = conn.prepareStatement(teacherSql);
+					teacherStatement.setInt(1, referenceId);
+					ResultSet teacherRs = teacherStatement.executeQuery();
+					if (teacherRs.next()) {
+						fullName = teacherRs.getString("full_name");
+					}
+				}
+
+				// STUDENT
+				else if (role.equals("STUDENT")) {
+					String studentSql = "SELECT full_name " + "FROM students " + "WHERE student_id=?";
+					PreparedStatement studentStatement = conn.prepareStatement(studentSql);
+					studentStatement.setInt(1, referenceId);
+					ResultSet studentRs = studentStatement.executeQuery();
+					if (studentRs.next()) {
+						fullName = studentRs.getString("full_name");
+					}
+				}
+
+				jsonResponse.put("status", "success");
+				jsonResponse.put("role", role);
+				jsonResponse.put("referenceId", referenceId);
+				jsonResponse.put("fullName", fullName);
+			}
+
+			else {
+				jsonResponse.put("status", "error");
+				jsonResponse.put("message", "Invalid credentials");
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			jsonResponse.put("status", "error");
+			jsonResponse.put("message", "Something went wrong");
+		}
+		response.getWriter().write(jsonResponse.toString());
+	}
+	}

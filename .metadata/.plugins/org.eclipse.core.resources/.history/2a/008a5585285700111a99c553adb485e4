@@ -1,0 +1,204 @@
+/**
+ *  const presentButtons = document.querySelectorAll( ".attendancePresentButton" );
+ const absentButtons = document.querySelectorAll( ".attendanceAbsentButton" );
+ const presentCount = document.getElementById( "presentCount" );
+ const absentCount = document.getElementById( "absentCount" );
+ const attendancePercentage = document.getElementById("attendancePercentage" );
+
+ function updateAttendanceStats(){
+     let present = document.querySelectorAll(".attendancePresentButton.active").length;
+     let absent = document.querySelectorAll(".attendanceAbsentButton.active").length;
+
+     let total = present + absent;
+     let percentage = total === 0 ? 0  : Math.round((present / total) * 100);
+     presentCount.innerText = present;
+     absentCount.innerText = absent;
+     attendancePercentage.innerText = percentage + "%";
+ }
+
+ presentButtons.forEach((button) => {
+     button.addEventListener("click", () => {
+         const row = button.closest("tr");
+         row.querySelector(".attendanceAbsentButton").classList.remove("active");
+         button.classList.add("active");
+         row.style.background = "#f0fffa";
+         updateAttendanceStats();
+     });
+ });
+
+ absentButtons.forEach((button) => {
+     button.addEventListener("click", () => {
+         const row = button.closest("tr");
+         row.querySelector(".attendancePresentButton").classList.remove("active");
+         button.classList.add("active");
+         row.style.background = "#fff5f5";
+         updateAttendanceStats();
+     });
+ });
+ */
+
+
+
+
+// =========================
+// BUTTONS
+// =========================
+
+const presentButtons = document.querySelectorAll(
+    ".attendancePresentButton"
+);
+
+const absentButtons = document.querySelectorAll(
+    ".attendanceAbsentButton"
+);
+
+const saveAttendanceButton = document.getElementById(
+    "saveAttendanceButton"
+);
+
+// =========================
+// PRESENT BUTTON
+// =========================
+
+presentButtons.forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        const row = button.closest("tr");
+
+        row.querySelector(
+            ".attendanceAbsentButton"
+        ).classList.remove("active");
+
+        button.classList.add("active");
+
+        row.setAttribute(
+            "data-status",
+            "Present"
+        );
+
+        row.style.background = "#f0fffa";
+
+    });
+
+});
+
+// =========================
+// ABSENT BUTTON
+// =========================
+
+absentButtons.forEach((button) => {
+
+    button.addEventListener("click", () => {
+
+        const row = button.closest("tr");
+
+        row.querySelector(
+            ".attendancePresentButton"
+        ).classList.remove("active");
+
+        button.classList.add("active");
+
+        row.setAttribute(
+            "data-status",
+            "Absent"
+        );
+
+        row.style.background = "#fff5f5";
+
+    });
+
+});
+
+// =========================
+// SAVE ATTENDANCE
+// =========================
+
+saveAttendanceButton.addEventListener("click", () => {
+
+    const rows = document.querySelectorAll(
+        "tbody tr"
+    );
+
+    const attendanceArray = [];
+
+    const classId = document.getElementById(
+        "classId"
+    ).value;
+
+    const attendanceDate = document.getElementById(
+        "attendanceDate"
+    ).value;
+
+    rows.forEach((row) => {
+
+        const studentId = row.getAttribute(
+            "data-student-id"
+        );
+
+        const status = row.getAttribute(
+            "data-status"
+        );
+
+        // SKIP IF NOT MARKED
+
+        if(!status){
+            return;
+        }
+
+        const attendanceObject = {
+
+            studentId : studentId,
+
+            classId : classId,
+
+            attendanceDate : attendanceDate,
+
+            status : status
+
+        };
+
+        attendanceArray.push(
+            attendanceObject
+        );
+
+    });
+
+    console.log(attendanceArray);
+
+    fetch(
+        "/School_Management_System/SaveAttendance",
+        {
+
+            method : "POST",
+
+            headers : {
+                "Content-Type":"application/json"
+            },
+
+            body : JSON.stringify(
+                attendanceArray
+            )
+
+        }
+    )
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        alert(data.message);
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+        alert(
+            "Failed to save attendance"
+        );
+
+    });
+
+});

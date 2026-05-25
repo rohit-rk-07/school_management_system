@@ -1,0 +1,15 @@
+eclipse.preferences.version=1
+encoding//src/main/java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/main/webapp/admin/assign_student/assignStudent.jsp=UTF-8
+encoding//src/main/webapp/admin/assign_teacher/assignTeacher.jsp=UTF-8
+encoding//src/main/webapp/admin/attendance/attendance.jsp=UTF-8
+encoding//src/main/webapp/admin/dashboard/dashboard.jsp=UTF-8
+encoding//src/main/webapp/admin/manage_classes/addclasses.jsp=UTF-8
+encoding//src/main/webapp/admin/manage_student/addstudent.jsp=UTF-8
+encoding//src/main/webapp/admin/manage_teacher/addteacher.jsp=UTF-8
+encoding//src/main/webapp/admin/results/results.jsp=UTF-8
+encoding//src/main/webapp/admin/sidebar.jsp=UTF-8
+encoding//src/test/java=UTF-8
+encoding//src/test/resources=UTF-8
+encoding/<project>=UTF-8

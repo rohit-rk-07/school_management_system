@@ -293,389 +293,201 @@
             }
 
         }
+        
+        .attendanceFilterSection{
+    display:flex;
+    gap:20px;
+    margin-bottom:24px;
+    background:#ffffff;
+    padding:24px;
+    border-radius:24px;
+    border:1px solid #ececec;
+}
+
+.attendanceFilterInput{
+    flex:1;
+    height:56px;
+    border:none;
+    outline:none;
+    background:#f5f6fb;
+    border-radius:16px;
+    padding:0 18px;
+    font-size:16px;
+    font-weight:500;
+    color:#111827;
+    border:1px solid #e2e5ef;
+    transition:0.3s;
+}
+
+.attendanceFilterInput:focus{
+    border-color:#675cff;
+    box-shadow:0 0 0 4px rgba(103,92,255,0.12);
+    background:#ffffff;
+}
+
+.attendanceFilterInput::placeholder{
+    color:#98a2b3;
+}
 
     </style>
 
 </head>
 
 <body>
-
-    <!-- TOPBAR -->
     <jsp:include page="sidebar.jsp"/>
-    
-
     <!-- PAGE -->
-
     <div class="attendancePageContainer">
-    
     <div class="attendanceTopbar">
-
-        <h2 class="attendanceTopbarTitle">
-            Mark Attendance
-        </h2>
-
+        <h2 class="attendanceTopbarTitle"> Mark Attendance </h2>
         <div class="attendanceTeacherProfile">
-
-            <div class="attendanceTeacherAvatar">
-                T
-            </div>
-
+            <div class="attendanceTeacherAvatar"> T </div>
             <div>
-
                 <h4>Teacher</h4>
-
-                <p class="attendanceTeacherRole">
-                    Science Department
-                </p>
-
+                <p class="attendanceTeacherRole"> Science Department </p>
             </div>
-
         </div>
-
     </div>
-
-        <h1 class="attendanceMainHeading">
-            Attendance Management
-        </h1>
-
-        <p class="attendanceSubtitle">
-            Mark daily attendance for students
-        </p>
-
+    
+        <h1 class="attendanceMainHeading">  Attendance Management </h1>
+        <p class="attendanceSubtitle"> Mark daily attendance for students </p>
         <!-- OVERVIEW -->
 
         <div class="attendanceOverviewGrid">
-
             <div class="attendanceOverviewCard">
-
-                <p class="attendanceCardLabel">
-                    TOTAL STUDENTS
-                </p>
-
-                <h2 class="attendanceCardValue">
-                    4
-                </h2>
-
+                <p class="attendanceCardLabel"> TOTAL STUDENTS </p>
+                <h2 class="attendanceCardValue" id="totalStudents"> 0 </h2>
             </div>
 
             <div class="attendanceOverviewCard">
-
-                <p class="attendanceCardLabel">
-                    PRESENT
-                </p>
-
-                <h2 class="attendanceCardValue attendancePresentText" id="presentCount">
-                    0
-                </h2>
-
+                <p class="attendanceCardLabel"> PRESENT </p>
+                <h2 class="attendanceCardValue attendancePresentText" id="presentCount"> 0 </h2>
             </div>
 
             <div class="attendanceOverviewCard">
-
-                <p class="attendanceCardLabel">
-                    ABSENT
-                </p>
-
-                <h2 class="attendanceCardValue attendanceAbsentText" id="absentCount">
-                    0
-                </h2>
-
+                <p class="attendanceCardLabel"> ABSENT</p>
+                <h2 class="attendanceCardValue attendanceAbsentText" id="absentCount"> 0</h2>
             </div>
-
-        <!--<div class="attendanceOverviewCard">
-
-                <p class="attendanceCardLabel">
-                    ATTENDANCE %
-                </p>
-
-                <h2 class="attendanceCardValue attendancePercentageText" id="attendancePercentage">
-                    0%
-                </h2>
-
-            </div> -->
-
         </div>
+        
+        <!-- =========================
+     DATE + CLASS INPUTS
+========================= -->
 
-        <!-- FILTERS -->
+<div class="attendanceFilterSection">
+    <input type="date"id="attendanceDate" class="attendanceFilterInput">
+    <select id="classId" class="attendanceFilterInput">
 
-       <!--  <div class="attendanceFilterCard">
+    <option value="">Select Class</option>
 
-           <div class="attendanceFilterGrid">
+</select>
+</div>
 
-                <div class="attendanceFormGroup">
+<!-- =========================
+     TABLE
+========================= -->
 
-                    <label class="attendanceFormLabel">
-                        SELECT CLASS
-                    </label>
+<div class="attendanceTableCard">
+    <table class="attendanceTable">
+        <thead>
+            <tr>
+                <th>ROLL NO</th>
+                <th>FIRST NAME</th>
+                <th>MIDDLE NAME</th>
+                <th>LAST NAME</th>
+                <th>GENDER</th>
+                <th>STATUS</th>
+            </tr>
+        </thead>
+        <tbody id="attendanceTableBody">
+            <!-- ROW 1 -->
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 20px; color: #888; font-size: 1.2rem;">Select Class</td>            </tr>
+        </tbody>
+    </table>
+</div>
+<!-- SAVE BUTTON -->
+<div class="attendanceSaveContainer">
+    <button class="attendanceSaveButton"id="saveAttendanceButton">Save Attendance</button>
+</div>
 
-                    <select class="attendanceSelectField">
+    </div>
+    <script type="text/javascript" src="attendance.js"></script>
+</body>
+</html>
 
-                        <option>Class 8</option>
-                        <option>Class 9</option>
-                        <option>Class 10</option>
-
-                    </select>
-
-                </div>
-
-                <div class="attendanceFormGroup">
-
-                    <label class="attendanceFormLabel">
-                        SELECT DATE
-                    </label>
-
-                    <input 
-                        type="date"
-                        class="attendanceInputField"
-                    >
-
-                </div>
-
-            </div> 
-
-        </div> -->
-
-        <!-- TABLE -->
-
+<!-- TABLE
         <div class="attendanceTableCard">
-
             <table class="attendanceTable">
-
                 <thead>
-
                     <tr>
-
                         <th>ROLL NO</th>
                         <th>FIRST NAME</th>
                         <th>MIDDLE NAME</th>
                         <th>LAST NAME</th>
                         <th>GENDER</th>
                         <th>STATUS</th>
-
                     </tr>
-
                 </thead>
-
                 <tbody>
 
-                    <!-- ROW 1 -->
-
                     <tr>
-
                         <td>101</td>
                         <td class="attendanceStudentName">Aarav</td>
                         <td>Kumar</td>
                         <td>R</td>
                         <td>Male</td>
-
                         <td>
-
                             <div class="attendanceActionButtons">
-
-                                <button class="attendancePresentButton">
-                                    Present
-                                </button>
-
-                                <button class="attendanceAbsentButton">
-                                    Absent
-                                </button>
-
+                                <button class="attendancePresentButton"> Present </button>
+                                <button class="attendanceAbsentButton"> Absent </button>
                             </div>
-
                         </td>
-
                     </tr>
 
-                    <!-- ROW 2 -->
-
                     <tr>
-
                         <td>102</td>
                         <td class="attendanceStudentName">Diya</td>
                         <td>Patel</td>
                         <td>S</td>
                         <td>Female</td>
-
                         <td>
-
                             <div class="attendanceActionButtons">
-
-                                <button class="attendancePresentButton">
-                                    Present
-                                </button>
-
-                                <button class="attendanceAbsentButton">
-                                    Absent
-                                </button>
-
+                                <button class="attendancePresentButton"> Present</button>
+                                <button class="attendanceAbsentButton"> Absent </button>
                             </div>
-
                         </td>
-
                     </tr>
 
-                    <!-- ROW 3 -->
-
                     <tr>
-
                         <td>103</td>
                         <td class="attendanceStudentName">Rohan</td>
                         <td>Singh</td>
                         <td>K</td>
                         <td>Male</td>
-
                         <td>
-
                             <div class="attendanceActionButtons">
-
-                                <button class="attendancePresentButton">
-                                    Present
-                                </button>
-
-                                <button class="attendanceAbsentButton">
-                                    Absent
-                                </button>
-
+                                <button class="attendancePresentButton"> Present  </button>
+                                <button class="attendanceAbsentButton"> Absent </button>
                             </div>
-
                         </td>
-
                     </tr>
 
-                    <!-- ROW 4 -->
-
                     <tr>
-
                         <td>104</td>
                         <td class="attendanceStudentName">Sneha</td>
                         <td>Gupta</td>
                         <td>P</td>
                         <td>Female</td>
-
                         <td>
-
                             <div class="attendanceActionButtons">
-
-                                <button class="attendancePresentButton">
-                                    Present
-                                </button>
-
-                                <button class="attendanceAbsentButton">
-                                    Absent
-                                </button>
-
+                                <button class="attendancePresentButton"> Present </button>
+                                <button class="attendanceAbsentButton"> Absent</button>
                             </div>
-
                         </td>
-
                     </tr>
-
                 </tbody>
-
             </table>
-
         </div>
-
-        <!-- SAVE -->
-
         <div class="attendanceSaveContainer">
-
-            <button class="attendanceSaveButton">
-                Save Attendance
-            </button>
-
-        </div>
-
-    </div>
-
-    <!-- JAVASCRIPT -->
-
-    <script>
-
-        const presentButtons = document.querySelectorAll(
-            ".attendancePresentButton"
-        );
-
-        const absentButtons = document.querySelectorAll(
-            ".attendanceAbsentButton"
-        );
-
-        const presentCount = document.getElementById(
-            "presentCount"
-        );
-
-        const absentCount = document.getElementById(
-            "absentCount"
-        );
-
-        const attendancePercentage = document.getElementById(
-            "attendancePercentage"
-        );
-
-        function updateAttendanceStats(){
-
-            let present = document.querySelectorAll(
-                ".attendancePresentButton.active"
-            ).length;
-
-            let absent = document.querySelectorAll(
-                ".attendanceAbsentButton.active"
-            ).length;
-
-            let total = present + absent;
-
-            let percentage = total === 0 
-                ? 0 
-                : Math.round((present / total) * 100);
-
-            presentCount.innerText = present;
-            absentCount.innerText = absent;
-            attendancePercentage.innerText = percentage + "%";
-
-        }
-
-        presentButtons.forEach((button) => {
-
-            button.addEventListener("click", () => {
-
-                const row = button.closest("tr");
-
-                row.querySelector(
-                    ".attendanceAbsentButton"
-                ).classList.remove("active");
-
-                button.classList.add("active");
-
-                row.style.background = "#f0fffa";
-
-                updateAttendanceStats();
-
-            });
-
-        });
-
-        absentButtons.forEach((button) => {
-
-            button.addEventListener("click", () => {
-
-                const row = button.closest("tr");
-
-                row.querySelector(
-                    ".attendancePresentButton"
-                ).classList.remove("active");
-
-                button.classList.add("active");
-
-                row.style.background = "#fff5f5";
-
-                updateAttendanceStats();
-
-            });
-
-        });
-
-    </script>
-
-</body>
-
-</html>
+            <button class="attendanceSaveButton"> Save Attendance </button>
+        </div> -->

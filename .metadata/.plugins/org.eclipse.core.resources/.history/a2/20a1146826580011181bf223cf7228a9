@@ -1,0 +1,68 @@
+/**
+ * 
+ */
+
+const togglePasswordButton = document.getElementById("togglePasswordButton");
+const loginPassword = document.getElementById( "loginPassword");
+
+togglePasswordButton.addEventListener("click",() => {
+        if ( loginPassword.type === "password") {
+            loginPassword.type = "text";
+            togglePasswordButton.innerHTML =
+                '<i class="fa-solid fa-eye-slash"></i>';
+        }
+        else {
+            loginPassword.type = "password";
+            togglePasswordButton.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+        }
+    }
+);
+
+
+const loginForm = document.querySelector(".loginPageForm");
+
+loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+	
+    const email = document.getElementById( "loginEmail" ).value;
+    const password = document.getElementById( "loginPassword" ).value;
+
+    const loginData = {
+        email: email,
+        password: password
+    };
+
+    fetch( "/School_Management_System/Login", {
+            method: "POST",
+            headers: {
+                "Content-Type":
+                "application/json"
+            },
+            body:JSON.stringify(loginData)
+        }
+    )
+    .then(response => response.json())
+    .then(data => {
+        if(data.status === "success"){
+            localStorage.setItem(
+                "loggedInUser",
+                JSON.stringify(data)
+            );
+            if(data.role === "ADMIN"){
+                window.location.href = "admin/dashboard.jsp";
+            }
+            else if(data.role === "TEACHER"){
+                window.location.href ="teacher/dashboard.jsp";
+            }
+            else if( data.role === "STUDENT"){
+                window.location.href ="student/dashboard.jsp";
+            }
+        }
+        else{
+			 alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
+});

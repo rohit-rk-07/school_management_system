@@ -174,10 +174,6 @@ body{
         <li class="schoolSidebarMenuItem">
           <a href="attendance.jsp">Attendance</a>
         </li>
-
-        <li class="schoolSidebarMenuItem">
-          <a href="addMarks.jsp">Marks</a>
-        </li>
         
         <li class="schoolSidebarMenuItem">
           <a href="studentsList.jsp">Students List</a>

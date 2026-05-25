@@ -166,22 +166,6 @@ body{
 
       </ul>
 
-      <div class="schoolSidebarMenuTitle">
-        ACADEMICS
-      </div>
-
-      <ul class="schoolSidebarMenuList">
-
-        <li class="schoolSidebarMenuItem">
-          <a href="/School_Management_System/admin/attendance/attendance.jsp">Attendance</a>
-        </li>
-
-        <li class="schoolSidebarMenuItem">
-          <a href="/School_Management_System/admin/results/results.jsp">Results</a>
-        </li>
-
-      </ul>
-
     </div>
 
     <div class="schoolSidebarBottom">
