@@ -1,0 +1,57 @@
+/**
+ * 
+ */
+
+const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+//if (!loggedInUser) {
+//    window.location.replace("/School_Management_System/login.jsp");
+//}
+
+window.onload = function () {
+    loadStudentAttendance();
+};
+
+function loadStudentAttendance() {
+    const studentId = loggedInUser.referenceId; // Tracking reference mapping id
+
+    fetch(`/School_Management_System/CheckAttendance?studentId=${studentId}`)
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to fetch attendance details");
+            return response.json();
+        })
+        .then(data => {
+
+            const metrics = document.querySelectorAll(".studentAttendanceCardValue");
+            if (metrics.length >= 3) {
+                metrics[0].textContent = data.total_days || 0;
+                metrics[1].textContent = data.present_days || 0;
+                metrics[2].textContent = data.absent_days || 0;
+            }
+
+            const tableBody = document.querySelector(".studentAttendanceTable tbody");
+            if (!tableBody) return;
+            tableBody.innerHTML = "";
+
+
+            data.history.forEach(record => {
+
+                const isPresent = record.status.trim().toLowerCase() === "present";
+                finalBadgeClass = isPresent ? "attendancePresent" : "attendanceAbsent";
+
+                const rowHTML = `
+                    <tr>
+                        <td>${record.date}</td>
+                        <td>${record.subject}</td>
+                        <td>
+                            <span class="attendanceStatusBadge ${finalBadgeClass}">
+                                ${record.status}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML("beforeend", rowHTML);
+            });
+        })
+        .catch(error => console.error("Error managing student attendance render workflow:", error));
+}

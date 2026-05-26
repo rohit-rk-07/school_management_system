@@ -31,7 +31,15 @@ body{
   transition:0.3s;
 }
 
-.schoolSidebarLogo{
+.schoolSidebarLogo {
+    font-size: 1.6rem;
+    font-weight: 600;
+    background: #23294b;
+    border-radius: 20px;
+    padding: 0 15px;
+    }
+
+schoolSidebarLogo{
   border-radius:14px;
   background:#23294b;
   display:flex;
@@ -173,7 +181,7 @@ body{
       <ul class="schoolSidebarMenuList">
 
         <li class="schoolSidebarMenuItem">
-          Logout
+          <a href="/School_Management_System/login/login.jsp">Logout</a>
         </li>
 
       </ul>

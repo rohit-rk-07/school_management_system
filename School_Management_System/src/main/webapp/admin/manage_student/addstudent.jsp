@@ -127,7 +127,7 @@ body {
 	background: #ffffff;
 	border-radius: 30px;
 	overflow-y: scroll;
-	height: 550px;
+	height: 525px;
 	border: 1px solid #ececec;
 }
 
@@ -418,15 +418,6 @@ to {
 		<!-- TABLE CARD -->
 
 		<div class="studentTableCard">
-
-			<!-- SEARCH -->
-
-			<div class="studentSearchContainer">
-
-				<input type="text" placeholder="Search students..."
-					class="studentSearchInput">
-
-			</div>
 
 			<!-- TABLE -->
 

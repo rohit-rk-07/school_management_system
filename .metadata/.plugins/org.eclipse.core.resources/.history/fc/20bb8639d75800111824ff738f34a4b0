@@ -1,0 +1,125 @@
+/**
+ *  const loggedInUser =
+ JSON.parse(
+     localStorage.getItem(
+         "loggedInUser"
+     )
+ );
+
+ if(!loggedInUser){
+
+     window.location.replace(
+         "/School_Management_System/login.jsp"
+     );
+
+ }
+ */
+
+// CHECK LOGIN
+
+
+
+
+// LOAD ASSIGNED CLASSES
+
+window.onload = function () {
+
+    loadAssignedClasses();
+
+};
+
+
+function loadAssignedClasses(){
+
+    const teacherId =
+        loggedInUser.referenceId;
+
+    fetch(
+        "/School_Management_System/TeacherAssignedClasses?teacherId="
+        + teacherId
+    )
+
+    .then(response => response.json())
+
+    .then(data => {
+
+        renderAssignedClasses(
+            data.classes
+        );
+
+    })
+
+    .catch(error => {
+
+        console.error(error);
+
+    });
+
+}
+
+
+
+// RENDER GRID
+
+function renderAssignedClasses(classes){
+
+    const grid =
+        document.getElementById(
+            "assignedClassesGrid"
+        );
+
+    grid.innerHTML = "";
+
+    classes.forEach(classesData => {
+
+        const card =
+            document.createElement("div");
+
+        card.classList.add(
+            "assignedClassesCard"
+        );
+
+        card.innerHTML = `
+
+            <span class="assignedClassesBadge">
+
+                ${classesData.subject_name}
+
+            </span>
+
+            <h2 class="assignedClassesTitle">
+
+                ${classesData.class_name}
+                -
+                ${classesData.section}
+
+            </h2>
+
+            <p class="assignedClassesSubject">
+
+                Subject:
+                ${classesData.subject_name}
+
+            </p>
+
+            <p class="assignedClassesInfo">
+
+                Students:
+                ${classesData.total_students}
+
+            </p>
+
+            <p class="assignedClassesInfo">
+
+                Room:
+                ${classesData.room_number}
+
+            </p>
+
+        `;
+
+        grid.appendChild(card);
+
+    });
+
+}

@@ -143,129 +143,44 @@
 
 </head>
 
-<body>
-
-	<jsp:include page="sidebar.jsp" />
+  <body>
+    <jsp:include page="sidebar.jsp" />
 
     <div class="studentListContainer">
-    
-    <div class="attendanceTopbar">
-
-        <h2 class="attendanceTopbarTitle">
-            Students
-        </h2>
-
+      <div class="attendanceTopbar">
+        <h2 class="attendanceTopbarTitle">Students</h2>
         <div class="attendanceTeacherProfile">
-
-            <div class="attendanceTeacherAvatar">
-                T
-            </div>
-
-            <div>
-
-                <h4>Teacher</h4>
-
-                <p class="attendanceTeacherRole">
-                    Science Department
-                </p>
-
-            </div>
-
+          <div class="attendanceTeacherAvatar">T</div>
+          <div>
+            <h4>Teacher</h4>
+            <p class="attendanceTeacherRole">Science Department</p>
+          </div>
         </div>
+      </div>
 
+      <h1 class="studentListHeading">Student List</h1>
+      <p class="studentListSubtitle">View all enrolled students</p>
+
+      <div class="studentTableCard">
+        <table class="studentTable">
+          <thead>
+            <tr>
+              <th>ROLL NO</th>
+              <th>FULL NAME</th>
+              <th>CLASS</th>
+              <th>PARENT</th>
+              <th>PHONE</th>
+              <th>STATUS</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+          </tbody>
+        </table>
+      </div>
     </div>
-
-        <h1 class="studentListHeading">
-            Student List
-        </h1>
-
-        <p class="studentListSubtitle">
-            View all enrolled students
-        </p>
-
-       <!-- <input 
-            type="text"
-            placeholder="Search students..."
-            class="studentSearchBox"
-        > -->
-
-        <div class="studentTableCard">
-
-            <table class="studentTable">
-
-                <thead>
-
-                    <tr>
-
-                        <th>ROLL NO</th>
-                        <th>FULL NAME</th>
-                        <th>CLASS</th>
-                        <th>PARENT</th>
-                        <th>PHONE</th>
-                        <th>STATUS</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr>
-
-                        <td>101</td>
-
-                        <td class="studentName">
-                            Aarav Kumar
-                        </td>
-
-                        <td>Class 8</td>
-
-                        <td>Mr. Kumar</td>
-
-                        <td>9876543210</td>
-
-                        <td>
-
-                            <span class="studentStatusBadge studentActive">
-                                Active
-                            </span>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>102</td>
-
-                        <td class="studentName">
-                            Diya Patel
-                        </td>
-
-                        <td>Class 8</td>
-
-                        <td>Mrs. Patel</td>
-
-                        <td>9876501234</td>
-
-                        <td>
-
-                            <span class="studentStatusBadge studentActive">
-                                Active
-                            </span>
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
-</body>
+    <script type="text/javascript" src="studentList.js"></script>
+  </body>
 
 </html>

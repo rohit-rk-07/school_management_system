@@ -143,99 +143,67 @@
 <body>
 
 	<jsp:include page="sidebar.jsp" />
-
     <div class="assignedClassesContainer">
-    
     <div class="attendanceTopbar">
-
         <h2 class="attendanceTopbarTitle">
             Classes
         </h2>
-
         <div class="attendanceTeacherProfile">
-
             <div class="attendanceTeacherAvatar">
                 T
             </div>
-
             <div>
-
                 <h4>Teacher</h4>
-
                 <p class="attendanceTeacherRole">
                     Science Department
                 </p>
-
             </div>
-
         </div>
-
     </div>
-
+    
         <h1 class="assignedClassesHeading">
             Assigned Classes
         </h1>
-
         <p class="assignedClassesSubtitle">
             Classes and subjects assigned to you
         </p>
-
         <div class="assignedClassesGrid">
-
-            <div class="assignedClassesCard">
-
+           <!-- <div class="assignedClassesCard">
                 <span class="assignedClassesBadge">
                     Science
                 </span>
-
                 <h2 class="assignedClassesTitle">
-                    Class 8
+                    Grade 8
                 </h2>
-
                 <p class="assignedClassesSubject">
                     Subject: Science
                 </p>
-
                 <p class="assignedClassesInfo">
                     👨‍🎓 Students: 32
                 </p>
-
-                <p class="assignedClassesInfo">
-                    🕒 Timing: 9:00 AM
-                </p>
-
+                
                 <p class="assignedClassesInfo">
                     📍 Room: 204
                 </p>
-
             </div>
 
             <div class="assignedClassesCard">
-
                 <span class="assignedClassesBadge">
                     Physics
                 </span>
-
                 <h2 class="assignedClassesTitle">
-                    Class 9
+                    Grade 9
                 </h2>
-
                 <p class="assignedClassesSubject">
                     Subject: Physics
                 </p>
-
                 <p class="assignedClassesInfo">
                     👨‍🎓 Students: 28
                 </p>
-
-                <p class="assignedClassesInfo">
-                    🕒 Timing: 11:00 AM
-                </p>
-
+               
                 <p class="assignedClassesInfo">
                     📍 Room: 301
                 </p>
-
             </div>
             
             <div class="assignedClassesCard">
@@ -243,33 +211,28 @@
                 <span class="assignedClassesBadge">
                     Science
                 </span>
-
                 <h2 class="assignedClassesTitle">
-                    Class 8
+                    Grade 8
                 </h2>
-
                 <p class="assignedClassesSubject">
                     Subject: Science
                 </p>
-
                 <p class="assignedClassesInfo">
                     👨‍🎓 Students: 32
                 </p>
-
-                <p class="assignedClassesInfo">
-                    🕒 Timing: 9:00 AM
-                </p>
-
+                
                 <p class="assignedClassesInfo">
                     📍 Room: 204
                 </p>
-
-            </div>
+            </div> -->
 
         </div>
 
     </div>
 
+<script type="text/javascript" src="assignedclass.js"></script>
 </body>
 
 </html>
+
+

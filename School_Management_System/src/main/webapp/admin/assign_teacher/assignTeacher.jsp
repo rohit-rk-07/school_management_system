@@ -184,7 +184,7 @@
             background:#ffffff;
             border-radius:30px;
             overflow-y:scroll;
-            height: 350px;
+            height: 315px;
             border:1px solid #ececec;
         }
 
@@ -323,7 +323,7 @@
                 <div class="assignTeacherFormGroup">
                     <label class="assignTeacherFormLabel"> SELECT TEACHER </label>
                     <select class="assignTeacherSelectField" id="teacherSelect">
-                        <option> — Choose —</option>
+                        <option>Choose Teacher</option>
                         
                     </select>
                 </div>
@@ -338,7 +338,7 @@
                 <div class="assignTeacherFormGroup">
                     <label class="assignTeacherFormLabel"> CLASS</label>
                     <select class="assignTeacherSelectField" id="classSelect">
-                        <option>— Choose —</option>
+                        <option>Choose Class</option>
                         
                     </select>
                 </div>

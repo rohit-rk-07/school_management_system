@@ -1,0 +1,98 @@
+package com.sms;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet("/CheckAttendance")
+public class CheckAttendance extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    public CheckAttendance() {
+        super();
+        
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        JSONObject finalResponse = new JSONObject();
+        JSONArray historyArray = new JSONArray();
+
+        String studentIdParam = request.getParameter("studentId");
+        if (studentIdParam == null || studentIdParam.isEmpty()) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            finalResponse.put("error", "Missing studentId parameter");
+            response.getWriter().write(finalResponse.put("error", "Missing parameter").toString());
+            return;
+        }
+
+        int studentId = Integer.parseInt(studentIdParam);
+
+        // Query 1: Calculate aggregate summary values
+        String summaryQuery = "SELECT " +
+                              "  COUNT(*) as total, " +
+                              "  SUM(CASE WHEN status = 'Present' THEN 1 ELSE 0 END) as present, " +
+                              "  SUM(CASE WHEN status = 'Absent' THEN 1 ELSE 0 END) as absent " +
+                              "FROM student_attendance WHERE student_id = ?";
+
+        // Query 2: Fetch itemized history rows with subject details via class schedules
+        String historyQuery = "SELECT " +
+                              "  sa.attendance_date, " +
+                              "  cs.subject_name, " +
+                              "  sa.status " +
+                              "FROM student_attendance sa " +
+                              "LEFT JOIN class_schedules cs ON sa.class_id = cs.class_id " +
+                              "WHERE sa.student_id = ? " +
+                              "ORDER BY sa.attendance_date DESC";
+
+        try (Connection conn = DBConnection.getConnection()) {
+            
+            // 1. Process Summary Calculations
+            try (PreparedStatement psSummary = conn.prepareStatement(summaryQuery)) {
+                psSummary.setInt(1, studentId);
+                try (ResultSet rsSummary = psSummary.executeQuery()) {
+                    if (rsSummary.next()) {
+                        finalResponse.put("total_days", rsSummary.getInt("total"));
+                        finalResponse.put("present_days", rsSummary.getInt("present"));
+                        finalResponse.put("absent_days", rsSummary.getInt("absent"));
+                    }
+                }
+            }
+
+            // 2. Process Detailed Attendance Table History List
+            try (PreparedStatement psHistory = conn.prepareStatement(historyQuery)) {
+                psHistory.setInt(1, studentId);
+                try (ResultSet rsHistory = psHistory.executeQuery()) {
+                    while (rsHistory.next()) {
+                        JSONObject record = new JSONObject();
+                        record.put("date", rsHistory.getString("attendance_date"));
+                        record.put("subject", rsHistory.getString("subject_name") != null ? rsHistory.getString("subject_name") : "General");
+                        record.put("status", rsHistory.getString("status"));
+                        historyArray.put(record);
+                    }
+                }
+            }
+
+            finalResponse.put("history", historyArray);
+            response.getWriter().write(finalResponse.toString());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            try {
+                response.getWriter().write("{\"error\":\"" + e.getMessage() + "\"}");
+            } catch (Exception ignored) {}
+        }
+    }
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+	}
+
+}

@@ -313,7 +313,7 @@
                     <label class="assignStudentFormLabel">SELECT STUDENT</label>
 
                     <select class="assignStudentSelectInput" id="studentSelect">
-                        <option>— Choose —</option>
+                        <option>Choose Student</option>
                         
                     </select>
                 </div>
@@ -323,7 +323,7 @@
                     <label class="assignStudentFormLabel">SELECT CLASS</label>
 
                     <select class="assignStudentSelectInput" id="classSelect">
-                        <option>— Choose —</option>
+                        <option>Choose Class</option>
                         
                     </select>
                 </div>

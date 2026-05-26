@@ -33,9 +33,6 @@
             overflow:hidden;
         }
 
-        /* =========================
-           LOGIN CARD
-        ========================== */
 
         .loginPageCard{
             width:430px;
@@ -62,9 +59,6 @@
             );
         }
 
-        /* =========================
-           HEADER
-        ========================== */
 
         .loginPageHeader{
             text-align:center;
@@ -102,9 +96,6 @@
             font-size:15px;
         }
 
-        /* =========================
-           FORM
-        ========================== */
 
         .loginPageForm{
             display:flex;
@@ -141,10 +132,6 @@
             border-color:#675cff;
         }
 
-        /* =========================
-           PASSWORD FIELD
-        ========================== */
-
         .loginPagePasswordWrapper{
             position:relative;
         }
@@ -176,11 +163,7 @@
             color:#667085;
             user-select:none;
         }
-
-        /* =========================
-           OPTIONS
-        ========================== */
-
+        
         .loginPageOptions{
             display:flex;
             justify-content:space-between;
@@ -203,9 +186,6 @@
             font-weight:600;
         }
 
-        /* =========================
-           LOGIN BUTTON
-        ========================== */
 
         .loginPageButton{
             width:100%;
@@ -229,10 +209,6 @@
             transform:translateY(-2px);
         }
 
-        /* =========================
-           FOOTER
-        ========================== */
-
         .loginPageFooter{
             margin-top:28px;
             text-align:center;
@@ -246,9 +222,6 @@
             font-weight:600;
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================== */
 
         @media(max-width:500px){
 
@@ -269,13 +242,9 @@
 
 <body>
 
-    <!-- =========================
-         LOGIN CARD
-    ========================== -->
 
     <div class="loginPageCard">
 
-        <!-- HEADER -->
 
         <div class="loginPageHeader">
 
@@ -293,11 +262,9 @@
 
         </div>
 
-        <!-- FORM -->
 
         <form class="loginPageForm">
 
-            <!-- EMAIL -->
 
             <div class="loginPageInputGroup">
 
@@ -314,7 +281,6 @@
 
             </div>
 
-            <!-- PASSWORD -->
 
             <div class="loginPageInputGroup">
 
@@ -342,10 +308,6 @@
 
             </div>
 
-       
-
-            <!-- BUTTON -->
-
             <button 
                 type="submit"
                 class="loginPageButton"
@@ -355,7 +317,6 @@
 
         </form>
 
-        <!-- FOOTER -->
 
         <div class="loginPageFooter">
 
@@ -369,9 +330,6 @@
 
     </div>
 
-    <!-- =========================
-         JAVASCRIPT
-    ========================== -->
 
     <script src="login.js"></script>
 

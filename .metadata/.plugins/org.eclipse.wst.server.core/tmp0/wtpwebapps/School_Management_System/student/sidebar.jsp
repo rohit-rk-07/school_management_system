@@ -33,16 +33,12 @@ body{
   transition:0.3s;
 }
 
-/* LOGO */
-
-.schoolSidebarLogo{
-  border-radius:14px;
-  background:#23294b;
-  display:flex;
-  align-items:start;
-  justify-content:start;
-  font-size:20px;
-  margin-bottom:35px;
+.schoolSidebarLogo {
+    font-size: 1.6rem;
+    font-weight: 600;
+    background: #23294b;
+    border-radius: 20px;
+    padding: 0 15px;
 }
 
 /* MENU TITLES */
@@ -175,7 +171,7 @@ body{
       <ul class="schoolSidebarMenuList">
 
         <li class="schoolSidebarMenuItem">
-          Logout
+          <a href="/School_Management_System/login/login.jsp">Logout</a>
         </li>
 
       </ul>
@@ -185,60 +181,23 @@ body{
   </aside>
 
   <script>
-//ACTIVE MENU
 
-  //const schoolSidebarItems = document.querySelectorAll(".schoolSidebarMenuItem");
-
-  //schoolSidebarItems.forEach(item => {
-
-    //item.addEventListener("click", () => {
-
-     // schoolSidebarItems.forEach(nav => {
-      //  nav.classList.remove("schoolSidebarActive");
-     // });
-
-     // item.classList.add("schoolSidebarActive");
-
-   // });
-
- // });
-  
   document.addEventListener("DOMContentLoaded", function () {
-    // Get the current page filename (e.g., "teacher.jsp")
     const currentPath = window.location.pathname.split("/").pop();
-
-    // Select all links inside the sidebar
     const menuLinks = document.querySelectorAll(".schoolSidebarMenuList a");
 
     menuLinks.forEach(link => {
-        // Get the href attribute of the link
         const linkPath = link.getAttribute("href");
 
-        // If the current URL ends with or matches the href, highlight its parent <li>
         if (currentPath === linkPath) {
-            // Remove the active class from any default item first
             document.querySelectorAll(".schoolSidebarMenuItem").forEach(item => {
                 item.classList.remove("schoolSidebarActive");
             });
-            
-            // Add active class to the current link's parent <li> element
             link.closest("li").classList.add("schoolSidebarActive");
         }
     });
 });
 
-
-  // DARK MODE
-
-  const schoolSidebar = document.querySelector(".schoolSidebar");
-
-  const schoolSidebarDarkBtn = document.getElementById("schoolSidebarDarkBtn");
-
-  schoolSidebarDarkBtn.addEventListener("click", () => {
-
-    schoolSidebar.classList.toggle("schoolSidebarDark");
-
-  });
   </script>
 
 </body>

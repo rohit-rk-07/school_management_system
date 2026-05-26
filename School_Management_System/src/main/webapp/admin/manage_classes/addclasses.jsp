@@ -124,21 +124,13 @@
             background:#4f41f0;
         }
 
-        /* =========================
-           CLASS GRID
-        ========================== */
-
         .classCardsGrid{
             display:grid;
             grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
             gap:20px;
             overflow-y: scroll;
-            height: 550px;
+            height: 525px;
         }
-
-        /* =========================
-           CLASS CARD
-        ========================== */
 
         .classCardContainer{
         	width: 271px;
@@ -442,7 +434,7 @@
         
             <div class="classCardContainer">
                 <div class="classCardTopDecoration"></div>
-                <div class="classStudentCountBadge">2 students</div>
+                <!-- <div class="classStudentCountBadge">2 students</div> -->
                 <h2 class="classCardTitle">Grade 10 - A</h2>
                 <p class="classCardSectionText">Section A</p>
                 <p class="classCardInfo">Capacity: 40</p>

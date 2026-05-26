@@ -3,261 +3,188 @@
 
 <head>
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student Attendance</title>
+<title>Student Attendance</title>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+	rel="stylesheet">
 
-    <style>
+<style>
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Poppins', sans-serif;
+}
 
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family:'Poppins',sans-serif;
-        }
+body {
+	background: #f4f5fb;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: start;
+}
 
-        body{
-            background:#f4f5fb;
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            align-items: start;
-        }
+.studentAttendanceContainer {
+	padding: 10px 10px;
+	width: 80%;
+}
 
-        .studentAttendanceContainer{
-            padding:10px 10px;
-            width: 80%;
-        }
+.studentAttendanceHeading {
+	font-size: 44px;
+	font-weight: 700;
+	color: #111827;
+}
 
-        .studentAttendanceHeading{
-            font-size:44px;
-            font-weight:700;
-            color:#111827;
-        }
+.studentAttendanceSubtitle {
+	color: #667085;
+	margin-top: 4px;
+	margin-bottom: 30px;
+}
 
-        .studentAttendanceSubtitle{
-            color:#667085;
-            margin-top:4px;
-            margin-bottom:30px;
-        }
+.studentAttendanceOverview {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+	gap: 20px;
+	margin-bottom: 30px;
+}
 
-        .studentAttendanceOverview{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-            gap:20px;
-            margin-bottom:30px;
-        }
+.studentAttendanceCard {
+	background: #ffffff;
+	border-radius: 28px;
+	padding: 24px;
+	border: 1px solid #ececec;
+}
 
-        .studentAttendanceCard{
-            background:#ffffff;
-            border-radius:28px;
-            padding:24px;
-            border:1px solid #ececec;
-        }
+.studentAttendanceCardLabel {
+	color: #667085;
+	font-size: 14px;
+	margin-bottom: 12px;
+}
 
-        .studentAttendanceCardLabel{
-            color:#667085;
-            font-size:14px;
-            margin-bottom:12px;
-        }
+.studentAttendanceCardValue {
+	font-size: 42px;
+	font-weight: 700;
+}
 
-        .studentAttendanceCardValue{
-            font-size:42px;
-            font-weight:700;
-        }
+.attendanceGreen {
+	color: #00c896;
+}
 
-        .attendanceGreen{
-            color:#00c896;
-        }
+.attendanceRed {
+	color: #ff5a5f;
+}
 
-        .attendanceRed{
-            color:#ff5a5f;
-        }
+.attendancePurple {
+	color: #675cff;
+}
 
-        .attendancePurple{
-            color:#675cff;
-        }
+.studentAttendanceTableCard {
+	background: #ffffff;
+	border-radius: 30px;
+	overflow-y: scroll;
+	border: 1px solid #ececec;
+	height: 450px;
+}
 
-        .studentAttendanceTableCard{
-            background:#ffffff;
-            border-radius:30px;
-            overflow:hidden;
-            border:1px solid #ececec;
-        }
+.studentAttendanceTable {
+	width: 100%;
+	border-collapse: collapse;
+}
 
-        .studentAttendanceTable{
-            width:100%;
-            border-collapse:collapse;
-        }
+.studentAttendanceTable thead {
+	background: #f5f6fb;
+}
 
-        .studentAttendanceTable thead{
-            background:#f5f6fb;
-        }
+.studentAttendanceTable th {
+	padding: 18px 20px;
+	text-align: left;
+	color: #98a2b3;
+	font-size: 14px;
+}
 
-        .studentAttendanceTable th{
-            padding:18px 20px;
-            text-align:left;
-            color:#98a2b3;
-            font-size:14px;
-        }
+.studentAttendanceTable td {
+	padding: 20px;
+	border-top: 1px solid #ececec;
+}
 
-        .studentAttendanceTable td{
-            padding:20px;
-            border-top:1px solid #ececec;
-        }
+.attendanceStatusBadge {
+	display: inline-block;
+	padding: 7px 14px;
+	border-radius: 30px;
+	font-size: 13px;
+	font-weight: 600;
+}
 
-        .attendanceStatusBadge{
-            display:inline-block;
-            padding:7px 14px;
-            border-radius:30px;
-            font-size:13px;
-            font-weight:600;
-        }
+.attendancePresent {
+	background: #dcfff6;
+	color: #00c896;
+}
 
-        .attendancePresent{
-            background:#dcfff6;
-            color:#00c896;
-        }
-
-        .attendanceAbsent{
-            background:#ffe3e3;
-            color:#ff5a5f;
-        }
-        
-        
-
-    </style>
-
+.attendanceAbsent {
+	background: #ffe3e3;
+	color: #ff5a5f;
+}
+</style>
 </head>
 
 <body>
+	<jsp:include page="sidebar.jsp" />
 
-	<jsp:include page="sidebar.jsp"/>
+	<div class="studentAttendanceContainer">
+		<h1 class="studentAttendanceHeading">My Attendance</h1>
+		<p class="studentAttendanceSubtitle">Attendance records and performance</p>
 
-    <div class="studentAttendanceContainer">
+		<div class="studentAttendanceOverview">
 
-        <h1 class="studentAttendanceHeading">
-            My Attendance
-        </h1>
+			<div class="studentAttendanceCard">
+				<p class="studentAttendanceCardLabel">TOTAL DAYS</p>
+				<h2 class="studentAttendanceCardValue">120</h2>
+			</div>
 
-        <p class="studentAttendanceSubtitle">
-            Attendance records and performance
-        </p>
+			<div class="studentAttendanceCard">
+				<p class="studentAttendanceCardLabel">PRESENT</p>
+				<h2 class="studentAttendanceCardValue attendanceGreen">110</h2>
+			</div>
 
-        <div class="studentAttendanceOverview">
+			<div class="studentAttendanceCard">
+				<p class="studentAttendanceCardLabel">ABSENT</p>
+				<h2 class="studentAttendanceCardValue attendanceRed">10</h2>
+			</div>
+		</div>
 
-            <div class="studentAttendanceCard">
+		<div class="studentAttendanceTableCard">
+			<table class="studentAttendanceTable">
+				<thead>
+					<tr>
+						<th>DATE</th>
+						<th>SUBJECT</th>
+						<th>STATUS</th>
+					</tr>
+				</thead>
 
-                <p class="studentAttendanceCardLabel">
-                    TOTAL DAYS
-                </p>
+				<tbody>
+					<tr>
+						<td>20-05-2026</td>
+						<td>Science</td>
+						<td><span class="attendanceStatusBadge attendancePresent">Present </span></td>
+					</tr>
 
-                <h2 class="studentAttendanceCardValue">
-                    120
-                </h2>
-
-            </div>
-
-            <div class="studentAttendanceCard">
-
-                <p class="studentAttendanceCardLabel">
-                    PRESENT
-                </p>
-
-                <h2 class="studentAttendanceCardValue attendanceGreen">
-                    110
-                </h2>
-
-            </div>
-
-            <div class="studentAttendanceCard">
-
-                <p class="studentAttendanceCardLabel">
-                    ABSENT
-                </p>
-
-                <h2 class="studentAttendanceCardValue attendanceRed">
-                    10
-                </h2>
-
-            </div>
-
-            <div class="studentAttendanceCard">
-
-                <p class="studentAttendanceCardLabel">
-                    ATTENDANCE %
-                </p>
-
-                <h2 class="studentAttendanceCardValue attendancePurple">
-                    92%
-                </h2>
-
-            </div>
-
-        </div>
-
-        <div class="studentAttendanceTableCard">
-
-            <table class="studentAttendanceTable">
-
-                <thead>
-
-                    <tr>
-
-                        <th>DATE</th>
-                        <th>SUBJECT</th>
-                        <th>STATUS</th>
-
-                    </tr>
-
-                </thead>
-
-                <tbody>
-
-                    <tr>
-
-                        <td>20-05-2026</td>
-                        <td>Science</td>
-
-                        <td>
-
-                            <span class="attendanceStatusBadge attendancePresent">
-                                Present
-                            </span>
-
-                        </td>
-
-                    </tr>
-
-                    <tr>
-
-                        <td>21-05-2026</td>
-                        <td>Physics</td>
-
-                        <td>
-
-                            <span class="attendanceStatusBadge attendanceAbsent">
-                                Absent
-                            </span>
-
-                        </td>
-
-                    </tr>
-
-                </tbody>
-
-            </table>
-
-        </div>
-
-    </div>
-
+					<tr>
+						<td>21-05-2026</td>
+						<td>Physics</td>
+						<td><span class="attendanceStatusBadge attendanceAbsent">Absent </span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="attendance.js"></script>
 </body>
-
 </html>

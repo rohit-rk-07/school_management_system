@@ -205,7 +205,7 @@
       display:grid;
       grid-template-columns:1fr 1fr;
       gap:24px;
-      height: 430px;
+      height: 410px;
       overflow-y: scroll;
     }
 

@@ -1,0 +1,43 @@
+/**
+ * 
+ */
+
+const loggedInUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+if (!loggedInUser) {
+    window.location.replace("/School_Management_System/login.jsp");
+}
+
+window.onload = function () {
+    loadStudentProfile();
+};
+
+function loadStudentProfile() {
+    const studentId = loggedInUser.referenceId;
+
+    fetch(`/School_Management_System/GetStudentProfile?studentId=${studentId}`)
+        .then(response => {
+            if (!response.ok) throw new Error("Failed to load profile data");
+            return response.json();
+        })
+        .then(data => {
+            document.querySelector(".studentProfileName").textContent = data.full_name;
+            document.querySelector(".studentProfileClass").textContent = data.class_info;
+
+            if(data.full_name && data.full_name !== "N/A") {
+                document.querySelector(".studentProfileAvatar").textContent = data.full_name.charAt(0).toUpperCase();
+            }
+
+            const infoValues = document.querySelectorAll(".studentProfileInfoValue");
+
+            if (infoValues.length >= 6) {
+                infoValues[0].textContent = data.roll_number;
+                infoValues[1].textContent = data.email;
+                infoValues[2].textContent = data.phone;
+                infoValues[3].textContent = data.parent_name;
+                infoValues[4].textContent = data.dob;
+                infoValues[5].textContent = data.address;
+            }
+        })
+        .catch(error => console.error("Error rendering student profile fields:", error));
+}

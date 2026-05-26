@@ -11,7 +11,7 @@
 
   <name>School_Management_System Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
+  <url>http://localhost:8080/School_Management_System/login/login.jsp</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -42,7 +42,7 @@
   </dependencies>
 
   <build>
-    <finalName>School_Management_System</finalName>
+    <finalName>http://localhost:8080/School_Management_System/login/login.jsp</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>

@@ -18,7 +18,7 @@ window.onload = function() {
                 const cardHTML = `
                      <div class="classCardContainer" data-id="${classData.class_id}">
                          <div class="classCardTopDecoration"></div>
-                         <div class="classStudentCountBadge">0 students</div>
+                         
                          <h2 class="classCardTitle">${classData.class_name} - ${classData.section}</h2>
                          <p class="classCardSectionText">Section ${classData.section}</p>
                          <p class="classCardInfo">Capacity: ${classData.capacity}</p>
@@ -32,7 +32,7 @@ window.onload = function() {
         })
         .catch(error => console.error('Fetch error:', error));
 }
-
+//<div class="classStudentCountBadge">0 students</div>
 
 const classModal = document.getElementById("classModal");
 const openClassModalButton = document.getElementById("openClassModalButton");

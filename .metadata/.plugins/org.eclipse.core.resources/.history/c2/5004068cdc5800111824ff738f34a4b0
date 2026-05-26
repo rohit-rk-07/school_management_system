@@ -1,0 +1,70 @@
+package com.sms;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+@WebServlet("/AssignedClass")
+public class AssignedClass extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public AssignedClass() {
+		super();
+
+	}
+
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		JSONArray classesArray = new JSONArray();
+
+		try {
+			int teacherId = Integer.parseInt(request.getParameter("teacherId"));
+			Connection connection = DBConnection.getConnection();
+
+			String query = "SELECT " + "cs.subject_name, " + "c.class_name, " + "c.section, " + "c.room_number, "
+					+ "COUNT(se.student_id) " + "AS total_students " + "FROM class_schedules cs " + "JOIN classes c "
+					+ "ON cs.class_id = c.class_id " + "LEFT JOIN student_enrollment se "
+					+ "ON c.class_id = se.class_id " + "WHERE cs.teacher_id=? " + "GROUP BY cs.schedule_id";
+
+			PreparedStatement statement = connection.prepareStatement(query);
+			statement.setInt(1, teacherId);
+			ResultSet rs = statement.executeQuery();
+
+			while (rs.next()) {
+				JSONObject classes = new JSONObject();
+				classes.put("subject_name", rs.getString("subject_name"));
+				classes.put("class_name", rs.getString("class_name"));
+				classes.put("section", rs.getString("section"));
+				classes.put("room_number", rs.getString("room_number"));
+				classes.put("total_students", rs.getInt("total_students"));
+				classesArray.put(classes);
+			}
+
+			JSONObject finalObject = new JSONObject();
+			finalObject.put("classes", classesArray);
+			response.getWriter().write(finalObject.toString());
+
+		}
+
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+	}
+
+}

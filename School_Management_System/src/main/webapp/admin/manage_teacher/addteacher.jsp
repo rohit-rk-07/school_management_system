@@ -115,7 +115,7 @@
             background:#ffffff;
             border-radius:28px;
             overflow-y:scroll;
-            height: 560px;
+            height: 525px;
             border:1px solid #ececec;
         }
 
@@ -387,15 +387,7 @@
 
         <div class="teacherTableCardContainer">
 
-            <div class="teacherSearchContainer">
-
-                <input 
-                    type="text" 
-                    placeholder="Search teachers..." 
-                    class="teacherSearchInput"
-                >
-
-            </div>
+            
 
             <table class="teacherDataTable">
 

@@ -1,0 +1,94 @@
+/**
+ *  --------------
+
+ window.onload = function() {
+     loadStudentTable();
+ };
+
+ function loadStudentTable() {
+     fetch("/School_Management_System/StudentList")
+         .then(response => {
+             if (!response.ok) {
+                 throw new Error("Network response was not ok");
+             }
+             return response.json();
+         })
+         .then(students => {
+             // Target the table body inside your container structure
+             const tableBody = document.querySelector(".studentTable tbody");
+             if (!tableBody) {
+                 console.error("Could not find table body element.");
+                 return;
+             }
+
+             // Wipe out hardcoded placeholder items
+             tableBody.innerHTML = "";
+
+             // Loop through each received student record
+             students.forEach(student => {
+                 const rowHTML = `
+                     <tr>
+                         <td>${student.roll_number}</td>
+                         <td class="studentName">${student.full_name}</td>
+                         <td>${student.class_info}</td>
+                         <td>${student.parent_name}</td>
+                         <td>${student.phone}</td>
+                         <td>
+                             <span class="studentStatusBadge studentActive">Active</span>
+                         </td>
+                     </tr>
+                 `;
+                 // Seamlessly inject rows into the DOM structure
+                 tableBody.insertAdjacentHTML('beforeend', rowHTML);
+             });
+         })
+         .catch(error => {
+             console.error("Error fetching or rendering student list data:", error);
+         });
+ }
+ */
+
+ 
+window.onload = function() {
+    loadStudentTable();
+};
+
+function loadStudentTable() {
+    fetch("/School_Management_System/GetStudentList")
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Network response was not ok");
+            }
+            return response.json();
+        })
+        .then(students => {
+            const tableBody = document.querySelector(".studentTable tbody");
+            if (!tableBody) {
+                console.error("Could not find table body element.");
+                return;
+            }
+
+            // Clear static HTML rows out completely
+            tableBody.innerHTML = "";
+
+            // Loop through each student and dynamically construct rows
+            students.forEach(student => {
+                const rowHTML = `
+                    <tr>
+                        <td>${student.roll_number}</td>
+                        <td class="studentName">${student.full_name}</td>
+                        <td>${student.class_info}</td>
+                        <td>${student.parent_name}</td>
+                        <td>${student.phone}</td>
+                        <td>
+                            <span class="studentStatusBadge studentActive">Active</span>
+                        </td>
+                    </tr>
+                `;
+                tableBody.insertAdjacentHTML('beforeend', rowHTML);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching or rendering student list data:", error);
+        });
+}

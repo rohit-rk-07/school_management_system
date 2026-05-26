@@ -165,7 +165,7 @@
                 </h2>
 
                 <p class="studentProfileClass">
-                    Class 8 - Science
+                    Class 8
                 </p>
 
                 <div class="studentProfileGrid">
@@ -249,7 +249,7 @@
         </div>
 
     </div>
-
+<script type="text/javascript" src="profile.js"></script>
 </body>
 
 </html>
