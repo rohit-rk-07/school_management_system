@@ -12,6 +12,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
 
@@ -31,9 +33,6 @@
             align-items: start;
         }
 
-        /* =========================
-           TOPBAR
-        ========================== */
 
         .assignStudentTopbar{
             width:100%;
@@ -76,9 +75,6 @@
             color:#8c8c8c;
         }
 
-        /* =========================
-           PAGE CONTAINER
-        ========================== */
 
         .assignStudentPageContainer{
             padding:15px 12px;
@@ -96,9 +92,6 @@
             margin-bottom:10px;
         }
 
-        /* =========================
-           FORM CARD
-        ========================== */
 
         .assignStudentFormCard{
             background:#ffffff;
@@ -141,9 +134,6 @@
             cursor:pointer;
         }
 
-        /* =========================
-           ASSIGN BUTTON
-        ========================== */
 
         .assignStudentButton{
             margin-top:14px;
@@ -163,21 +153,15 @@
             background:#4e40ee;
         }
 
-        /* =========================
-           TABLE CARD
-        ========================== */
 
         .assignStudentTableCard{
             background:#ffffff;
             border-radius:30px;
             overflow-y: scroll;
-            height: 330px;
+            height: 410px;
             border:1px solid #ececec;
         }
 
-        /* =========================
-           TABLE
-        ========================== */
 
         .assignStudentDataTable{
             width:100%;
@@ -203,9 +187,6 @@
             font-size:15px;
         }
 
-        /* =========================
-           DELETE BUTTON
-        ========================== */
 
         .assignStudentDeleteButton{
             width:42px;
@@ -215,6 +196,7 @@
             background:#f5f6fb;
             cursor:pointer;
             font-size:18px;
+            color: red;
         }
         
         #fullName{
@@ -231,9 +213,6 @@
     		font-weight: 600;
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================== */
 
         @media(max-width:768px){
 
@@ -254,15 +233,7 @@
 
 <body>
 
-    <!-- =========================
-         TOPBAR
-    ========================== -->
 	<jsp:include page="../sidebar.jsp" />
-    
-
-    <!-- =========================
-         PAGE CONTENT
-    ========================== -->
 
     <div class="assignStudentPageContainer">
     
@@ -292,8 +263,6 @@
 
     </div>
 
-        <!-- PAGE TITLE -->
-
         <h1 class="assignStudentPageHeading">
             Assign Students
         </h1>
@@ -302,13 +271,11 @@
             Enroll students into classes
         </p>
 
-        <!-- FORM CARD -->
 
         <div class="assignStudentFormCard">
         <form action="">
             <div class="assignStudentFormGrid">
 
-                <!-- STUDENT -->
                 <div class="assignStudentFormGroup">
                     <label class="assignStudentFormLabel">SELECT STUDENT</label>
 
@@ -318,7 +285,6 @@
                     </select>
                 </div>
 
-                <!-- CLASS -->
                 <div class="assignStudentFormGroup" >
                     <label class="assignStudentFormLabel">SELECT CLASS</label>
 
@@ -328,33 +294,23 @@
                     </select>
                 </div>
             </div>
-            <!-- BUTTON -->
             <button class="assignStudentButton" id="assignStudentBtn">Assign Student</button>
 		</form>
         </div>
 
-        <!-- TABLE CARD -->
-
         <div class="assignStudentTableCard">
-
             <table class="assignStudentDataTable">
-
                 <thead>
-
                     <tr>
-
                         <th>#</th>
                         <th>STUDENT</th>
                         <th>CLASS</th>
                         <th>ASSIGNED ON</th>
                         <th>ROLL NUMBER</th>
-
+                        <th>ACTION</th>
                     </tr>
-
                 </thead>
-
                 <tbody id="enrollmentTableBody">
-
                     <tr>
                         <td>1</td>
                         <td>Aarav Kumar</td>
@@ -362,7 +318,6 @@
                         <td>2024-06-01</td>
                         <td><button class="assignStudentDeleteButton">🗑</button></td>
                     </tr>
-
                 </tbody>
             </table>
         </div>

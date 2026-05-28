@@ -14,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 @WebServlet("/AddClasses")
@@ -22,104 +23,159 @@ public class AddClasses extends HttpServlet {
 
 	public AddClasses() {
 		super();
-
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
-	    response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
-	    PrintWriter out = response.getWriter();
-	    org.json.JSONArray jsonArray = new org.json.JSONArray();
-	    String sql = "SELECT * FROM classes";
+			throws ServletException, IOException {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		PrintWriter out = response.getWriter();
+		JSONArray jsonArray = new JSONArray();
+		String sql = "SELECT * FROM classes";
 
-	    try (Connection conn = DBConnection.getConnection();
-	         PreparedStatement statement = conn.prepareStatement(sql);
-	         ResultSet rs = statement.executeQuery()) {
-	    	
-	        while (rs.next()) {
-	            org.json.JSONObject row = new org.json.JSONObject();
-	            row.put("class_id", rs.getInt("class_id"));
-	            row.put("class_name", rs.getString("class_name"));
-	            row.put("section", rs.getString("section"));
-	            row.put("capacity", rs.getInt("capacity"));
-	            row.put("room_number", rs.getString("room_number"));
-	            jsonArray.put(row);
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	        org.json.JSONObject errorJson = new org.json.JSONObject();
-	        errorJson.put("status", "error");
-	        errorJson.put("message", "Database retrieval error: " + e.getMessage());
-	        out.print(errorJson.toString());
-	        return;
-	    }
-	    out.print(jsonArray.toString());
-	    out.flush();
+		try (Connection conn = DBConnection.getConnection();
+			 PreparedStatement statement = conn.prepareStatement(sql);
+			 ResultSet rs = statement.executeQuery()) {
+			
+			while (rs.next()) {
+				JSONObject row = new JSONObject();
+				row.put("class_id", rs.getInt("class_id"));
+				row.put("class_name", rs.getString("class_name"));
+				row.put("section", rs.getString("section"));
+				row.put("capacity", rs.getInt("capacity"));
+				row.put("room_number", rs.getString("room_number"));
+				jsonArray.put(row);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			JSONObject errorJson = new JSONObject();
+			errorJson.put("status", "error");
+			errorJson.put("message", "Database retrieval error: " + e.getMessage());
+			out.print(errorJson.toString());
+			return;
+		}
+		out.print(jsonArray.toString());
+		out.flush();
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-	        throws ServletException, IOException {
-	    response.setContentType("application/json");
-	    response.setCharacterEncoding("UTF-8");
+			throws ServletException, IOException {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 
-	    PrintWriter out = response.getWriter();
-	    JSONObject jsonResponse = new JSONObject();
-	    // Read JSON sent from JavaScript
-	    StringBuilder stringBuilder = new StringBuilder();
-	    String line;
+		PrintWriter out = response.getWriter();
+		JSONObject jsonResponse = new JSONObject();
+		StringBuilder stringBuilder = new StringBuilder();
+		String line;
 
-	    try (BufferedReader reader = request.getReader()) {
-	        while ((line = reader.readLine()) != null) {
-	            stringBuilder.append(line);
-	        }
-	    } catch (Exception e) {
-	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	        jsonResponse.put("status", "error");
-	        jsonResponse.put("message", "Error reading request body");
-	        out.print(jsonResponse.toString());
-	        return;
-	    }
+		// Read Request Body Payload
+		try (BufferedReader reader = request.getReader()) {
+			while ((line = reader.readLine()) != null) {
+				stringBuilder.append(line);
+			}
+		} catch (Exception e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			jsonResponse.put("status", "error");
+			jsonResponse.put("message", "Error reading request body");
+			out.print(jsonResponse.toString());
+			return;
+		}
 
-	    try {
-	        String jsonString = stringBuilder.toString();
-	        JSONObject jsonInput = new JSONObject(jsonString);
-	        
-	        String class_name = jsonInput.getString("className");
-	        String section = jsonInput.getString("section");
-	        int capacity = jsonInput.getInt("capacity");
-	        String room_number = jsonInput.getString("roomNumber");
+		try {
+			String jsonString = stringBuilder.toString();
+			JSONObject jsonInput = new JSONObject(jsonString);
+			
+			String class_name = jsonInput.getString("className");
+			String section = jsonInput.getString("section");
+			int capacity = jsonInput.getInt("capacity");
+			String room_number = jsonInput.getString("roomNumber");
 
-	        String sql = "INSERT INTO classes (class_name, section, capacity, room_number) VALUES (?,?,?,?)";
+			String sql = "INSERT INTO classes (class_name, section, capacity, room_number) VALUES (?,?,?,?)";
 
-	        try (Connection conn = DBConnection.getConnection();
-	             PreparedStatement statement = conn.prepareStatement(sql)) {
-	            statement.setString(1, class_name);
-	            statement.setString(2, section);
-	            statement.setInt(3, capacity);
-	            statement.setString(4, room_number);
+			try (Connection conn = DBConnection.getConnection();
+				 PreparedStatement statement = conn.prepareStatement(sql)) {
+				statement.setString(1, class_name);
+				statement.setString(2, section);
+				statement.setInt(3, capacity);
+				statement.setString(4, room_number);
 
-	            int rowsInserted = statement.executeUpdate();
-	            if (rowsInserted > 0) {
-	                response.setStatus(HttpServletResponse.SC_OK);
-	                jsonResponse.put("status", "success");
-	                jsonResponse.put("message", "Class added successfully!");
-	            } else {
-	                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	                jsonResponse.put("status", "error");
-	                jsonResponse.put("message", "Failed to insert record.");
-	            }
-	        }
-	    } catch (SQLException e) {
-	        e.printStackTrace();
-	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	        jsonResponse.put("status", "error");
-	        jsonResponse.put("message", "Database error: " + e.getMessage());
-	    }
-	    out.print(jsonResponse.toString());
-	    out.flush();
+				int rowsInserted = statement.executeUpdate();
+				if (rowsInserted > 0) {
+					response.setStatus(HttpServletResponse.SC_OK);
+					jsonResponse.put("status", "success");
+					jsonResponse.put("message", "Class added successfully!");
+				} else {
+					response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+					jsonResponse.put("status", "error");
+					jsonResponse.put("message", "Failed to insert record.");
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			jsonResponse.put("status", "error");
+			jsonResponse.put("message", "Database error: " + e.getMessage());
+		}
+		out.print(jsonResponse.toString());
+		out.flush();
+	}
+
+	@Override
+	protected void doDelete(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		
+		PrintWriter out = response.getWriter();
+		JSONObject jsonResponse = new JSONObject();
+		
+		// Parse target query parameter: ?classId=X
+		String classIdStr = request.getParameter("classId");
+		
+		if (classIdStr == null || classIdStr.trim().isEmpty()) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			jsonResponse.put("status", "error");
+			jsonResponse.put("message", "Missing class ID parameter.");
+			out.print(jsonResponse.toString());
+			return;
+		}
+		
+		String sql = "DELETE FROM classes WHERE class_id = ?";
+		
+		try (Connection conn = DBConnection.getConnection();
+			 PreparedStatement statement = conn.prepareStatement(sql)) {
+			
+			int classId = Integer.parseInt(classIdStr);
+			statement.setInt(1, classId);
+			
+			int rowsDeleted = statement.executeUpdate();
+			
+			if (rowsDeleted > 0) {
+				response.setStatus(HttpServletResponse.SC_OK);
+				jsonResponse.put("status", "success");
+				jsonResponse.put("message", "Class deleted successfully!");
+			} else {
+				response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+				jsonResponse.put("status", "error");
+				jsonResponse.put("message", "Class not found in database.");
+			}
+			
+		} catch (NumberFormatException e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			jsonResponse.put("status", "error");
+			jsonResponse.put("message", "Invalid class ID format.");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			jsonResponse.put("status", "error");
+			jsonResponse.put("message", "Database error: " + e.getMessage());
+		}
+		
+		out.print(jsonResponse.toString());
+		out.flush();
 	}
 }

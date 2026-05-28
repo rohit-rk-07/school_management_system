@@ -167,19 +167,13 @@ body{
 
     <!-- BOTTOM -->
     <div class="schoolSidebarBottom">
-
       <ul class="schoolSidebarMenuList">
-
         <li class="schoolSidebarMenuItem">
           <a href="/School_Management_System/login/login.jsp">Logout</a>
         </li>
-
       </ul>
-
     </div>
-
   </aside>
-
   <script>
 
   document.addEventListener("DOMContentLoaded", function () {

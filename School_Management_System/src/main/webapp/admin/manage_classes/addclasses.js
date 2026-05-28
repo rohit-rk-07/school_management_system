@@ -1,17 +1,9 @@
-/**
- *  window.onload = function() {
-      fetch("/School_Management_System/AddClasses")
-          .then(response => response.json())
-          .then(data => console.log(data))
-          .catch(error => console.error('Fetch error:', error));
- }
- */
-
 window.onload = function() {
+    const gridContainer = document.querySelector('.classCardsGrid');
+
     fetch("/School_Management_System/AddClasses")
         .then(response => response.json())
         .then(data => {
-            const gridContainer = document.querySelector('.classCardsGrid');
             gridContainer.innerHTML = '';
 
             data.forEach(classData => {
@@ -24,6 +16,7 @@ window.onload = function() {
                          <p class="classCardInfo">Capacity: ${classData.capacity}</p>
                          <p class="classCardInfo">Room: ${classData.room_number}</p>
                          <div class="classCardDivider"></div>
+						 <div class="dltBtn"><button class="classDeleteButton"><i class="fa-solid fa-trash"></i></button></div>
                      </div>
                  `;
 
@@ -31,32 +24,61 @@ window.onload = function() {
             });
         })
         .catch(error => console.error('Fetch error:', error));
-}
-//<div class="classStudentCountBadge">0 students</div>
+
+    gridContainer.addEventListener('click', function(e) {
+
+        const deleteButton = e.target.closest('.classDeleteButton');
+        
+        if (deleteButton) {
+            const classCard = deleteButton.closest('.classCardContainer');
+            const classId = classCard.getAttribute('data-id');
+
+            if (confirm("Are you sure you want to delete this class?")) {
+                fetch(`/School_Management_System/AddClasses?classId=${classId}`, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        alert(data.message);
+                        classCard.remove(); 
+                    } else {
+                        alert("Error: " + data.message);
+                    }
+                })
+                .catch(error => {
+                    alert("Error: Failed to delete class");
+                    console.error("Delete error:", error);
+                });
+            }
+        }
+    });
+};
 
 const classModal = document.getElementById("classModal");
 const openClassModalButton = document.getElementById("openClassModalButton");
 const closeClassModalButton = document.getElementById("closeClassModalButton");
 const cancelClassModalButton = document.getElementById("cancelClassModalButton");
-// OPEN MODAL
+
+
 openClassModalButton.addEventListener("click", () => {
     classModal.classList.add("active");
 });
-// CLOSE MODAL
+
 closeClassModalButton.addEventListener("click", () => {
     classModal.classList.remove("active");
 });
 cancelClassModalButton.addEventListener("click", () => {
     classModal.classList.remove("active");
 });
-// CLOSE ON OUTSIDE CLICK
+
 classModal.addEventListener("click", (event) => {
     if (event.target === classModal) {
         classModal.classList.remove("active");
     }
 });
 
-// create class sending class details to servlet 
+
 const addTeacher = document.getElementById("createClass");
 addTeacher.addEventListener("click", (e) => {
     e.preventDefault();
@@ -65,7 +87,7 @@ addTeacher.addEventListener("click", (e) => {
         section: document.getElementById("section").value,
         capacity: document.getElementById("capacity").value,
         roomNumber: document.getElementById("roomNumber").value
-    }
+    };
 
     console.log(classes);
 
@@ -74,12 +96,14 @@ addTeacher.addEventListener("click", (e) => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(classes)
     })
-        .then(response => response.json())
-        .then(data => alert("Success: " + data.message))
-        .catch(error => {
-            alert("Error: Failed to save class details");
-            console.error("error", error)
-        });
-    document.getElementById("addClassForm").reset();
-    window.location.reload();
+    .then(response => response.json())
+    .then(data => {
+        alert("Success: " + data.message);
+        document.getElementById("addClassForm").reset();
+        window.location.reload();
+    })
+    .catch(error => {
+        alert("Error: Failed to save class details");
+        console.error("error", error);
+    });
 });

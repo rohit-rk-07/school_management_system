@@ -12,6 +12,8 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
 
@@ -30,10 +32,6 @@
             justify-content: space-between;
             align-items: start;
         }
-
-        /* =========================
-           TOPBAR
-        ========================== */
 
         .assignTeacherTopbar{
             width:100%;
@@ -76,10 +74,6 @@
             color:#8c8c8c;
         }
 
-        /* =========================
-           PAGE CONTAINER
-        ========================== */
-
         .assignTeacherPageContainer{
             padding:10px 12px;
             width: 80%;
@@ -95,10 +89,6 @@
             margin-top:4px;
             margin-bottom:30px;
         }
-
-        /* =========================
-           FORM CARD
-        ========================== */
 
         .assignTeacherFormCard{
             background:#ffffff;
@@ -154,9 +144,6 @@
             cursor:pointer;
         }
 
-        /* =========================
-           BUTTON
-        ========================== */
 
         .assignTeacherButton{
             margin-top:24px;
@@ -176,9 +163,6 @@
             background:#4e40ee;
         }
 
-        /* =========================
-           TABLE CARD
-        ========================== */
 
         .assignTeacherTableCard{
             background:#ffffff;
@@ -188,9 +172,6 @@
             border:1px solid #ececec;
         }
 
-        /* =========================
-           TABLE
-        ========================== */
 
         .assignTeacherDataTable{
             width:100%;
@@ -215,9 +196,6 @@
             font-size:15px;
         }
 
-        /* =========================
-           SUBJECT BADGE
-        ========================== */
 
         .assignTeacherSubjectBadge{
             display:inline-block;
@@ -229,9 +207,6 @@
             font-weight:600;
         }
 
-        /* =========================
-           DELETE BUTTON
-        ========================== */
 
         .assignTeacherDeleteButton{
             width:42px;
@@ -241,11 +216,9 @@
             background:#f5f6fb;
             cursor:pointer;
             font-size:18px;
+            color: red;
         }
 
-        /* =========================
-           RESPONSIVE
-        ========================== */
 
         @media(max-width:900px){
 
@@ -266,15 +239,7 @@
 
 <body>
 
-    <!-- =========================
-         TOPBAR
-    ========================== -->
 <jsp:include page="../sidebar.jsp" />
-    
-
-    <!-- =========================
-         PAGE CONTENT
-    ========================== -->
 
     <div class="assignTeacherPageContainer">
 
@@ -304,8 +269,6 @@
 
     </div>
 
-        <!-- TITLE -->
-
         <h1 class="assignTeacherPageHeading">
             Assign Teachers
         </h1>
@@ -314,12 +277,10 @@
             Link teachers to subjects & classes
         </p>
 
-        <!-- FORM CARD -->
 
         <div class="assignTeacherFormCard">
         <form action="">
             <div class="assignTeacherFormGrid">
-                <!-- TEACHER -->
                 <div class="assignTeacherFormGroup">
                     <label class="assignTeacherFormLabel"> SELECT TEACHER </label>
                     <select class="assignTeacherSelectField" id="teacherSelect">
@@ -328,13 +289,11 @@
                     </select>
                 </div>
 
-                <!-- SUBJECT -->
                 <div class="assignTeacherFormGroup">
                     <label class="assignTeacherFormLabel">SUBJECT</label>
                     <input type="text" id="subjectInput" placeholder="e.g. Mathematics" class="assignTeacherInputField">
                 </div>
 
-                <!-- CLASS -->
                 <div class="assignTeacherFormGroup">
                     <label class="assignTeacherFormLabel"> CLASS</label>
                     <select class="assignTeacherSelectField" id="classSelect">
@@ -344,12 +303,9 @@
                 </div>
             </div>
 
-            <!-- BUTTON -->
             <button class="assignTeacherButton" id="assignTeacherBtn">Assign Teacher</button>
             </form>
         </div>
-
-        <!-- TABLE CARD -->
 
         <div class="assignTeacherTableCard">
             <table class="assignTeacherDataTable">

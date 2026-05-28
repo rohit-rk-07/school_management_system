@@ -10,8 +10,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
 
@@ -137,7 +137,7 @@
         	height: 200px;
             background:#ffffff;
             border-radius:28px;
-            padding:20px;
+            padding:10px 20px;
             position:relative;
             overflow:hidden;
             border:1px solid #ececec;
@@ -188,6 +188,15 @@
             background:#ececec;
             margin:4px 16px;
         }
+        
+        .dltBtn{
+        	width: 100%;
+        	display: flex;
+        	flex-direction: row;
+        	justify-content: end;
+        	align-items: center;
+        	padding: 5px 10px;
+        }
 
         .classDeleteButton{
             width:42px;
@@ -197,6 +206,8 @@
             background:#f5f6fb;
             cursor:pointer;
             font-size:18px;
+            maring-top: 5px;
+            color: red;
         }
 
         /* =========================

@@ -1,43 +1,71 @@
-/**
- * 
- */
-
 window.onload = function () {
     loadStudents();
     loadClasses();
-	loadEnrollments();
+    loadEnrollments();
 }
 
 function loadEnrollments(){
-	fetch("/School_Management_System/AssignStudent")
-	.then(response => response.json())
-	.then(data => renderEnrollmentTable(data.enrollments));
+    fetch("/School_Management_System/AssignStudent")
+    .then(response => response.json())
+    .then(data => renderEnrollmentTable(data.enrollments));
 }
 
 function renderEnrollmentTable(enrollments) {
     const tableBody = document.getElementById("enrollmentTableBody");
-
     tableBody.innerHTML = "";
 
     enrollments.forEach((enrollment, index) => {
         const row = document.createElement("tr");
+
+        row.setAttribute("data-id", enrollment.enrollment_id);
         row.innerHTML = `
             <td>${index + 1}</td>
             <td id="fullName">${enrollment.full_name}</td>
             <td>${enrollment.class_name}-${enrollment.section}</td>
             <td>${enrollment.assigned_on}</td>
             <td id="rollNumber">${enrollment.roll_number}</td>
+            <td><button class="assignStudentDeleteButton"><i class="fa-solid fa-trash"></i></button></td>
         `;
         tableBody.appendChild(row);
     });
 }
 
-// LOAD STUDENTS
+document.getElementById("enrollmentTableBody").addEventListener("click", function(e) {
+    const deleteButton = e.target.closest(".assignStudentDeleteButton");
+    
+    if (deleteButton) {
+        const row = deleteButton.closest("tr");
+        const enrollmentId = row.getAttribute("data-id");
+
+        if (confirm("Are you sure you want to remove this student enrollment?")) {
+            fetch(`/School_Management_System/AssignStudent?enrollmentId=${enrollmentId}`, {
+                method: "DELETE"
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert(data.message);
+                    row.remove(); 
+                    loadEnrollments(); 
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Delete Error:", error);
+                alert("Failed to remove enrollment entry.");
+            });
+        }
+    }
+});
+
+
 function loadStudents() {
     fetch('/School_Management_System/AssignStudent')
     .then(response => response.json())
     .then(data => {
         const studentSelect = document.getElementById("studentSelect");
+        studentSelect.innerHTML = '<option value="">Select Student</option>'; 
         data.students.forEach(student => {
             const option = document.createElement("option");
             option.value = student.student_id;
@@ -47,30 +75,32 @@ function loadStudents() {
     });
 }
 
-// LOAD CLASSES
 function loadClasses() {
     fetch("/School_Management_System/AssignStudent")
     .then(response => response.json())
     .then(data => {
         const classSelect = document.getElementById("classSelect");
+        classSelect.innerHTML = '<option value="">Select Class</option>'; 
         data.classes.forEach(classes => {
             const option = document.createElement("option");
             option.value = classes.class_id;
-            option.textContent =
-                classes.class_name + " - " + classes.section;
+            option.textContent = classes.class_name + " - " + classes.section;
             classSelect.appendChild(option);
         });
     });
 }
 
-// ASSIGN STUDENT
 document.getElementById("assignStudentBtn")
 .addEventListener("click", function (e) {
     e.preventDefault();
-    const student_id =
-        document.getElementById("studentSelect").value;
-    const class_id =
-        document.getElementById("classSelect").value;
+    const student_id = document.getElementById("studentSelect").value;
+    const class_id = document.getElementById("classSelect").value;
+    
+    if(!student_id || !class_id) {
+        alert("Please select both a student and a class.");
+        return;
+    }
+
     const enrollment = {
         student_id: student_id,
         class_id: class_id
@@ -86,7 +116,9 @@ document.getElementById("assignStudentBtn")
     .then(response => response.json())
     .then(data => {
         alert(data.message);
-		loadEnrollments();
+        if(data.status === "success") {
+            loadEnrollments();
+        }
     })
     .catch(error => {
         console.error(error);

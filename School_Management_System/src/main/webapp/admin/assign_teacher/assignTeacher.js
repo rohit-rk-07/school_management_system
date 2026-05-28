@@ -1,20 +1,18 @@
-/**
- * 
- */
 window.onload = function () {
     loadTeachers();
     loadClasses();
     loadTeacherAssignments();
 };
 
-// LOAD TEACHERS
+// ====================================================================
+// 1. DROPDOWN MAPPING SETUPS
+// ====================================================================
 function loadTeachers() {
     fetch('/School_Management_System/AssignTeacher')
     .then(response => response.json())
     .then(data => {
-        const teacherSelect =
-            document.getElementById("teacherSelect");
-			
+        const teacherSelect = document.getElementById("teacherSelect");
+        teacherSelect.innerHTML = '<option value="">Select Teacher</option>'; // Clear old items
         data.teachers.forEach(teacher => {
             const option = document.createElement("option");
             option.value = teacher.teacher_id;
@@ -24,13 +22,12 @@ function loadTeachers() {
     });
 }
 
-
-// LOAD CLASSES
 function loadClasses() {
     fetch('/School_Management_System/AssignTeacher')
     .then(response => response.json())
     .then(data => {
         const classSelect = document.getElementById("classSelect");
+        classSelect.innerHTML = '<option value="">Select Class</option>'; // Clear old items
         data.classes.forEach(classes => {
             const option = document.createElement("option");
             option.value = classes.class_id;
@@ -40,7 +37,9 @@ function loadClasses() {
     });
 }
 
-// LOAD TABLE
+// ====================================================================
+// 2. FETCH, RENDER, AND DELETE TEACHER ASSIGNMENTS (READ & DELETE)
+// ====================================================================
 function loadTeacherAssignments() {
     fetch('/School_Management_System/AssignTeacher')
     .then(response => response.json())
@@ -49,32 +48,97 @@ function loadTeacherAssignments() {
     });
 }
 
-// RENDER TABLE
-function renderTeacherAssignments(assignments) {
+/*function renderTeacherAssignments(assignments) {
     const tableBody = document.getElementById("teacherAssignmentTableBody");
     tableBody.innerHTML = "";
+    
     assignments.forEach((assignment, index) => {
         const row = document.createElement("tr");
+        
+        row.setAttribute("data-id", assignment.assignment_id);
         row.innerHTML = `
             <td>${index + 1}</td>
             <td>${assignment.full_name}</td>
             <td><span class="assignTeacherSubjectBadge"> ${assignment.subject_name}</span></td>
             <td> ${assignment.class_name}-${assignment.section}</td>
+			<td><button class="assignTeacherDeleteButton"><i class="fa-solid fa-trash"></i></button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+*/
+
+// RENDER TABLE
+function renderTeacherAssignments(assignments) {
+    const tableBody = document.getElementById("teacherAssignmentTableBody");
+    tableBody.innerHTML = "";
+    
+    assignments.forEach((assignment, index) => {
+        const row = document.createElement("tr");
+        
+        // FIX: You must bind the unique ID to the table row node here!
+        row.setAttribute("data-id", assignment.schedule_id);
+        
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${assignment.full_name}</td>
+            <td><span class="assignTeacherSubjectBadge"> ${assignment.subject_name}</span></td>
+            <td> ${assignment.class_name}-${assignment.section}</td>
+            <td><button class="assignTeacherDeleteButton"><i class="fa-solid fa-trash"></i></button></td>
         `;
         tableBody.appendChild(row);
     });
 }
 
-// ASSIGN TEACHER
+// Event delegation attached to the table body for deleting records
+document.getElementById("teacherAssignmentTableBody").addEventListener("click", function (e) {
+    const deleteButton = e.target.closest(".assignTeacherDeleteButton");
+    
+    if (deleteButton) {
+        const row = deleteButton.closest("tr");
+        const assignmentId = row.getAttribute("data-id"); // This holds the schedule_id from the DOM
+		console.log("here is the assignmentId: " ,assignmentId);
+
+        if (confirm("Are you sure you want to remove this teacher assignment?")) {
+            // FIXED: Changed parameter name from assignmentId to scheduleId to match the Servlet
+            fetch(`/School_Management_System/AssignTeacher?scheduleId=${assignmentId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert(data.message);
+                    row.remove();
+                    loadTeacherAssignments(); 
+                } else {
+                    alert("Error: " + data.message);
+                }
+            })
+            .catch(error => {
+                console.error("Delete Error:", error);
+                alert("Failed to remove teacher assignment.");
+            });
+        }
+    }
+});
+// ====================================================================
+// 3. POST SUBMISSION MECHANICS (CREATE)
+// ====================================================================
 document.getElementById("assignTeacherBtn").addEventListener("click", function (e) { 
 	e.preventDefault();
     const teacher_id = document.getElementById("teacherSelect").value;
     const class_id = document.getElementById("classSelect").value;
     const subject_name = document.getElementById("subjectInput").value;
+    
+    if (!teacher_id || !class_id || !subject_name.trim()) {
+        alert("Please fill out all assignment fields.");
+        return;
+    }
+
     const assignment = {
-        	teacher_id: teacher_id,
-        	class_id: class_id,
-        	subject_name: subject_name
+        teacher_id: teacher_id,
+        class_id: class_id,
+        subject_name: subject_name
     };
 	
     fetch('/School_Management_System/AssignTeacher', {
@@ -87,7 +151,10 @@ document.getElementById("assignTeacherBtn").addEventListener("click", function (
     .then(response => response.json())
     .then(data => {
         alert(data.message);
-        loadTeacherAssignments();
+        if (data.status === "success") {
+            document.getElementById("subjectInput").value = ""; // Clear input field
+            loadTeacherAssignments();
+        }
     })
     .catch(error => {
         console.error(error);
