@@ -1,5 +1,4 @@
 package com.sms;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -9,29 +8,20 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 @WebServlet("/AssignedClass")
 public class AssignedClass extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
 	public AssignedClass() {
 		super();
-
 	}
-
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
-	    
-	    // Create the wrapper object so the key matches your JS file expectance ("data.classes")
 	    JSONObject finalObject = new JSONObject();
 	    JSONArray classesArray = new JSONArray();
-
 	    try {
 	        String teacherIdParam = request.getParameter("teacherId");
 	        if (teacherIdParam == null || teacherIdParam.isEmpty()) {
@@ -40,12 +30,8 @@ public class AssignedClass extends HttpServlet {
 	            response.getWriter().write(finalObject.toString());
 	            return;
 	        }
-
 	        int teacherId = Integer.parseInt(teacherIdParam);
 	        Connection connection = DBConnection.getConnection();
-
-	        // FIXED: Singular table name 'student_enrollment' 
-	        // FIXED: Expanded GROUP BY clause to include all unaggregated non-ID columns
 	        String query = "SELECT " 
 	                     + "  cs.subject_name, " 
 	                     + "  c.class_name, " 
@@ -57,11 +43,9 @@ public class AssignedClass extends HttpServlet {
 	                     + "LEFT JOIN student_enrollments se ON c.class_id = se.class_id " 
 	                     + "WHERE cs.teacher_id = ? " 
 	                     + "GROUP BY cs.schedule_id, cs.subject_name, c.class_name, c.section, c.room_number";
-
 	        PreparedStatement statement = connection.prepareStatement(query);
 	        statement.setInt(1, teacherId);
 	        ResultSet rs = statement.executeQuery();
-
 	        while (rs.next()) {
 	            JSONObject classes = new JSONObject();
 	            classes.put("subject_name", rs.getString("subject_name"));
@@ -71,10 +55,8 @@ public class AssignedClass extends HttpServlet {
 	            classes.put("total_students", rs.getInt("total_students"));
 	            classesArray.put(classes);
 	        }
-
 	        finalObject.put("classes", classesArray);
 	        response.getWriter().write(finalObject.toString());
-
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -86,9 +68,7 @@ public class AssignedClass extends HttpServlet {
 	        }
 	    }
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 	}
-
 }

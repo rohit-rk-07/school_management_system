@@ -1,11 +1,9 @@
 package com.sms;
-
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,30 +11,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 @WebServlet("/AssignStudent")
 public class AssignStudent extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
 	public AssignStudent() {
 		super();
 	}
-
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-
 		JSONObject finalJson = new JSONObject();
 		JSONArray studentsArray = new JSONArray();
 		JSONArray classesArray = new JSONArray();
 		JSONArray enrollmentArray = new JSONArray();
-
 		try (Connection conn = DBConnection.getConnection()) {
-			
 			String studentSql = "SELECT student_id, full_name FROM students";
 			try (PreparedStatement studentStatement = conn.prepareStatement(studentSql);
 				 ResultSet studentRs = studentStatement.executeQuery()) {
@@ -47,7 +38,6 @@ public class AssignStudent extends HttpServlet {
 					studentsArray.put(student);
 				}
 			}
-
 			String classSql = "SELECT class_id, class_name, section FROM classes";
 			try (PreparedStatement classStatement = conn.prepareStatement(classSql);
 				 ResultSet classRs = classStatement.executeQuery()) {
@@ -59,7 +49,6 @@ public class AssignStudent extends HttpServlet {
 					classesArray.put(classes);
 				}
 			}
-
 			String enrollmentSql =
 					"SELECT se.enrollment_id, " +
 					"s.full_name, " +
@@ -70,7 +59,6 @@ public class AssignStudent extends HttpServlet {
 					"FROM student_enrollments se " +
 					"JOIN students s ON se.student_id = s.student_id " +
 					"JOIN classes c ON se.class_id = c.class_id";
-
 			try (PreparedStatement enrollmentStatement = conn.prepareStatement(enrollmentSql);
 				 ResultSet enrollmentRs = enrollmentStatement.executeQuery()) {
 				while (enrollmentRs.next()) {
@@ -84,11 +72,9 @@ public class AssignStudent extends HttpServlet {
 					enrollmentArray.put(enrollment);
 				}
 			}
-
 			finalJson.put("students", studentsArray);
 			finalJson.put("classes", classesArray);
 			finalJson.put("enrollments", enrollmentArray);
-
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -97,29 +83,23 @@ public class AssignStudent extends HttpServlet {
 		}
 		response.getWriter().print(finalJson.toString());
 	}
-
-
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		
 		PrintWriter out = response.getWriter();
 		JSONObject jsonResponse = new JSONObject();
 		StringBuilder sb = new StringBuilder();
 		String line;
-
 		try (BufferedReader reader = request.getReader()) {
 			while ((line = reader.readLine()) != null) {
 				sb.append(line);
 			}
 		}
-
 		try (Connection conn = DBConnection.getConnection()) {
 			JSONObject jsonInput = new JSONObject(sb.toString());
 			int student_id = jsonInput.getInt("student_id");
 			int class_id = jsonInput.getInt("class_id");
-
 			String checkSql = "SELECT * FROM student_enrollments WHERE student_id=?";
 			try (PreparedStatement checkStatement = conn.prepareStatement(checkSql)) {
 				checkStatement.setInt(1, student_id);
@@ -133,7 +113,6 @@ public class AssignStudent extends HttpServlet {
 					}
 				}
 			}
-
 			String insertSql = "INSERT INTO student_enrollments(student_id, class_id, assigned_on) VALUES(?,?,CURDATE())";
 			try (PreparedStatement insertStatement = conn.prepareStatement(insertSql)) {
 				insertStatement.setInt(1, student_id);
@@ -157,12 +136,10 @@ public class AssignStudent extends HttpServlet {
 		}
 		out.print(jsonResponse.toString());
 	}
-
 	@Override
 	protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-
 		PrintWriter out = response.getWriter();
 		JSONObject jsonResponse = new JSONObject();
 		String enrollmentIdStr = request.getParameter("enrollmentId");
@@ -174,17 +151,12 @@ public class AssignStudent extends HttpServlet {
 			out.print(jsonResponse.toString());
 			return;
 		}
-
 		String sql = "DELETE FROM student_enrollments WHERE enrollment_id = ?";
-
 		try (Connection conn = DBConnection.getConnection();
 			 PreparedStatement statement = conn.prepareStatement(sql)) {
-
 			int enrollmentId = Integer.parseInt(enrollmentIdStr);
 			statement.setInt(1, enrollmentId);
-
 			int rowsDeleted = statement.executeUpdate();
-
 			if (rowsDeleted > 0) {
 				response.setStatus(HttpServletResponse.SC_OK);
 				jsonResponse.put("status", "success");
@@ -194,7 +166,6 @@ public class AssignStudent extends HttpServlet {
 				jsonResponse.put("status", "error");
 				jsonResponse.put("message", "Enrollment record not found.");
 			}
-
 		} catch (NumberFormatException e) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			jsonResponse.put("status", "error");
@@ -205,7 +176,6 @@ public class AssignStudent extends HttpServlet {
 			jsonResponse.put("status", "error");
 			jsonResponse.put("message", "Database query execution fault: " + e.getMessage());
 		}
-
 		out.print(jsonResponse.toString());
 		out.flush();
 	}

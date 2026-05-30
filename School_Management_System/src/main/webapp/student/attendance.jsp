@@ -32,7 +32,7 @@ body {
 
 .studentAttendanceContainer {
 	padding: 10px 10px;
-	width: 80%;
+	width: 82%;
 }
 
 .studentAttendanceHeading {

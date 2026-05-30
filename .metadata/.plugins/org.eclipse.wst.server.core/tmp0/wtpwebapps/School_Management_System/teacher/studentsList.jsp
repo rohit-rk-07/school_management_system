@@ -31,8 +31,8 @@
         }
 
         .studentListContainer{
-            padding:0px 12px;
-            width: 80%;
+            padding:5px 10px;
+            width: 82%;
         }
 
         .studentListHeading{
@@ -116,6 +116,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid #e7e7e7;
+    border-radius: 18px;
     }
     
     .attendanceTeacherProfile {

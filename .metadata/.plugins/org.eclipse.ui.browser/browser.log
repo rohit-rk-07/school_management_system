@@ -28,3 +28,9 @@ May 28, 2026 11:31:07.00 [9344:10396:0528/113107.005:ERROR:components\sync\engin
 May 28, 2026 11:34:10.01 [9344:9924:0528/113410.011:ERROR:components\device_event_log\device_event_log_impl.cc:248] [11:34:10.011] USB: usb_service_win.cc:108 SetupDiGetDeviceProperty({{A45C254E-DF1C-4EFD-8020-67D146A850E0}, 6}) failed: Element not found. (0x490)
 May 28, 2026 11:34:10.02 [9344:9924:0528/113410.021:ERROR:components\device_event_log\device_event_log_impl.cc:248] [11:34:10.021] USB: usb_service_win.cc:311 SetupDiEnumDeviceInterfaces: No more data is available. (0x103)
 May 28, 2026 11:34:24.78 [9344:13136:0528/113424.780:ERROR:components\sync\engine\get_updates_processor.cc:424] PostClientToServerMessage() failed during GetUpdates with error Network error (ERR_INTERNET_DISCONNECTED)
+
+May 30, 2026 14:30:30.20 NEW SESSION
+May 30, 2026 14:30:30.25 [5292:8700:0530/143030.194:ERROR:chrome\browser\component_updater\edge_language_detection_model_installer.cc:97] Edge Language Detection Model: On-demand update failed with error: 5
+May 30, 2026 14:30:51.99 [5292:8700:0530/143051.999:ERROR:components\edge_smartscreen\browser\smartscreen_dns_resolver.cc:109] SmartScreenDnsResolver::OnComplete Error: -106 DidTimeOut: 0 URL: https://vtucircle.com/bds456b-program-1/
+May 30, 2026 14:30:52.13 [5292:8700:0530/143052.134:ERROR:chrome\browser\webauthn\edge_win_webauthn_plugin\edge_plugin_authenticator_service.cc:414] Enclave still not ready after preparation
+May 30, 2026 14:30:58.58 [5292:8700:0530/143058.583:ERROR:components\edge_smartscreen\browser\smartscreen_dns_resolver.cc:109] SmartScreenDnsResolver::OnComplete Error: -106 DidTimeOut: 0 URL: https://ntp.msn.com/edge/ntp?locale=en-US&title=New%20tab&dsp=1&sp=Bing&feed_dis=off&en_widget_reg=false&prerender=1&PC=ASTS

@@ -44,6 +44,7 @@
             justify-content:space-between;
             align-items:center;
             border-bottom:1px solid #e7e7e7;
+            border-radius: 18px;
         }
 
         .classPageHeading{
@@ -83,7 +84,7 @@
 
         .classManagementPageContainer{
             padding:10px 12px;
-            width: 80%;
+            width: 82%;
         }
 
         .classManagementHeaderSection{
